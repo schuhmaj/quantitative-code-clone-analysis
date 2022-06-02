@@ -1,7 +1,7 @@
 import requests
 from requests.auth import HTTPBasicAuth
 import json
-from types import SimpleNamespace
+from types import SimpleNamespace, new_class
 
 TEAMSCALE_BASE_URL = "http://192.168.2.104:8080/"
 TEAMSCALE_API_URL = "api/v8.0.3/"
@@ -12,14 +12,38 @@ TEAMSCALE_ACCESS_TOKEN = "SBiAKGLJ8HFMHGy4kDlmWZi0kNwet9Y8"
 TEAMSCALE_AUTHENTICATION = HTTPBasicAuth(TEAMSCALE_USERNAME, TEAMSCALE_ACCESS_TOKEN)
 
 
+def get_project(project_id: str = None):
+    """
+    Gets all projects or if a project_id is specified just a single project
+
+    Args:
+        project_id: a project id, default None
+
+    Returns:
+        list of projects or a single project depending on argument
+
+    """
+    if project_id is None:
+        response = requests.get(TEAMSCALE_REST_URL + f"projects/", auth=TEAMSCALE_AUTHENTICATION)
+        return json.loads(response.text, object_hook=lambda d: SimpleNamespace(**d))
+    else:
+        response = requests.get(TEAMSCALE_REST_URL + f"projects/{project_id}",
+                                auth=TEAMSCALE_AUTHENTICATION)
+        return json.loads(response.text, object_hook=lambda d: SimpleNamespace(**d))
+
+
+def post_project(project_id: str):
+    pass
+
+
 def get_findings(project_id: str, path: str = '', filter_findings: [str] = None, invert: bool = True, truncate: bool = True):
     """
-    Get the findings of a projects.
+    Get the findings of a specific project given a project id.
 
     Args:
         project_id: The project id
         path: The general path were the findings shall be located inside the project
-        filter_findings: Applies a filter and removes the elements listed in the filter
+        filter_findings: Applies a filter and removes the elements listed in the filter (Notice the invert param!)
         invert: Inverts the filter, default true
         truncate: no truncation to the result
 
@@ -47,3 +71,7 @@ def get_findings(project_id: str, path: str = '', filter_findings: [str] = None,
 
 m = get_findings("breakup-model-cpp", filter_findings="Redundancy")
 print(len(m))
+
+breakup_project = get_project()
+
+print(breakup_project)
