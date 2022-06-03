@@ -1,7 +1,6 @@
 import requests
 from requests.auth import HTTPBasicAuth
 import json
-from types import SimpleNamespace, new_class
 
 TEAMSCALE_BASE_URL = "http://192.168.2.104:8080/"
 TEAMSCALE_API_URL = "api/v8.0.3/"
