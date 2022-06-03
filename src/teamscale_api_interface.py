@@ -20,16 +20,16 @@ def get_project(project_id: str = None):
         project_id: a project id, default None
 
     Returns:
-        list of projects or a single project depending on argument
+        list of projects as dictionaries or a single project as dictionary depending on argument
 
     """
     if project_id is None:
         response = requests.get(TEAMSCALE_REST_URL + f"projects", auth=TEAMSCALE_AUTHENTICATION)
-        return json.loads(response.text, object_hook=lambda d: SimpleNamespace(**d))
+        return json.loads(response.text)
     else:
         response = requests.get(TEAMSCALE_REST_URL + f"projects/{project_id}",
                                 auth=TEAMSCALE_AUTHENTICATION)
-        return json.loads(response.text, object_hook=lambda d: SimpleNamespace(**d))
+        return json.loads(response.text)
 
 
 def get_project_configuration(project_id: str):
@@ -40,13 +40,12 @@ def get_project_configuration(project_id: str):
         project_id: a project id
 
     Returns:
-        the project's configuration
+        the project's configuration as dictionary
 
     """
     response = requests.get(TEAMSCALE_REST_URL + f"projects/{project_id}/configuration",
                             auth=TEAMSCALE_AUTHENTICATION)
-    print(response.text)
-    return json.loads(response.text, object_hook=lambda d: SimpleNamespace(**d))
+    return json.loads(response.text)
 
 
 def post_project_git(project_id: str, project_git_repo: str, default_branch: str):
@@ -63,7 +62,8 @@ def post_project_git(project_id: str, project_git_repo: str, default_branch: str
         True if the project was successfully created
 
     """
-    response = requests.post(TEAMSCALE_REST_URL + f"projects", auth=TEAMSCALE_AUTHENTICATION,
+    response = requests.post(TEAMSCALE_REST_URL + f"projects",
+                             auth=TEAMSCALE_AUTHENTICATION,
                              json={
                                  "name": f"{project_id}",
                                  "publicIds": [
@@ -129,7 +129,7 @@ def get_findings(project_id: str, path: str = '', filter_findings: [str] = None,
         truncate: no truncation to the result
 
     Returns:
-        Objects of the type findings
+        List of findings as dictionaries
 
     Examples:
         If one only wants the code clones, then use the function in the following way:
@@ -139,27 +139,51 @@ def get_findings(project_id: str, path: str = '', filter_findings: [str] = None,
     """
     if filter_findings is None:
         filter_findings = []
-    response = requests.get(TEAMSCALE_REST_URL + f"projects/{project_id}/findings/list", auth=TEAMSCALE_AUTHENTICATION,
+    response = requests.get(TEAMSCALE_REST_URL + f"projects/{project_id}/findings/list",
+                            auth=TEAMSCALE_AUTHENTICATION,
                             params={
                                 "uniform-path": f"{path}",
                                 "filter": f"{filter_findings}",
                                 "invert": f"{invert}",
                                 "all": f"{truncate}"
                             })
-    objects = json.loads(response.text, object_hook=lambda d: SimpleNamespace(**d))
-    return objects
+    return json.loads(response.text)
 
 
-# m = get_findings("breakup-model-cpp", filter_findings="Redundancy")
-# print(len(m))
-#
-# breakup_project = get_project("breakup-model-cpp")
-#
-# breakup_project_config = get_project_configuration("breakup-model-cpp")
-#
-# print(breakup_project_config)
-#
-# print(breakup_project)
+def get_metrics(project_id: str, path: str = ''):
+    """
+    Gets metrics of a specific project with a given project_id an optional sub folder.
 
-res = post_project_git("polyhedral-gravity-model-cpp", "schuhmaj/polyhedral-gravity-model-cpp", "main")
+    Args:
+        project_id: the project id
+        path: the optional path for which to collect the metrics inside the project structure
 
+    Returns:
+        list of metrics as dictionaries
+
+    """
+    response = requests.get(TEAMSCALE_REST_URL + f"projects/{project_id}/metric-assessments",
+                            auth=TEAMSCALE_AUTHENTICATION,
+                            params={
+                                "uniform-path": f"{path}"
+                            })
+    return json.loads(response.text)[0]["metrics"]
+
+
+m = get_findings("breakup-model-cpp", filter_findings="Redundancy")
+print(len(m))
+
+breakup_project = get_project("breakup-model-cpp")
+
+breakup_project_config = get_project_configuration("breakup-model-cpp")
+
+print(breakup_project_config)
+
+print(breakup_project)
+
+# res = post_project_git("polyhedral-gravity-model-cpp", "schuhmaj/polyhedral-gravity-model-cpp", "main")
+
+breakup_metric = get_metrics("breakup-model-cpp")
+
+print("Clone Coverage Breakup Model: {}%".format(
+    list(filter(lambda d: d["name"] == "Clone Coverage", breakup_metric)).pop()["value"] * 100))
