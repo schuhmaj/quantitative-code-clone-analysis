@@ -1,4 +1,5 @@
 import requests
+import re
 
 AWESOME_CPP = "https://raw.githubusercontent.com/fffaraz/awesome-cpp/master/README.md"
 
@@ -18,7 +19,7 @@ def get_url_resource(url: str):
     """
     response = requests.get(url)
     if response.status_code == 200:
-        print(response.text)
+        return response.text
     else:
         raise "Could not acquire the ressource at the given URL"
 
@@ -30,10 +31,12 @@ def parse_git_url(url: str):
         url: web-resource accessible via GET
 
     Returns:
-        list of git urls
+        list of tuples consisting of project name (str) and git url (str)
 
     """
-    return get_url_resource(url)
+    resource = get_url_resource(url)
+    return re.findall(r"\[(\w*)\]\((https://github.com/\S*)\)", resource)
 
 
-parse_git_url(AWESOME_CPP)
+res = parse_git_url(AWESOME_CPP)
+print(res)
