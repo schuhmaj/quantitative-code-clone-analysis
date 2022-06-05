@@ -24,19 +24,22 @@ def get_url_resource(url: str):
         raise "Could not acquire the ressource at the given URL"
 
 
-def parse_git_url(url: str):
+def parse_git_urls(url: str):
     """
     Parses the content of a given web-resource for GitHub Repos
     Args:
         url: web-resource accessible via GET
 
     Returns:
-        list of tuples consisting of project name (str) and git url (str)
+        list of tuples consisting of project name (str) and git url suffix (str)
+
+    Examples:
+        An example tuple could look like this:
+            ("spdlog", "gabime/spdlog")
 
     """
     resource = get_url_resource(url)
-    return re.findall(r"\[(\w*)\]\((https://github.com/\S*)\)", resource)
+    # TODO: Evaluate if the full git url is better?!
+    # return re.findall(r"\[(\w*)\]\((https://github.com/\S*)\)", resource)
+    return re.findall(r"\[(\w*)\]\(https://github.com/(\S*)\)", resource)
 
-
-res = parse_git_url(AWESOME_CPP)
-print(res)

@@ -169,20 +169,20 @@ def get_metrics(project_id: str, path: str = ''):
     return json.loads(response.text)[0]["metrics"]
 
 
-m = get_findings("breakup-model-cpp", filter_findings="Redundancy")
-print(len(m))
-
-breakup_project = get_project("breakup-model-cpp")
-
-breakup_project_config = get_project_configuration("breakup-model-cpp")
-
-print(breakup_project_config)
-
-print(breakup_project)
-
-# res = post_project_git("polyhedral-gravity-model-cpp", "schuhmaj/polyhedral-gravity-model-cpp", "main")
-
-breakup_metric = get_metrics("breakup-model-cpp")
-
-print("Clone Coverage Breakup Model: {}%".format(
-    list(filter(lambda d: d["name"] == "Clone Coverage", breakup_metric)).pop()["value"] * 100))
+# m = get_findings("breakup-model-cpp", filter_findings="Redundancy")
+# print(len(m))
+#
+# breakup_project = get_project("breakup-model-cpp")
+#
+# breakup_project_config = get_project_configuration("breakup-model-cpp")
+#
+# print(breakup_project_config)
+#
+# print(breakup_project)
+#
+# # res = post_project_git("polyhedral-gravity-model-cpp", "schuhmaj/polyhedral-gravity-model-cpp", "main")
+#
+# breakup_metric = get_metrics("breakup-model-cpp")
+#
+# print("Clone Coverage Breakup Model: {}%".format(
+#     list(filter(lambda d: d["name"] == "Clone Coverage", breakup_metric)).pop()["value"] * 100))
