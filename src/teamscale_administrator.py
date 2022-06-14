@@ -4,6 +4,15 @@ import teamscale.api_interface as teamscale
 
 
 def create_projects(projects: [Project]):
+    """
+    Create a list of projects in teamscale.
+    Args:
+        projects: list of projects
+
+    Returns:
+        void
+
+    """
     print("Creating projects in teamscale...")
     for project in tqdm(projects):
         if not teamscale.post_project_git(project):
@@ -11,6 +20,15 @@ def create_projects(projects: [Project]):
 
 
 def delete_projects(projects: [Project]):
+    """
+    Deletes all projects in teamscale in the given list.
+    Args:
+        projects: list of projects
+
+    Returns:
+        void
+
+    """
     print("Deleting projects in teamscale...")
     for project in tqdm(projects):
         if not teamscale.delete_project(project):

@@ -15,7 +15,16 @@ PROJECT_SOURCES = {
 }
 
 
-def extract_projects(programming_language: str):
+def extract_projects(programming_language: str) -> [Project]:
+    """
+    Extracts GitHub projects for a given programming language
+    Args:
+        programming_language: the programming language of the projects
+
+    Returns:
+        list of projects
+
+    """
     git_repos = []
     sources = PROJECT_SOURCES[programming_language]
     print("Parsing sources for git repos...")

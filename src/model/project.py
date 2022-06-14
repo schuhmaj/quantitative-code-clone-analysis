@@ -24,7 +24,7 @@ def save(filepath: str, projects: [Project]):
         pickle.dump(projects, file, protocol=pickle.HIGHEST_PROTOCOL)
 
 
-def load(filepath: str):
+def load(filepath: str) -> [Project]:
     with open(filepath, 'rb') as file:
         projects = pickle.load(file)
         return projects
