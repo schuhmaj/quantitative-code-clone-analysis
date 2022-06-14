@@ -18,12 +18,24 @@ TEAMSCALE_AUTHENTICATION = HTTPBasicAuth(TEAMSCALE_USERNAME, TEAMSCALE_ACCESS_TO
 
 # Contains a mapping programming language --> included/ excluded file patterns
 TEAMSCALE_LANGUAGE_SETTINGS = {
-    "C/C++": "**.cpp, **.cc, **.c, **.h, **.hh, **.hpp, **.cxx, **.hxx, **.inl, **.inc, **.architecture",
-    "Rust": "**.rs",
-    "Java": ("**.java, **.architecture", "**/package-info.java, **/module-info.java"),
-    "Kotlin": "**.kt, **.kts, **.ktm, **.architecture",
-    "Python": "**.py, **.architecture",
-    "Go": "**.go"
+    "C/C++ (default)":
+        ("**.cpp, **.cc, **.c, **.h, **.hh, **.hpp, **.cxx, **.hxx, **.inl, **.inc, **.architecture",
+         ""),
+    "Rust (default)":
+        ("**.rs",
+         ""),
+    "Java (default)":
+        ("**.java, **.architecture",
+         "**/package-info.java, **/module-info.java"),
+    "Kotlin (default)":
+        ("**.kt, **.kts, **.ktm, **.architecture",
+         ""),
+    "Python (default)":
+        ("**.py, **.architecture",
+         ""),
+    "Go (default)":
+        ("**.go",
+         "")
 }
 
 
@@ -63,7 +75,8 @@ def get_project_configuration(project_id: str):
     return json.loads(response.text)
 
 
-def post_project_git(project_id: str, repo_full_name: str, default_branch: str, last_revision: str):
+def post_project_git(project_id: str, repo_full_name: str, default_branch: str, last_revision: str,
+                     language: str):
     """
     Creates a new project in Teamscale with the given id, git-repo path and default_branch name. The git-account is
     hardcoded to "schuhmaj" and should have been previously created in Teamscale!
@@ -73,38 +86,40 @@ def post_project_git(project_id: str, repo_full_name: str, default_branch: str, 
         repo_full_name: the full name of the repo on GitHub, e.g. schuhmaj/nasa-breakup-model-cpp
         default_branch: the default branch name, e.g. main
         last_revision: the last revision (sha1 of the last commit of the default branch)
+        language: the programming language of the project
 
     Returns:
         True if the project was successfully created
 
     """
+    included_files, excluded_files = TEAMSCALE_LANGUAGE_SETTINGS[language]
     response = requests.post(TEAMSCALE_REST_URL + f"projects",
                              auth=TEAMSCALE_AUTHENTICATION,
                              json={
-                                 "name": f"{project_id}",
+                                 "name": project_id,
                                  "publicIds": [
-                                     f"{project_id}"
+                                     project_id
                                  ],
-                                 "profile": "C/C++ (default)",
+                                 "profile": language,
                                  "connectors": [
                                      {
                                          "type": "Git",
                                          "connectorIdentifierOptionName": "Repository identifier",
                                          "options": {
                                              "Account": "schuhmaj",
-                                             "Path suffix": f"{repo_full_name}",
+                                             "Path suffix": repo_full_name,
                                              "Repository identifier": f"{project_id}-repo",
-                                             "Included file names": "**.cpp, **.cc, **.c, **.h, **.hh, **.hpp, **.cxx, **.hxx, **.inl, **.inc, **.architecture",
-                                             "Excluded file names": "",
+                                             "Included file names": included_files,
+                                             "Excluded file names": excluded_files,
                                              "Important Branches": "",
                                              "Include Submodules": "false",
                                              "Submodule recursion depth": "10",
                                              "SSH Private Key ID": "",
-                                             "Default branch name": f"{default_branch}",
+                                             "Default branch name": default_branch,
                                              "Enable branch analysis": "false",
                                              "Included branches": ".*",
                                              "Excluded branches": "_anon.*",
-                                             "Start revision": f"{last_revision}",
+                                             "Start revision": last_revision,
                                          }
                                      }
                                  ]
@@ -179,4 +194,3 @@ def get_metrics(project_id: str, path: str = ''):
                                 "uniform-path": f"{path}"
                             })
     return json.loads(response.text)[0]["metrics"]
-
