@@ -1,6 +1,7 @@
 import requests
 from requests.auth import HTTPBasicAuth
 import json
+from model.project import Project
 
 # The Base URL of the Teamscale client
 TEAMSCALE_BASE_URL = "http://192.168.2.104:8080/"
@@ -18,22 +19,22 @@ TEAMSCALE_AUTHENTICATION = HTTPBasicAuth(TEAMSCALE_USERNAME, TEAMSCALE_ACCESS_TO
 
 # Contains a mapping programming language --> included/ excluded file patterns
 TEAMSCALE_LANGUAGE_SETTINGS = {
-    "C/C++ (default)":
+    "C/C++":
         ("**.cpp, **.cc, **.c, **.h, **.hh, **.hpp, **.cxx, **.hxx, **.inl, **.inc, **.architecture",
          ""),
-    "Rust (default)":
+    "Rust":
         ("**.rs",
          ""),
-    "Java (default)":
+    "Java":
         ("**.java, **.architecture",
          "**/package-info.java, **/module-info.java"),
-    "Kotlin (default)":
+    "Kotlin":
         ("**.kt, **.kts, **.ktm, **.architecture",
          ""),
-    "Python (default)":
+    "Python":
         ("**.py, **.architecture",
          ""),
-    "Go (default)":
+    "Go":
         ("**.go",
          "")
 }
@@ -75,51 +76,42 @@ def get_project_configuration(project_id: str):
     return json.loads(response.text)
 
 
-def post_project_git(project_id: str, repo_full_name: str, default_branch: str, last_revision: str,
-                     language: str):
+def post_project_git(project: Project):
     """
     Creates a new project in Teamscale with the given id, git-repo path and default_branch name. The git-account is
     hardcoded to "schuhmaj" and should have been previously created in Teamscale!
 
     Args:
-        project_id: the project id for referencing the project via the API (also the project name)
-        repo_full_name: the full name of the repo on GitHub, e.g. schuhmaj/nasa-breakup-model-cpp
-        default_branch: the default branch name, e.g. main
-        last_revision: the last revision (sha1 of the last commit of the default branch)
-        language: the programming language of the project
+        project: the project which should be created
 
     Returns:
         True if the project was successfully created
 
     """
-    included_files, excluded_files = TEAMSCALE_LANGUAGE_SETTINGS[language]
+    included_files, excluded_files = TEAMSCALE_LANGUAGE_SETTINGS[project.language]
     response = requests.post(TEAMSCALE_REST_URL + f"projects",
                              auth=TEAMSCALE_AUTHENTICATION,
                              json={
-                                 "name": project_id,
+                                 "name": project.project_id,
                                  "publicIds": [
-                                     project_id
+                                     project.project_id
                                  ],
-                                 "profile": language,
+                                 "profile": f"{project.language} (default)",
                                  "connectors": [
                                      {
                                          "type": "Git",
                                          "connectorIdentifierOptionName": "Repository identifier",
                                          "options": {
                                              "Account": "schuhmaj",
-                                             "Path suffix": repo_full_name,
-                                             "Repository identifier": f"{project_id}-repo",
+                                             "Path suffix": project.repo_full_name,
+                                             "Repository identifier": f"{project.project_id}-repo",
                                              "Included file names": included_files,
                                              "Excluded file names": excluded_files,
-                                             "Important Branches": "",
                                              "Include Submodules": "false",
                                              "Submodule recursion depth": "10",
-                                             "SSH Private Key ID": "",
-                                             "Default branch name": default_branch,
+                                             "Default branch name": project.branch,
                                              "Enable branch analysis": "false",
-                                             "Included branches": ".*",
-                                             "Excluded branches": "_anon.*",
-                                             "Start revision": last_revision,
+                                             "Start revision": project.revision,
                                          }
                                      }
                                  ]

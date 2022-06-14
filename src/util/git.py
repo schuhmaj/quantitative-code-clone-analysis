@@ -19,6 +19,8 @@ def get_github_info(repo_full_name: str):
         RuntimeError if the referenced repo does not exist
 
     """
+    if GITHUB_ACCESS_TOKEN is None or GITHUB_ACCESS_TOKEN == "":
+        raise RuntimeError("No Token to access GitHub!")
     try:
         g = Github(GITHUB_ACCESS_TOKEN)
         repo = g.get_repo(repo_full_name)
