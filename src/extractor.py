@@ -38,5 +38,5 @@ def extract_projects(programming_language: str):
 if __name__ == "__main__":
     cpp_projects = extract_projects("C/C++")
     print("Collected {} projects".format(len(cpp_projects)))
-    save("projects.pickle", cpp_projects)
+    save("../model_output/cpp_projects.pickle", cpp_projects)
 

@@ -14,6 +14,10 @@ class Project:
         self.revision = revision
         self.metrics = {}
 
+    def __str__(self) -> str:
+        return f"Project ID: {self.project_id}, Repo Full Name: {self.repo_full_name}, Language: {self.language}," \
+               f"Default Branch: {self.branch}, Revision: {self.revision}, Metrics: {str(self.metrics)}"
+
 
 def save(filepath: str, projects: [Project]):
     with open(filepath, 'wb') as file:
