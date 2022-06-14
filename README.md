@@ -24,6 +24,6 @@ separately.
 4. `project_analyzer.py` uses the pickled files to process and present some graphics
     of the collected data
 
-**CAUTION!** Between step 2 and 3 need to be executed with some spacing since _teamscale_
+**CAUTION!** Step 2 and 3 need to be executed with some spacing since _teamscale_
 needs time to analyze and process all the projects! So do not execute those scripts
 directly after each other. First make sure that _teamscale_ has finished!
