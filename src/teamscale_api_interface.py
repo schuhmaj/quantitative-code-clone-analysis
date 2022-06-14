@@ -47,15 +47,16 @@ def get_project_configuration(project_id: str):
     return json.loads(response.text)
 
 
-def post_project_git(project_id: str, project_git_repo: str, default_branch: str):
+def post_project_git(project_id: str, repo_full_name: str, default_branch: str, last_revision: str):
     """
     Creates a new project in Teamscale with the given id, git-repo path and default_branch name. The git-account is
     hardcoded to "schuhmaj" and should have been previously created in Teamscale!
 
     Args:
         project_id: the project id for referencing the project via the API (also the project name)
-        project_git_repo: the path on GitHub, e.g. schuhmaj/nasa-breakup-model-cpp
+        repo_full_name: the full name of the repo on GitHub, e.g. schuhmaj/nasa-breakup-model-cpp
         default_branch: the default branch name, e.g. main
+        last_revision: the last revision (sha1 of the last commit of the default branch)
 
     Returns:
         True if the project was successfully created
@@ -75,7 +76,7 @@ def post_project_git(project_id: str, project_git_repo: str, default_branch: str
                                          "connectorIdentifierOptionName": "Repository identifier",
                                          "options": {
                                              "Account": "schuhmaj",
-                                             "Path suffix": f"{project_git_repo}",
+                                             "Path suffix": f"{repo_full_name}",
                                              "Repository identifier": f"{project_id}-repo",
                                              "Included file names": "**.cpp, **.cc, **.c, **.h, **.hh, **.hpp, **.cxx, **.hxx, **.inl, **.inc, **.architecture",
                                              "Excluded file names": "",
@@ -87,32 +88,27 @@ def post_project_git(project_id: str, project_git_repo: str, default_branch: str
                                              "Enable branch analysis": "false",
                                              "Included branches": ".*",
                                              "Excluded branches": "_anon.*",
-                                             "Start revision": "1 year ago",
-                                             "Content exclude": "",
-                                             "Polling interval": "60",
-                                             "Test-code path pattern": "",
-                                             "Test-code path exclude pattern": "",
-                                             "Prepend repository identifier": "false",
-                                             "End revision": "",
-                                             "Text filter": "",
-                                             "Language mapping": "",
-                                             "Analysis report mapping": "**/compile_commands.json -> COMPILATION_DATABASE",
-                                             "Partition Pattern": "",
-                                             "File-size exclude": "1MB",
-                                             "Source library connector": "false",
-                                             "Run to exhaustion": "false",
-                                             "Preserve empty commits": "true",
-                                             "Delta size": "500",
-                                             "Path prefix transformation": "",
-                                             "Path transformation": "",
-                                             "Encoding": "",
-                                             "Author transformation": "",
-                                             "Branch transformation": ""
+                                             "Start revision": f"{last_revision}",
                                          }
                                      }
                                  ]
                              })
     return response.status_code == 201
+
+
+def delete_project(project_id: str):
+    """
+    Deletes a project from teamscale
+    Args:
+        project_id: the project's id
+
+    Returns:
+        True if the deletion was successfully
+
+    """
+    response = requests.delete(TEAMSCALE_REST_URL + f"projects/{project_id}",
+                               auth=TEAMSCALE_AUTHENTICATION)
+    return response.status_code == 204
 
 
 def get_findings(project_id: str, path: str = '', filter_findings: [str] = None, invert: bool = True,
@@ -168,21 +164,3 @@ def get_metrics(project_id: str, path: str = ''):
                             })
     return json.loads(response.text)[0]["metrics"]
 
-
-# m = get_findings("breakup-model-cpp", filter_findings="Redundancy")
-# print(len(m))
-#
-# breakup_project = get_project("breakup-model-cpp")
-#
-# breakup_project_config = get_project_configuration("breakup-model-cpp")
-#
-# print(breakup_project_config)
-#
-# print(breakup_project)
-#
-# # res = post_project_git("polyhedral-gravity-model-cpp", "schuhmaj/polyhedral-gravity-model-cpp", "main")
-#
-# breakup_metric = get_metrics("breakup-model-cpp")
-#
-# print("Clone Coverage Breakup Model: {}%".format(
-#     list(filter(lambda d: d["name"] == "Clone Coverage", breakup_metric)).pop()["value"] * 100))
