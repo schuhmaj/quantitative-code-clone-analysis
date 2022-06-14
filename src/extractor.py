@@ -30,6 +30,7 @@ def extract_projects(programming_language: str) -> [Project]:
     print("Parsing sources for git repos...")
     for source in tqdm(sources):
         git_repos.extend(parser.parse_git_repos(source))
+    print(f"Number of possible GitHub Repositories for {programming_language}: {len(git_repos)}")
 
     projects = []
     print("Creating projects and collection repo meta data...")
@@ -41,11 +42,11 @@ def extract_projects(programming_language: str) -> [Project]:
         except Exception as e:
             print(e)
 
+    print(f"Final number of collected projects in {programming_language}: {len(projects)}")
     return projects
 
 
 if __name__ == "__main__":
     cpp_projects = extract_projects("C/C++")
-    print("Collected {} projects".format(len(cpp_projects)))
     save("../model_output/cpp_projects.pickle", cpp_projects)
 

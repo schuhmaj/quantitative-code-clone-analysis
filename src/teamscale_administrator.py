@@ -13,7 +13,7 @@ def create_projects(projects: [Project]):
         void
 
     """
-    print("Creating projects in teamscale...")
+    print(f"Creating {len(projects)} projects in teamscale...")
     for project in tqdm(projects):
         if not teamscale.post_project_git(project):
             print(f"Project {project.repo_full_name} was not created!")
@@ -29,7 +29,7 @@ def delete_projects(projects: [Project]):
         void
 
     """
-    print("Deleting projects in teamscale...")
+    print(f"Deleting {len(projects)} projects in teamscale...")
     for project in tqdm(projects):
         if not teamscale.delete_project(project):
             print(f"Project {project.repo_full_name} was not deleted!")
@@ -37,4 +37,5 @@ def delete_projects(projects: [Project]):
 
 if __name__ == "__main__":
     cpp_projects = load("../model_output/cpp_projects.pickle")
-    create_projects(cpp_projects[0:2])
+    # Range 0:2 already processed!
+    create_projects(cpp_projects[2:])
