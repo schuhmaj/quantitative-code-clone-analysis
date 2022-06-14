@@ -2,13 +2,29 @@ import requests
 from requests.auth import HTTPBasicAuth
 import json
 
+# The Base URL of the Teamscale client
 TEAMSCALE_BASE_URL = "http://192.168.2.104:8080/"
+# The API Suffix which is appended to the client BASE URL
 TEAMSCALE_API_URL = "api/v8.0.3/"
+# The full base URL
 TEAMSCALE_REST_URL = TEAMSCALE_BASE_URL + TEAMSCALE_API_URL
 
+# The Teamscale username
 TEAMSCALE_USERNAME = "admin"
+# The access token for the Teamscale user
 TEAMSCALE_ACCESS_TOKEN = "SBiAKGLJ8HFMHGy4kDlmWZi0kNwet9Y8"
+# The concrete authentication payload for REST requests
 TEAMSCALE_AUTHENTICATION = HTTPBasicAuth(TEAMSCALE_USERNAME, TEAMSCALE_ACCESS_TOKEN)
+
+# Contains a mapping programming language --> included/ excluded file patterns
+TEAMSCALE_LANGUAGE_SETTINGS = {
+    "C/C++": "**.cpp, **.cc, **.c, **.h, **.hh, **.hpp, **.cxx, **.hxx, **.inl, **.inc, **.architecture",
+    "Rust": "**.rs",
+    "Java": ("**.java, **.architecture", "**/package-info.java, **/module-info.java"),
+    "Kotlin": "**.kt, **.kts, **.ktm, **.architecture",
+    "Python": "**.py, **.architecture",
+    "Go": "**.go"
+}
 
 
 def get_project(project_id: str = None):
