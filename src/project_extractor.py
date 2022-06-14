@@ -7,11 +7,20 @@ import util.git as git
 AWESOME_CPP = "https://raw.githubusercontent.com/fffaraz/awesome-cpp/master/README.md"
 # Collection of Java projects
 AWESOME_JAVA = "https://raw.githubusercontent.com/akullpp/awesome-java/master/README.md"
+# Collection of Go projects
+AWESOME_GO = "https://raw.githubusercontent.com/avelino/awesome-go/main/README.md"
+# Collection of Rust projects
+AWESOME_RUST = "https://raw.githubusercontent.com/rust-unofficial/awesome-rust/main/README.md"
+# Collection of Python projects
+AWESOME_PYTHON = "https://raw.githubusercontent.com/vinta/awesome-python/master/README.md"
 
-# Mapping from programming language to sources
+# Mapping from programming language to (list of) sources
 PROJECT_SOURCES = {
     "C/C++": [AWESOME_CPP],
-    "Java": [AWESOME_JAVA]
+    "Java": [AWESOME_JAVA],
+    "Go": [AWESOME_GO],
+    "Rust": [AWESOME_RUST],
+    "Python": [AWESOME_PYTHON]
 }
 
 
@@ -49,4 +58,12 @@ def extract_projects(programming_language: str) -> [Project]:
 if __name__ == "__main__":
     cpp_projects = extract_projects("C/C++")
     save("../model_output/cpp_projects.pickle", cpp_projects)
+    # java_projects = extract_projects("Java")
+    # save("../model_output/java_projects.pickle", java_projects)
+    # go_projects = extract_projects("Go")
+    # save("../model_output/go_projects.pickle", go_projects)
+    # rust_projects = extract_projects("Rust")
+    # save("../model_output/rust_projects.pickle", rust_projects)
+    # python_projects = extract_projects("Python")
+    # save("../model_output/python_projects.pickle", python_projects)
 
