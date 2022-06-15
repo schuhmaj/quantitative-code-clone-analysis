@@ -92,7 +92,7 @@ def plot_scatter_clone_coverage_loc(projects: [Project]):
 
 def plot_scatter_clone_coverage_method_length(projects: [Project]):
     """
-    Plots the clone coverage in relation to project size
+    Plots the clone coverage in relation to method length assessment
     Args:
         projects: list of projects
 
