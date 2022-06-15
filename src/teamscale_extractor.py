@@ -27,7 +27,7 @@ def extract_interesting_data(projects: [Project]):
 if __name__ == "__main__":
     cpp_projects = load("../model_output/cpp_projects.pickle")
 
-    cpp_projects = cpp_projects[0:2]
+    cpp_projects = cpp_projects[0:100]
     extract_interesting_data(cpp_projects)
 
     save("../model_output/cpp_projects_data.pickle", cpp_projects)
