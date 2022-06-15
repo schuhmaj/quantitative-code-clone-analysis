@@ -13,6 +13,8 @@ AWESOME_GO = "https://raw.githubusercontent.com/avelino/awesome-go/main/README.m
 AWESOME_RUST = "https://raw.githubusercontent.com/rust-unofficial/awesome-rust/main/README.md"
 # Collection of Python projects
 AWESOME_PYTHON = "https://raw.githubusercontent.com/vinta/awesome-python/master/README.md"
+# Collection of Kotlin projects
+AWESOME_KOTLIN = "https://raw.githubusercontent.com/KotlinBy/awesome-kotlin/readme/README.md"
 
 # Mapping from programming language to (list of) sources
 PROJECT_SOURCES = {
@@ -20,7 +22,8 @@ PROJECT_SOURCES = {
     "Java": [AWESOME_JAVA],
     "Go": [AWESOME_GO],
     "Rust": [AWESOME_RUST],
-    "Python": [AWESOME_PYTHON]
+    "Python": [AWESOME_PYTHON],
+    "Kotlin": [AWESOME_KOTLIN]
 }
 
 
@@ -66,4 +69,6 @@ if __name__ == "__main__":
     # save("../model_output/rust_projects.pickle", rust_projects)
     # python_projects = extract_projects("Python")
     # save("../model_output/python_projects.pickle", python_projects)
+    # kotlin_projects = extract_projects("Kotlin")
+    # save("../model_output/kotlin_projects.pickle", kotlin_projects)
 
