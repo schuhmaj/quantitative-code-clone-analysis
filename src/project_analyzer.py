@@ -6,7 +6,9 @@ from model.project import Project, load
 COLOR_MAP = {
     "C/C++": "blue",
     "Java": "red",
-    "Python": "magenta"
+    "Python": "magenta",
+    "Go": "cyan",
+    "Rust": "orange"
 }
 
 
