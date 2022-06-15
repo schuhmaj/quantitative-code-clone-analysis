@@ -37,4 +37,5 @@ def parse_git_repos(url: str):
 
     """
     resource = _get_resource(url)
-    return re.findall(r"\[(\w*)\]\(https://github.com/(\S*)\)", resource)
+    git_repos = re.findall(r"\[(\S*)\]\(https://github.com/(\S*)\)", resource)
+    return [(project_id.replace('/', '_'), repo_full_name) for project_id, repo_full_name in git_repos]
