@@ -25,9 +25,16 @@ def extract_interesting_data(projects: [Project]):
 
 
 if __name__ == "__main__":
-    cpp_projects = load("../model_output/cpp_projects.pickle")
+    # cpp_projects = load("../model_output/cpp_projects.pickle")
+    #
+    # cpp_projects = cpp_projects[0:100]
+    # extract_interesting_data(cpp_projects)
+    #
+    # save("../model_output/cpp_projects_data.pickle", cpp_projects)
 
-    cpp_projects = cpp_projects[0:100]
-    extract_interesting_data(cpp_projects)
+    java_projects = load("../model_output/java_projects.pickle")
 
-    save("../model_output/cpp_projects_data.pickle", cpp_projects)
+    java_projects = java_projects[0:100]
+    extract_interesting_data(java_projects)
+
+    save("../model_output/java_projects_data.pickle", java_projects)

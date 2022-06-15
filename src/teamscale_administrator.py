@@ -36,6 +36,10 @@ def delete_projects(projects: [Project]):
 
 
 if __name__ == "__main__":
-    cpp_projects = load("../model_output/cpp_projects.pickle")
+    # cpp_projects = load("../model_output/cpp_projects.pickle")
+    # # Range 1:100 already processed!
+    # create_projects(cpp_projects[100:])
+
+    java_projects = load("../model_output/java_projects.pickle")
     # Range 1:100 already processed!
-    create_projects(cpp_projects[100:])
+    create_projects(java_projects[0:100])
