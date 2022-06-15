@@ -178,7 +178,7 @@ def get_metrics(project_id: str, path: str = ''):
         path: the optional path for which to collect the metrics inside the project structure
 
     Returns:
-        list of metrics as dictionaries
+        list of metrics as dictionaries or None if none where available
 
     """
     response = requests.get(TEAMSCALE_REST_URL + f"projects/{project_id}/metric-assessments",
@@ -186,4 +186,8 @@ def get_metrics(project_id: str, path: str = ''):
                             params={
                                 "uniform-path": f"{path}"
                             })
-    return json.loads(response.text)[0]["metrics"]
+    json_data = json.loads(response.text)
+    if len(json_data) >= 1:
+        return json_data[0]["metrics"]
+    else:
+        return None
