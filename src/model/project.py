@@ -1,4 +1,5 @@
 import pickle
+import re
 
 
 class Project:
@@ -17,6 +18,17 @@ class Project:
     def __str__(self) -> str:
         return f"Project ID: {self.project_id}, Repo Full Name: {self.repo_full_name}, Language: {self.language}," \
                f"Default Branch: {self.branch}, Revision: {self.revision}, Metrics: {str(self.metrics)}"
+
+    def get_method_length_assessment(self):
+        """
+        Returns the method length assessment (order Red, Yellow, Green) percentages.
+
+        Returns:
+            tuple of red, yellow, green assessed methods
+
+        """
+        text = self.metrics["metrics"][5]["formattedTextValue"]
+        return tuple([float(x) for x in re.findall(r"\w: \d+ \((\d+.\d+)%\)", text)])
 
 
 def save(filepath: str, projects: [Project]):
