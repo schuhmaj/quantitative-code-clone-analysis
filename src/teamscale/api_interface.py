@@ -112,6 +112,7 @@ def post_project_git(project: Project):
                                              "Default branch name": project.branch,
                                              "Enable branch analysis": "false",
                                              "Start revision": project.revision,
+                                             "End revision": project.revision
                                          }
                                      }
                                  ]
