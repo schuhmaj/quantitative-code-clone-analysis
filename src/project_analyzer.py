@@ -6,14 +6,15 @@ from model.project import Project, load
 COLOR_MAP = {
     "C/C++": "blue",
     "Java": "red",
-    "Python": "magenta",
+    "Python": "gold",
     "Go": "cyan",
-    "Rust": "orange"
+    "Rust": "orange",
+    "Kotlin": "magenta"
 }
 
 
 def filter_none(projects: [Project]) -> [Project]:
-    return [p for p in projects if p.metrics["metrics"] is not None]
+    return [p for p in projects if p.metrics["metrics"] is not None and p.metrics["redundancy"] is not None]
 
 
 def plot_histogram_clone_coverage(projects: [Project]):
@@ -30,6 +31,7 @@ def plot_histogram_clone_coverage(projects: [Project]):
     color = COLOR_MAP[projects[0].language]
     language = projects[0].language
     mean_clone_coverage = np.mean(clone_coverage)
+    std_clone_coverage = np.std(clone_coverage)
 
     fig, ax = plt.subplots(figsize=(6, 4))
 
@@ -38,7 +40,11 @@ def plot_histogram_clone_coverage(projects: [Project]):
     ax.axvline(mean_clone_coverage, ymin=-1, color='k', linestyle='dashed', linewidth=1.5,
                label=f"mean: {mean_clone_coverage:.2f}%")
 
+    ax.hlines(y=1, xmin=mean_clone_coverage - std_clone_coverage, xmax=mean_clone_coverage + std_clone_coverage,
+              color='k', linestyles='dashed', linewidth=1.5, label=f"std: {std_clone_coverage:.2f}%")
+
     ax.legend()
+    ax.set_xlim(0, 100)
 
     ax.set_xlabel("Clone Coverage [%]")
     ax.set_ylabel("Number of Projects")
@@ -131,13 +137,14 @@ def plot_scatter_clone_coverage_method_length(projects: [Project]):
 
 
 if __name__ == "__main__":
-    cpp_projects = load("../model_output/cpp_projects_data.pickle")
-    cpp_projects = filter_none(cpp_projects)
-    plot_histogram_clone_coverage(cpp_projects)
-    plot_scatter_clone_coverage_loc(cpp_projects)
-    plot_scatter_clone_coverage_method_length(cpp_projects)
+    # cpp_projects = load("../model_output/cpp_projects_data.pickle")
+    # cpp_projects = filter_none(cpp_projects)
+    # plot_histogram_clone_coverage(cpp_projects)
+    # plot_scatter_clone_coverage_loc(cpp_projects)
+    # plot_scatter_clone_coverage_method_length(cpp_projects)
 
-    # java_projects = load("../model_output/java_projects_data.pickle")
-    # java_projects = filter_none(java_projects)
-    # plot_histogram_clone_coverage(java_projects)
-    # plot_scatter_clone_coverage(java_projects)
+    java_projects = load("../model_output/java_projects_data.pickle")
+    java_projects = filter_none(java_projects)
+    plot_histogram_clone_coverage(java_projects)
+    plot_scatter_clone_coverage_loc(java_projects)
+    plot_scatter_clone_coverage_method_length(java_projects)

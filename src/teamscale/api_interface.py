@@ -166,7 +166,10 @@ def get_findings(project_id: str, path: str = '', filter_findings: [str] = None,
                                 "invert": f"{invert}",
                                 "all": f"{truncate}"
                             })
-    return json.loads(response.text)
+    if response.status_code == 200:
+        return json.loads(response.text)
+    else:
+        return None
 
 
 def get_metrics(project_id: str, path: str = ''):
@@ -186,8 +189,11 @@ def get_metrics(project_id: str, path: str = ''):
                             params={
                                 "uniform-path": f"{path}"
                             })
-    json_data = json.loads(response.text)
-    if len(json_data) >= 1:
-        return json_data[0]["metrics"]
+    if response.status_code == 200:
+        json_data = json.loads(response.text)
+        if len(json_data) >= 1:
+            return json_data[0]["metrics"]
+        else:
+            return None
     else:
         return None
