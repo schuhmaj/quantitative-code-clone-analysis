@@ -17,17 +17,18 @@ def filter_none(projects: [Project]) -> [Project]:
     return [p for p in projects if p.has_metrics()]
 
 
-def plot_histogram_clone_coverage(projects: [Project]):
+def plot_histogram_clone_coverage(projects: [Project], minimum_loc: int = 0):
     """
     Plots a histogram for the clone coverage
     Args:
         projects: list of projects
+        minimum_loc: minimum number of source lines of code
 
     Returns:
         void
 
     """
-    clone_coverage = np.array([p.metrics["overview"][10]["value"] * 100.0 for p in projects])
+    clone_coverage = np.array([p.get_clone_coverage() for p in projects if p.get_source_lines_of_code() >= minimum_loc])
     color = COLOR_MAP[projects[0].language]
     language = projects[0].language
     mean_clone_coverage = np.mean(clone_coverage)
@@ -48,7 +49,8 @@ def plot_histogram_clone_coverage(projects: [Project]):
 
     ax.set_xlabel("Clone Coverage [%]")
     ax.set_ylabel("Number of Projects")
-    ax.set_title(f"Clone Coverage Distribution for {language} ($N = {len(projects)})$")
+    ax.set_title(
+        f"Clone Coverage Distribution for {language} ($N = {len(clone_coverage)}$ and $LoC \geq {minimum_loc}$)")
 
     # Tweak spacing to prevent clipping of ylabel
     fig.tight_layout()
@@ -66,8 +68,8 @@ def plot_scatter_clone_coverage_loc(projects: [Project]):
         void
 
     """
-    clone_coverage = np.array([p.metrics["overview"][10]["value"] * 100.0 for p in projects])
-    source_lines_of_code = np.array([p.metrics["overview"][2]["value"] * 100.0 for p in projects])
+    clone_coverage = np.array([p.get_clone_coverage() for p in projects])
+    source_lines_of_code = np.array([p.get_source_lines_of_code() for p in projects])
     colors = np.array([COLOR_MAP[p.language] for p in projects])
     language = projects[0].language
 
@@ -106,7 +108,7 @@ def plot_scatter_clone_coverage_method_length(projects: [Project]):
         void
 
     """
-    clone_coverage = np.array([p.metrics["overview"][10]["value"] * 100.0 for p in projects])
+    clone_coverage = np.array([p.get_clone_coverage() for p in projects])
     red_assessed_methods = np.array([p.get_method_length_assessment()[0] for p in projects])
     colors = np.array([COLOR_MAP[p.language] for p in projects])
     language = projects[0].language
@@ -136,15 +138,95 @@ def plot_scatter_clone_coverage_method_length(projects: [Project]):
     plt.close()
 
 
-if __name__ == "__main__":
-    cpp_projects = load("../model_output/cpp_projects_data.pickle")
-    cpp_projects = filter_none(cpp_projects)
-    plot_histogram_clone_coverage(cpp_projects)
-    plot_scatter_clone_coverage_loc(cpp_projects)
-    plot_scatter_clone_coverage_method_length(cpp_projects)
+def plot_scatter_clone_coverage_doc(projects: [Project]):
+    """
+    Plots the clone coverage in relation to the number of documentation issues divided by LoC
+    Args:
+        projects: list of projects
 
-    # java_projects = load("../model_output/java_projects_data.pickle")
-    # java_projects = filter_none(java_projects)
-    # plot_histogram_clone_coverage(java_projects)
-    # plot_scatter_clone_coverage_loc(java_projects)
-    # plot_scatter_clone_coverage_method_length(java_projects)
+    Returns:
+        void
+
+    """
+    clone_coverage = np.array([p.get_clone_coverage() for p in projects])
+    documentation_findings = np.array([p.metrics["documentation"] / p.get_source_lines_of_code() for p in projects])
+    colors = np.array([COLOR_MAP[p.language] for p in projects])
+    language = projects[0].language
+
+    fig, ax = plt.subplots(figsize=(6, 4))
+
+    # the histogram of the data
+    ax.scatter(clone_coverage, documentation_findings, color=colors, alpha=0.33, label=language)
+
+    ax.legend()
+
+    ax.set_xlim(0, 100)
+
+    ax.set_xlabel("Clone Coverage [%]")
+    ax.set_ylabel("Number of Issues")
+    ax.set_title(f"Clone Coverage/ Documentation Issues Length for {language} ($N = {len(projects)})$")
+
+    fit = np.polyfit(clone_coverage, documentation_findings, 1)
+    poly = np.poly1d(fit)
+    x = np.sort(clone_coverage)
+    ax.plot(x, poly(x), "--", color=colors[0])
+
+    # Tweak spacing to prevent clipping of ylabel
+    fig.tight_layout()
+    plt.savefig("../plots/scatter_clone_coverage_documentation", dpi=300)
+    plt.close()
+
+def plot_scatter_clone_coverage_issues(projects: [Project]):
+    """
+    Plots the clone coverage in relation to the total number of issues
+    Args:
+        projects: list of projects
+
+    Returns:
+        void
+
+    """
+    clone_coverage = np.array([p.get_clone_coverage() for p in projects])
+    findings = np.array(
+        [(p.metrics["documentation"] + p.metrics["comprehensibility"] + p.metrics["correctness"]
+         + p.metrics["error handling"] + p.metrics["structure"]) / p.get_source_lines_of_code() for p in projects])
+    colors = np.array([COLOR_MAP[p.language] for p in projects])
+    language = projects[0].language
+
+    fig, ax = plt.subplots(figsize=(6, 4))
+
+    # the histogram of the data
+    ax.scatter(clone_coverage, findings, color=colors, alpha=0.33, label=language)
+
+    ax.legend()
+
+    ax.set_xlim(0, 100)
+
+    ax.set_xlabel("Clone Coverage [%]")
+    ax.set_ylabel("Number of Issues")
+    ax.set_title(f"Clone Coverage/ Issues for {language} ($N = {len(projects)})$")
+
+    fit = np.polyfit(clone_coverage, findings, 1)
+    poly = np.poly1d(fit)
+    x = np.sort(clone_coverage)
+    ax.plot(x, poly(x), "--", color=colors[0])
+
+    # Tweak spacing to prevent clipping of ylabel
+    fig.tight_layout()
+    plt.savefig("../plots/scatter_clone_coverage_issues", dpi=300)
+    plt.close()
+
+
+if __name__ == "__main__":
+    total_projects = []
+    for i in range(5):
+        print(f"Loading projects from {i * 100} to {(i+1) * 100}")
+        suffix = i * 100
+        projects = load(f"../model_output/cpp/cpp_projects_data_{suffix}_reduced.pickle")
+        total_projects.extend(projects)
+    total_projects = filter_none(total_projects)
+    plot_histogram_clone_coverage(total_projects)
+    plot_scatter_clone_coverage_loc(total_projects)
+    plot_scatter_clone_coverage_method_length(total_projects)
+    plot_scatter_clone_coverage_doc(total_projects)
+    plot_scatter_clone_coverage_issues(total_projects)

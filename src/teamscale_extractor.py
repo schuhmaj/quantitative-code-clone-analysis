@@ -7,7 +7,7 @@ def extract_interesting_data(projects: [Project]):
     """
     Extracts the interesting data from a list of projects
     Args:
-        projects: list of projects
+        projects: list of projects (elements will be modified!)
 
     Returns:
         void
@@ -34,17 +34,50 @@ def extract_interesting_data(projects: [Project]):
         project.metrics = project_metrics
 
 
+def reduce_interesting_data(projects: [Project]):
+    """
+    Reduces the metrics (with exception to 'overview') to just the lengths, i.e. the number of findings in the category
+    Args:
+        projects: list of projects (elements will be modified!)
+
+    Returns:
+        void
+
+    """
+    for project in tqdm(projects):
+        redundancy_findings = \
+            len(project.metrics["redundancy"]) if project.metrics["redundancy"] is not None else None
+        comprehensibility_findings = \
+            len(project.metrics["comprehensibility"]) if project.metrics["comprehensibility"] is not None else None
+        correctness_findings = \
+            len(project.metrics["correctness"]) if project.metrics["correctness"] is not None else None
+        documentation_findings = \
+            len(project.metrics["documentation"]) if project.metrics["documentation"] is not None else None
+        error_handling_findings =\
+            len(project.metrics["error handling"]) if project.metrics["error handling"] is not None else None
+        structure_findings = \
+            len(project.metrics["structure"]) if project.metrics["structure"] is not None else None
+        project_metrics = {
+            "overview": project.metrics["overview"],
+            "redundancy": redundancy_findings,
+            "comprehensibility": comprehensibility_findings,
+            "correctness": correctness_findings,
+            "documentation": documentation_findings,
+            "error handling": error_handling_findings,
+            "structure": structure_findings
+        }
+        project.metrics = project_metrics
+
+
 if __name__ == "__main__":
-    cpp_projects = load("../model_output/cpp_projects.pickle")
+    total_projects = load("../model_output/cpp_projects.pickle")
+    for i in range(5):
+        start = i * 100
+        end = (i + 1) * 100
+        print(f"Extracting data for cpp project from {start} to {end}")
+        projects = total_projects[start:end]
+        extract_interesting_data(projects)
+        save(f"../model_output/cpp/cpp_projects_data_{start}.pickle", projects)
+        reduce_interesting_data(projects)
+        save(f"../model_output/cpp/cpp_projects_data_{start}_reduced.pickle", projects)
 
-    cpp_projects = cpp_projects[0:2]
-    extract_interesting_data(cpp_projects)
-
-    save("../model_output/cpp_projects_data.pickle", cpp_projects)
-
-    # java_projects = load("../model_output/java_projects.pickle")
-    #
-    # java_projects = java_projects[0:100]
-    # extract_interesting_data(java_projects)
-    #
-    # save("../model_output/java_projects_data.pickle", java_projects)
