@@ -17,7 +17,7 @@ def filter_none(projects: [Project]) -> [Project]:
     return [p for p in projects if p.has_metrics()]
 
 
-def plot_histogram_clone_coverage(projects: [Project], minimum_loc: int = 0):
+def plot_histogram_clone_coverage(projects: [Project], minimum_sloc: int = 0):
     """
     Plots a histogram for the clone coverage
     Args:
@@ -28,7 +28,7 @@ def plot_histogram_clone_coverage(projects: [Project], minimum_loc: int = 0):
         void
 
     """
-    clone_coverage = np.array([p.get_clone_coverage() for p in projects if p.get_source_lines_of_code() >= minimum_loc])
+    clone_coverage = np.array([p.get_clone_coverage() for p in projects if p.get_sloc() >= minimum_sloc])
     color = COLOR_MAP[projects[0].language]
     language = projects[0].language
     mean_clone_coverage = np.mean(clone_coverage)
@@ -50,7 +50,7 @@ def plot_histogram_clone_coverage(projects: [Project], minimum_loc: int = 0):
     ax.set_xlabel("Clone Coverage [%]")
     ax.set_ylabel("Number of Projects")
     ax.set_title(
-        f"Clone Coverage Distribution for {language} ($N = {len(clone_coverage)}$ and $LoC \geq {minimum_loc}$)")
+        f"Clone Coverage Distribution for {language} ($N = {len(clone_coverage)}$ and $SLOC \geq {minimum_sloc}$)")
 
     # Tweak spacing to prevent clipping of ylabel
     fig.tight_layout()
@@ -69,7 +69,7 @@ def plot_scatter_clone_coverage_loc(projects: [Project]):
 
     """
     clone_coverage = np.array([p.get_clone_coverage() for p in projects])
-    source_lines_of_code = np.array([p.get_source_lines_of_code() for p in projects])
+    source_lines_of_code = np.array([p.get_sloc() for p in projects])
     colors = np.array([COLOR_MAP[p.language] for p in projects])
     language = projects[0].language
 
@@ -149,7 +149,7 @@ def plot_scatter_clone_coverage_doc(projects: [Project]):
 
     """
     clone_coverage = np.array([p.get_clone_coverage() for p in projects])
-    documentation_findings = np.array([p.metrics["documentation"] / p.get_source_lines_of_code() for p in projects])
+    documentation_findings = np.array([10000 * p.metrics["documentation"] / p.get_sloc() for p in projects])
     colors = np.array([COLOR_MAP[p.language] for p in projects])
     language = projects[0].language
 
@@ -163,7 +163,7 @@ def plot_scatter_clone_coverage_doc(projects: [Project]):
     ax.set_xlim(0, 100)
 
     ax.set_xlabel("Clone Coverage [%]")
-    ax.set_ylabel("Number of Issues")
+    ax.set_ylabel("#Documentation/ SLOC * 10000")
     ax.set_title(f"Clone Coverage/ Documentation Issues Length for {language} ($N = {len(projects)})$")
 
     fit = np.polyfit(clone_coverage, documentation_findings, 1)
@@ -189,7 +189,7 @@ def plot_scatter_clone_coverage_issues(projects: [Project]):
     clone_coverage = np.array([p.get_clone_coverage() for p in projects])
     findings = np.array(
         [(p.metrics["documentation"] + p.metrics["comprehensibility"] + p.metrics["correctness"]
-         + p.metrics["error handling"] + p.metrics["structure"]) / p.get_source_lines_of_code() for p in projects])
+         + p.metrics["error handling"] + p.metrics["structure"]) / p.get_sloc() for p in projects])
     colors = np.array([COLOR_MAP[p.language] for p in projects])
     language = projects[0].language
 

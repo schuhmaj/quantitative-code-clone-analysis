@@ -51,7 +51,7 @@ class Project:
         """
         return self.metrics["overview"][10]["value"] * 100.0
 
-    def get_source_lines_of_code(self) -> int:
+    def get_sloc(self) -> int:
         """
         Returns the source lines of code
         Returns:
