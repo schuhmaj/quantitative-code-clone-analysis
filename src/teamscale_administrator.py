@@ -31,7 +31,7 @@ def delete_projects(projects: [Project]):
     """
     print(f"Deleting {len(projects)} projects in teamscale...")
     for project in tqdm(projects):
-        if not teamscale.delete_project(project):
+        if not teamscale.delete_project(project.project_id):
             print(f"Project {project.repo_full_name} was not deleted!")
 
 
