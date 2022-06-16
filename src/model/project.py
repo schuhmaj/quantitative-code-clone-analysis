@@ -27,8 +27,20 @@ class Project:
             tuple of red, yellow, green assessed methods
 
         """
-        text = self.metrics["metrics"][5]["formattedTextValue"]
+        text = self.metrics["overview"][5]["formattedTextValue"]
         return tuple([float(x) for x in re.findall(r"\w: \d+ \((\d+.\d+)%\)", text)])
+
+    def has_metrics(self):
+        """
+        Returns False if some metrics are None
+        Returns:
+            True if all metrics are defined values
+
+        """
+        for value in self.metrics.values():
+            if value is None:
+                return False
+        return True
 
 
 def save(filepath: str, projects: [Project]):

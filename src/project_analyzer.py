@@ -14,7 +14,7 @@ COLOR_MAP = {
 
 
 def filter_none(projects: [Project]) -> [Project]:
-    return [p for p in projects if p.metrics["metrics"] is not None and p.metrics["redundancy"] is not None]
+    return [p for p in projects if p.has_metrics()]
 
 
 def plot_histogram_clone_coverage(projects: [Project]):
@@ -27,7 +27,7 @@ def plot_histogram_clone_coverage(projects: [Project]):
         void
 
     """
-    clone_coverage = np.array([p.metrics["metrics"][10]["value"] * 100.0 for p in projects])
+    clone_coverage = np.array([p.metrics["overview"][10]["value"] * 100.0 for p in projects])
     color = COLOR_MAP[projects[0].language]
     language = projects[0].language
     mean_clone_coverage = np.mean(clone_coverage)
@@ -66,8 +66,8 @@ def plot_scatter_clone_coverage_loc(projects: [Project]):
         void
 
     """
-    clone_coverage = np.array([p.metrics["metrics"][10]["value"] * 100.0 for p in projects])
-    source_lines_of_code = np.array([p.metrics["metrics"][2]["value"] * 100.0 for p in projects])
+    clone_coverage = np.array([p.metrics["overview"][10]["value"] * 100.0 for p in projects])
+    source_lines_of_code = np.array([p.metrics["overview"][2]["value"] * 100.0 for p in projects])
     colors = np.array([COLOR_MAP[p.language] for p in projects])
     language = projects[0].language
 
@@ -106,7 +106,7 @@ def plot_scatter_clone_coverage_method_length(projects: [Project]):
         void
 
     """
-    clone_coverage = np.array([p.metrics["metrics"][10]["value"] * 100.0 for p in projects])
+    clone_coverage = np.array([p.metrics["overview"][10]["value"] * 100.0 for p in projects])
     red_assessed_methods = np.array([p.get_method_length_assessment()[0] for p in projects])
     colors = np.array([COLOR_MAP[p.language] for p in projects])
     language = projects[0].language
@@ -137,14 +137,14 @@ def plot_scatter_clone_coverage_method_length(projects: [Project]):
 
 
 if __name__ == "__main__":
-    # cpp_projects = load("../model_output/cpp_projects_data.pickle")
-    # cpp_projects = filter_none(cpp_projects)
-    # plot_histogram_clone_coverage(cpp_projects)
-    # plot_scatter_clone_coverage_loc(cpp_projects)
-    # plot_scatter_clone_coverage_method_length(cpp_projects)
+    cpp_projects = load("../model_output/cpp_projects_data.pickle")
+    cpp_projects = filter_none(cpp_projects)
+    plot_histogram_clone_coverage(cpp_projects)
+    plot_scatter_clone_coverage_loc(cpp_projects)
+    plot_scatter_clone_coverage_method_length(cpp_projects)
 
-    java_projects = load("../model_output/java_projects_data.pickle")
-    java_projects = filter_none(java_projects)
-    plot_histogram_clone_coverage(java_projects)
-    plot_scatter_clone_coverage_loc(java_projects)
-    plot_scatter_clone_coverage_method_length(java_projects)
+    # java_projects = load("../model_output/java_projects_data.pickle")
+    # java_projects = filter_none(java_projects)
+    # plot_histogram_clone_coverage(java_projects)
+    # plot_scatter_clone_coverage_loc(java_projects)
+    # plot_scatter_clone_coverage_method_length(java_projects)
