@@ -133,8 +133,8 @@ def plot_scatter_clone_coverage_method_length(projects: [Project]):
     ax.set_ylim(0, 100)
 
     ax.set_xlabel("Clone Coverage [%]")
-    ax.set_ylabel("Big Method Length [%]")
-    ax.set_title(f"Clone Coverage/ Method Length for {language} ($N = {len(projects)})$")
+    ax.set_ylabel("Too-Long-Methods [%]")
+    ax.set_title(f"Clone Coverage/ Too-Long-Methods for {language} ($N = {len(projects)})$")
 
     fit = np.polyfit(clone_coverage, red_assessed_methods, 1)
     poly = np.poly1d(fit)
@@ -158,7 +158,7 @@ def plot_scatter_clone_coverage_doc(projects: [Project]):
 
     """
     clone_coverage = np.array([p.get_clone_coverage() for p in projects])
-    documentation_findings = np.array([10000 * p.metrics["documentation"] / (p.get_sloc() + 1) for p in projects])
+    documentation_findings = np.array([p.metrics["documentation"] / (p.get_sloc() + 1) for p in projects])
     colors = np.array([COLOR_MAP[p.language] for p in projects])
     language = projects[0].language
 
@@ -170,10 +170,11 @@ def plot_scatter_clone_coverage_doc(projects: [Project]):
     ax.legend()
 
     ax.set_xlim(0, 100)
+    ax.set_yscale('log')
 
     ax.set_xlabel("Clone Coverage [%]")
-    ax.set_ylabel("#Documentation/ SLOC * 10000")
-    ax.set_title(f"Clone Coverage/ Documentation Issues Length for {language} ($N = {len(projects)})$")
+    ax.set_ylabel("#Documentation/ #SLOC")
+    ax.set_title(f"Clone Coverage to #Documentation Issues/#SLOC for {language} ($N = {len(projects)})$", fontsize=10)
 
     fit = np.polyfit(clone_coverage, documentation_findings, 1)
     poly = np.poly1d(fit)
@@ -213,8 +214,8 @@ def plot_scatter_clone_coverage_issues(projects: [Project]):
     ax.set_xlim(0, 100)
 
     ax.set_xlabel("Clone Coverage [%]")
-    ax.set_ylabel("Number of Issues")
-    ax.set_title(f"Clone Coverage/ Issues for {language} ($N = {len(projects)})$")
+    ax.set_ylabel("#Issues/ #SLOC")
+    ax.set_title(f"Clone Coverage to #Issues/#SLOC for {language} ($N = {len(projects)})$", fontsize=10)
 
     fit = np.polyfit(clone_coverage, findings, 1)
     poly = np.poly1d(fit)
