@@ -2,7 +2,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from model.project import Project, load
 
-
 COLOR_MAP = {
     "C/C++": "blue",
     "Java": "red",
@@ -36,21 +35,31 @@ def plot_histogram_clone_coverage(projects: [Project], minimum_sloc: int = 0):
 
     fig, ax = plt.subplots(figsize=(6, 4))
 
+    num_bins = 20
+
     # the histogram of the data
-    ax.hist(clone_coverage, bins=20, range=(0.0, 100.0), color=color, label=language)
+    n, bins, patches = ax.hist(clone_coverage, bins=num_bins, range=(0.0, 100.0), color=color, label=language)
     ax.axvline(mean_clone_coverage, ymin=-1, color='k', linestyle='dashed', linewidth=1.5,
                label=f"mean: {mean_clone_coverage:.2f}%")
 
     ax.hlines(y=1, xmin=mean_clone_coverage - std_clone_coverage, xmax=mean_clone_coverage + std_clone_coverage,
               color='k', linestyles='dashed', linewidth=1.5, label=f"std: {std_clone_coverage:.2f}%")
 
+    # x = bins[:num_bins] + (100 / (num_bins * 2))
+    # y = n
+    # fit = np.polyfit(x, y, 10)
+    # poly = np.poly1d(fit)
+    # ax.plot(x, poly(x), "--", color='red', linewidth=1.5)
+
     ax.legend()
     ax.set_xlim(0, 100)
+    ax.set_ylim(0)
 
     ax.set_xlabel("Clone Coverage [%]")
     ax.set_ylabel("Number of Projects")
     ax.set_title(
-        f"Clone Coverage Distribution for {language} ($N = {len(clone_coverage)}$ and $SLOC \geq {minimum_sloc}$)")
+        f"Clone Coverage Distribution for {language} ($N = {len(clone_coverage)}$ and $SLOC \geq {minimum_sloc}$)",
+        fontsize=10)
 
     # Tweak spacing to prevent clipping of ylabel
     fig.tight_layout()
@@ -149,7 +158,7 @@ def plot_scatter_clone_coverage_doc(projects: [Project]):
 
     """
     clone_coverage = np.array([p.get_clone_coverage() for p in projects])
-    documentation_findings = np.array([10000 * p.metrics["documentation"] / p.get_sloc() for p in projects])
+    documentation_findings = np.array([10000 * p.metrics["documentation"] / (p.get_sloc() + 1) for p in projects])
     colors = np.array([COLOR_MAP[p.language] for p in projects])
     language = projects[0].language
 
@@ -176,6 +185,7 @@ def plot_scatter_clone_coverage_doc(projects: [Project]):
     plt.savefig("../plots/scatter_clone_coverage_documentation", dpi=300)
     plt.close()
 
+
 def plot_scatter_clone_coverage_issues(projects: [Project]):
     """
     Plots the clone coverage in relation to the total number of issues
@@ -189,7 +199,7 @@ def plot_scatter_clone_coverage_issues(projects: [Project]):
     clone_coverage = np.array([p.get_clone_coverage() for p in projects])
     findings = np.array(
         [(p.metrics["documentation"] + p.metrics["comprehensibility"] + p.metrics["correctness"]
-         + p.metrics["error handling"] + p.metrics["structure"]) / p.get_sloc() for p in projects])
+          + p.metrics["error handling"] + p.metrics["structure"]) / (p.get_sloc() + 1) for p in projects])
     colors = np.array([COLOR_MAP[p.language] for p in projects])
     language = projects[0].language
 
@@ -219,8 +229,8 @@ def plot_scatter_clone_coverage_issues(projects: [Project]):
 
 if __name__ == "__main__":
     total_projects = []
-    for i in range(5):
-        print(f"Loading projects from {i * 100} to {(i+1) * 100}")
+    for i in range(6):
+        print(f"Loading projects from {i * 100} to {(i + 1) * 100}")
         suffix = i * 100
         projects = load(f"../model_output/cpp/cpp_projects_data_{suffix}_reduced.pickle")
         total_projects.extend(projects)
