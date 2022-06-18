@@ -107,6 +107,47 @@ def plot_scatter_clone_coverage_loc(projects: [Project]):
     plt.close()
 
 
+def plot_scatter_clone_coverage_loc_m(projects_lists: [[Project]]):
+    """
+    Plots the clone coverage in relation to project size
+    Args:
+        projects: list of projects
+
+    Returns:
+        void
+
+    """
+    fig, ax = plt.subplots(figsize=(6, 4))
+    for projects in projects_lists:
+        clone_coverage = np.array([p.get_clone_coverage() for p in projects])
+        source_lines_of_code = np.array([p.get_sloc() for p in projects])
+        colors = np.array([COLOR_MAP[p.language] for p in projects])
+        language = projects[0].language
+
+        # the histogram of the data
+        ax.scatter(source_lines_of_code, clone_coverage, color=colors, alpha=0.33, label=language)
+
+        ax.legend()
+
+        ax.set_xscale("log")
+        ax.set_ylim(0, 100)
+
+        ax.set_xlabel("Source Lines of Code")
+        ax.set_ylabel("Clone Coverage [%]")
+
+        fit = np.polyfit(source_lines_of_code, clone_coverage, 1)
+        poly = np.poly1d(fit)
+        x = np.sort(source_lines_of_code)
+        ax.plot(x, poly(x), "--", color=colors[0])
+
+    ax.set_title(f"Clone Coverage/ Source Lines of Code ($N = {sum([len(p) for p in projects_lists])})$")
+
+    # Tweak spacing to prevent clipping of ylabel
+    fig.tight_layout()
+    plt.savefig("../plots/scatter_clone_coverage_loc_m", dpi=300)
+    plt.close()
+
+
 def plot_scatter_clone_coverage_method_length(projects: [Project]):
     """
     Plots the clone coverage in relation to method length assessment
@@ -229,15 +270,27 @@ def plot_scatter_clone_coverage_issues(projects: [Project]):
 
 
 if __name__ == "__main__":
-    total_projects = []
+    cpp_projects = []
     for i in range(6):
         print(f"Loading projects from {i * 100} to {(i + 1) * 100}")
         suffix = i * 100
         projects = load(f"../model_output/cpp/cpp_projects_data_{suffix}_reduced.pickle")
-        total_projects.extend(projects)
-    total_projects = filter_none(total_projects)
+        cpp_projects.extend(projects)
+    java_projects = []
+    for i in range(4):
+        print(f"Loading projects from {i * 100} to {(i + 1) * 100}")
+        suffix = i * 100
+        projects = load(f"../model_output/java/java_projects_data_{suffix}_reduced.pickle")
+        java_projects.extend(projects)
+
+
+    total_projects = filter_none(java_projects)
     plot_histogram_clone_coverage(total_projects)
     plot_scatter_clone_coverage_loc(total_projects)
     plot_scatter_clone_coverage_method_length(total_projects)
     plot_scatter_clone_coverage_doc(total_projects)
     plot_scatter_clone_coverage_issues(total_projects)
+
+    cpp_projects = filter_none(cpp_projects)
+    java_projects = filter_none(java_projects)
+    plot_scatter_clone_coverage_loc_m([cpp_projects, java_projects])
