@@ -70,14 +70,22 @@ def reduce_interesting_data(projects: [Project]):
 
 
 if __name__ == "__main__":
-    total_projects = load("../model_output/cpp_projects.pickle")
-    for i in range(5):
+    total_projects = load("../model_output/rust_projects.pickle.pickle")
+    for i in range(8):
         start = i * 100
         end = (i + 1) * 100
-        print(f"Extracting data for cpp project from {start} to {end}")
+        print(f"Extracting data for rust project from {start} to {end}")
         projects = total_projects[start:end]
         extract_interesting_data(projects)
-        save(f"../model_output/cpp/cpp_projects_data_{start}.pickle", projects)
+        save(f"../model_output/rust/rust_projects_data_{start}.pickle", projects)
         reduce_interesting_data(projects)
-        save(f"../model_output/cpp/cpp_projects_data_{start}_reduced.pickle", projects)
+        save(f"../model_output/rust/rust_projects_data_{start}_reduced.pickle", projects)
+    last_start = 800
+    last_end = 868
+    print(f"Extracting data for rust project from {last_start} to {last_end}")
+    projects = total_projects[last_start:]
+    extract_interesting_data(projects)
+    save(f"../model_output/rust/rust_projects_data_{last_start}.pickle", projects)
+    reduce_interesting_data(projects)
+    save(f"../model_output/rust/rust_projects_data_{last_start}_reduced.pickle", projects)
 

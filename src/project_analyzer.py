@@ -282,15 +282,29 @@ if __name__ == "__main__":
         suffix = i * 100
         projects = load(f"../model_output/java/java_projects_data_{suffix}_reduced.pickle")
         java_projects.extend(projects)
+    kotlin_projects = []
+    for i in range(6):
+        print(f"Loading projects from {i * 100} to {(i + 1) * 100}")
+        suffix = i * 100
+        projects = load(f"../model_output/kotlin/kotlin_projects_data_{suffix}_reduced.pickle")
+        kotlin_projects.extend(projects)
+    rust_projects = []
+    for i in range(9):
+        print(f"Loading projects from {i * 100} to {(i + 1) * 100}")
+        suffix = i * 100
+        projects = load(f"../model_output/rust/rust_projects_data_{suffix}_reduced.pickle")
+        rust_projects.extend(projects)
 
+    cpp_projects = filter_none(cpp_projects)
+    java_projects = filter_none(java_projects)
+    kotlin_projects = filter_none(kotlin_projects)
+    rust_projects = filter_none(rust_projects)
 
-    total_projects = filter_none(java_projects)
+    total_projects = rust_projects
     plot_histogram_clone_coverage(total_projects)
     plot_scatter_clone_coverage_loc(total_projects)
     plot_scatter_clone_coverage_method_length(total_projects)
     plot_scatter_clone_coverage_doc(total_projects)
     plot_scatter_clone_coverage_issues(total_projects)
 
-    cpp_projects = filter_none(cpp_projects)
-    java_projects = filter_none(java_projects)
-    plot_scatter_clone_coverage_loc_m([cpp_projects, java_projects])
+    plot_scatter_clone_coverage_loc_m([cpp_projects, java_projects, kotlin_projects, rust_projects])

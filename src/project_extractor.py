@@ -59,14 +59,14 @@ def extract_projects(programming_language: str) -> [Project]:
 
 
 if __name__ == "__main__":
-    cpp_projects = extract_projects("C/C++")
-    save("../model_output/cpp_projects.pickle", cpp_projects)
+    # cpp_projects = extract_projects("C/C++")
+    # save("../model_output/cpp_projects.pickle", cpp_projects)
     # java_projects = extract_projects("Java")
     # save("../model_output/java_projects.pickle", java_projects)
     # go_projects = extract_projects("Go")
     # save("../model_output/go_projects.pickle", go_projects)
-    # rust_projects = extract_projects("Rust")
-    # save("../model_output/rust_projects.pickle", rust_projects)
+    rust_projects = extract_projects("Rust")
+    save("../model_output/rust_projects.pickle", rust_projects)
     # python_projects = extract_projects("Python")
     # save("../model_output/python_projects.pickle", python_projects)
     # kotlin_projects = extract_projects("Kotlin")
