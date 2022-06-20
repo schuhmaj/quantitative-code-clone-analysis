@@ -294,17 +294,24 @@ if __name__ == "__main__":
         suffix = i * 100
         projects = load(f"../model_output/rust/rust_projects_data_{suffix}_reduced.pickle")
         rust_projects.extend(projects)
+    python_projects = []
+    for i in range(6):
+        print(f"Loading projects from {i * 100} to {(i + 1) * 100}")
+        suffix = i * 100
+        projects = load(f"../model_output/python/python_projects_data_{suffix}_reduced.pickle")
+        python_projects.extend(projects)
 
     cpp_projects = filter_none(cpp_projects)
     java_projects = filter_none(java_projects)
     kotlin_projects = filter_none(kotlin_projects)
     rust_projects = filter_none(rust_projects)
+    python_projects = filter_none(python_projects)
 
-    total_projects = rust_projects
+    total_projects = python_projects
     plot_histogram_clone_coverage(total_projects)
     plot_scatter_clone_coverage_loc(total_projects)
     plot_scatter_clone_coverage_method_length(total_projects)
     plot_scatter_clone_coverage_doc(total_projects)
     plot_scatter_clone_coverage_issues(total_projects)
 
-    plot_scatter_clone_coverage_loc_m([cpp_projects, java_projects, kotlin_projects, rust_projects])
+    plot_scatter_clone_coverage_loc_m([cpp_projects, java_projects, kotlin_projects, rust_projects, python_projects])

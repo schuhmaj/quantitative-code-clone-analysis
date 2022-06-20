@@ -3,4 +3,5 @@
 *.blg
 *.log
 *.gz
+*.out
 main.pdf
