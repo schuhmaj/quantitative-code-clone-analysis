@@ -10,20 +10,29 @@
 \usepackage{url} % add macros for handling URLs in text
 \usepackage[nohyperlinks,nolist]{acronym} % abbreviation utilities
 \usepackage{listings}
-% TODO: add more packages below if necessary
+\usepackage{hyperref}
+
+
+
+% Capitalize autoref{..}
+\def\chapterautorefname{Chapter}
+\def\sectionautorefname{Section}
+\def\subsectionautorefname{Subsection}
+\def\algorithmautorefname{Algorithm}
+\def\subfigureautorefname{Figure}
+\def\itemautorefname{Step}
 %
 % ---- Acronyms ----
 %
 \begin{acronym}
 \acro{rq}[RQ]{Research Question}
-% TODO: define more acronyms here
 \end{acronym}
 %
 % ---- Begin Document ----
 %
 \begin{document}
 %
-\title{Title of Seminar Paper}
+\title{Evaluating Code Clone Frequency In Different-Generation Programming Languages}
 %
 %\titlerunning{Abbreviated paper title}
 % If the paper title is too long for the running head, you can set
@@ -50,7 +59,11 @@ The abstract should briefly summarize the contents of the paper in
 % ---- Text Parts ----
 %
 \input{text/01_introduction}
-\input{text/98_conclusion}
+\input{text/02_related_work}
+\input{text/03_methodology}
+\input{text/04_results}
+\input{text/05_discussion}
+\input{text/06_conclusion}
 %
 % ---- Appendix ----
 %
