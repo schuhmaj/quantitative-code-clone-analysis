@@ -70,22 +70,24 @@ def reduce_interesting_data(projects: [Project]):
 
 
 if __name__ == "__main__":
-    total_projects = load("../model_output/python_projects.pickle")
-    for i in range(5):
+    # Programming Language
+    language = "python"
+
+    total_projects = load(f"../model_output/{language}_projects.pickle")
+    last_start = len(total_projects // 100) * 100
+    for i in range(len(total_projects) // 100):
         start = i * 100
         end = (i + 1) * 100
-        print(f"Extracting data for rust project from {start} to {end}")
+        print(f"Extracting data for {language} projects from {start} to {end}")
         projects = total_projects[start:end]
         extract_interesting_data(projects)
-        save(f"../model_output/python/python_projects_data_{start}.pickle", projects)
+        save(f"../model_output/{language}/{language}_projects_data_{start}.pickle", projects)
         reduce_interesting_data(projects)
-        save(f"../model_output/python/python_projects_data_{start}_reduced.pickle", projects)
-    last_start = 500
-    last_end = 518
-    print(f"Extracting data for rust project from {last_start} to {last_end}")
+        save(f"../model_output/{language}/{language}_projects_data_{start}_reduced.pickle", projects)
+    print(f"Extracting data for {language} projects from {last_start} to end")
     projects = total_projects[last_start:]
     extract_interesting_data(projects)
-    save(f"../model_output/python/python_projects_data_{last_start}.pickle", projects)
+    save(f"../model_output/{language}/{language}_projects_data_{last_start}.pickle", projects)
     reduce_interesting_data(projects)
-    save(f"../model_output/python/python_projects_data_{last_start}_reduced.pickle", projects)
+    save(f"../model_output/{language}/{language}_projects_data_{last_start}_reduced.pickle", projects)
 

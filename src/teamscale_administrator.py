@@ -36,11 +36,11 @@ def delete_projects(projects: [Project]):
 
 
 if __name__ == "__main__":
-    python_projects = load("../model_output/rust_projects.pickle")
+    python_projects = load("../model_output/python_projects.pickle")
     print("Total projects: {}".format(len(python_projects)))
-    # create_projects(python_projects[0:100]) TODO
+    # create_projects(python_projects[0:100])
     # create_projects(python_projects[100:200])
     # create_projects(python_projects[200:300])
     # create_projects(python_projects[300:400])
     # create_projects(python_projects[400:500])
-    # create_projects(rust_projects[500:])
+    # create_projects(python_projects[500:])

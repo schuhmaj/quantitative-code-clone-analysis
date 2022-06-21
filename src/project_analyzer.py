@@ -5,7 +5,7 @@ from model.project import Project, load
 COLOR_MAP = {
     "C/C++": "blue",
     "Java": "red",
-    "Python": "gold",
+    "Python": "green",
     "Go": "cyan",
     "Rust": "orange",
     "Kotlin": "magenta"
@@ -270,48 +270,30 @@ def plot_scatter_clone_coverage_issues(projects: [Project]):
 
 
 if __name__ == "__main__":
-    cpp_projects = []
-    for i in range(6):
-        print(f"Loading projects from {i * 100} to {(i + 1) * 100}")
-        suffix = i * 100
-        projects = load(f"../model_output/cpp/cpp_projects_data_{suffix}_reduced.pickle")
-        cpp_projects.extend(projects)
-    java_projects = []
-    for i in range(4):
-        print(f"Loading projects from {i * 100} to {(i + 1) * 100}")
-        suffix = i * 100
-        projects = load(f"../model_output/java/java_projects_data_{suffix}_reduced.pickle")
-        java_projects.extend(projects)
-    kotlin_projects = []
-    for i in range(6):
-        print(f"Loading projects from {i * 100} to {(i + 1) * 100}")
-        suffix = i * 100
-        projects = load(f"../model_output/kotlin/kotlin_projects_data_{suffix}_reduced.pickle")
-        kotlin_projects.extend(projects)
-    rust_projects = []
-    for i in range(9):
-        print(f"Loading projects from {i * 100} to {(i + 1) * 100}")
-        suffix = i * 100
-        projects = load(f"../model_output/rust/rust_projects_data_{suffix}_reduced.pickle")
-        rust_projects.extend(projects)
-    python_projects = []
-    for i in range(6):
-        print(f"Loading projects from {i * 100} to {(i + 1) * 100}")
-        suffix = i * 100
-        projects = load(f"../model_output/python/python_projects_data_{suffix}_reduced.pickle")
-        python_projects.extend(projects)
+    language_projects_dict = {
+        "cpp": [],
+        "java": [],
+        "kotlin": [],
+        "rust": [],
+        "python": []
+    }
+    for language, projects in language_projects_dict.items():
+        num = len(load(f"../model_output/{language}_projects.pickle"))
+        print(f"Loading {num} {language} projects")
+        for i in range(num // 100 + 1):
+            print(f"Loading {language} projects from {i * 100} to {(i + 1) * 100}")
+            suffix = i * 100
+            try:
+                projects_batch = load(f"../model_output/{language}/{language}_projects_data_{suffix}_reduced.pickle")
+            except:
+                print(f"../model_output/{language}/{language}_projects_data_{suffix}_reduced.pickle was not found!")
+            projects.extend(projects_batch)
+        language_projects_dict[language] = filter_none(projects)
 
-    cpp_projects = filter_none(cpp_projects)
-    java_projects = filter_none(java_projects)
-    kotlin_projects = filter_none(kotlin_projects)
-    rust_projects = filter_none(rust_projects)
-    python_projects = filter_none(python_projects)
-
-    total_projects = python_projects
+    total_projects = language_projects_dict["python"]
     plot_histogram_clone_coverage(total_projects)
     plot_scatter_clone_coverage_loc(total_projects)
     plot_scatter_clone_coverage_method_length(total_projects)
     plot_scatter_clone_coverage_doc(total_projects)
     plot_scatter_clone_coverage_issues(total_projects)
-
-    plot_scatter_clone_coverage_loc_m([cpp_projects, java_projects, kotlin_projects, rust_projects, python_projects])
+    plot_scatter_clone_coverage_loc_m(language_projects_dict.values())
