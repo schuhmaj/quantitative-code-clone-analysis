@@ -285,9 +285,9 @@ if __name__ == "__main__":
             suffix = i * 100
             try:
                 projects_batch = load(f"../model_output/{language}/{language}_projects_data_{suffix}_reduced.pickle")
+                projects.extend(projects_batch)
             except:
                 print(f"../model_output/{language}/{language}_projects_data_{suffix}_reduced.pickle was not found!")
-            projects.extend(projects_batch)
         language_projects_dict[language] = filter_none(projects)
 
     total_projects = language_projects_dict["python"]
