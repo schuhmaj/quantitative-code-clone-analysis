@@ -71,10 +71,10 @@ def reduce_interesting_data(projects: [Project]):
 
 if __name__ == "__main__":
     # Programming Language
-    language = "python"
+    language = "go"
 
     total_projects = load(f"../model_output/{language}_projects.pickle")
-    last_start = len(total_projects // 100) * 100
+    last_start = (len(total_projects) // 100) * 100
     for i in range(len(total_projects) // 100):
         start = i * 100
         end = (i + 1) * 100

@@ -275,7 +275,8 @@ if __name__ == "__main__":
         "java": [],
         "kotlin": [],
         "rust": [],
-        "python": []
+        "python": [],
+        "go": []
     }
     for language, projects in language_projects_dict.items():
         num = len(load(f"../model_output/{language}_projects.pickle"))
@@ -290,7 +291,7 @@ if __name__ == "__main__":
                 print(f"../model_output/{language}/{language}_projects_data_{suffix}_reduced.pickle was not found!")
         language_projects_dict[language] = filter_none(projects)
 
-    total_projects = language_projects_dict["python"]
+    total_projects = language_projects_dict["go"]
     plot_histogram_clone_coverage(total_projects)
     plot_scatter_clone_coverage_loc(total_projects)
     plot_scatter_clone_coverage_method_length(total_projects)

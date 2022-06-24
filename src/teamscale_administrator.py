@@ -38,13 +38,7 @@ def delete_projects(projects: [Project]):
 if __name__ == "__main__":
     go_projects = load("../model_output/go_projects.pickle")
     print("Total projects: {}".format(len(go_projects)))
-    # create_projects(go_projects[0:100]) TODO
-    # create_projects(go_projects[100:200])
-    # create_projects(go_projects[200:300])
-    # create_projects(go_projects[300:400])
-    # create_projects(go_projects[400:500])
-    # create_projects(go_projects[500:600])
-    # create_projects(go_projects[600:700])
-    # create_projects(go_projects[700:800])
-    # create_projects(go_projects[800:900])
-    # create_projects(go_projects[900:1000])
+    start_index = 2200
+    end_index = start_index + 100
+    print(f"Creating projects from id {start_index} to {end_index}")
+    create_projects(go_projects[start_index:])
