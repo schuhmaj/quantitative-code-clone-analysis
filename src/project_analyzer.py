@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from model.project import Project, load
+from scipy import stats
 
 COLOR_MAP = {
     "C/C++": "blue",
@@ -269,6 +270,19 @@ def plot_scatter_clone_coverage_issues(projects: [Project]):
     plt.close()
 
 
+def compare_statistically(projects_dict):
+    cpp_clone_coverage = np.array([p.get_clone_coverage() for p in projects_dict["cpp"]])
+    rust_clone_coverage = np.array([p.get_clone_coverage() for p in projects_dict["rust"]])
+    java_clone_coverage = np.array([p.get_clone_coverage() for p in projects_dict["java"]])
+    kotlin_clone_coverage = np.array([p.get_clone_coverage() for p in projects_dict["kotlin"]])
+
+    res = stats.cramervonmises_2samp(cpp_clone_coverage, rust_clone_coverage)
+    print(f"Result C/C++ vs. Rust: D={res.statistic} p={res.pvalue}")
+
+    res = stats.cramervonmises_2samp(java_clone_coverage, kotlin_clone_coverage)
+    print(f"Result Java vs. Kotlin: D={res.statistic} p={res.pvalue}")
+
+
 if __name__ == "__main__":
     language_projects_dict = {
         "cpp": [],
@@ -298,3 +312,4 @@ if __name__ == "__main__":
     plot_scatter_clone_coverage_doc(total_projects)
     plot_scatter_clone_coverage_issues(total_projects)
     plot_scatter_clone_coverage_loc_m(language_projects_dict.values())
+    compare_statistically(language_projects_dict)
