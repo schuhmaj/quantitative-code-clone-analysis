@@ -3,4 +3,14 @@
 \section{Related Work}
 \label{sec:related_work}
 
-Bow from code clone detectors in different programming languages to my topic
+In general, we can subdivide this section in two categories. Papers describing implicitly the phenomena of code clones if one uses certain programming languages and papers examining explicitly the correlation between certain languages and the appearance of code clones. This section will start with an overview before closing with closely related analyses.
+
+\subsection{Programming Language as Code Clone Constraints}
+
+Before describing how the choice of programming language can affect clones, we start with a brief overview on other reasons for clones. Here, first to mention are human factors like inadvertently or impatiently copying because time or understanding are missing. Missing abstraction and contrary the need to fulfill certain coupling and cohesion properties are also potential sources of generating code clones. The intention to minimize the risks when adopting new ideas in software are also driver for cloning code since this technique allows to keep errors through the introduced redundancy in just a single module \cite{cordy2003comprehending}. Further as time-to-market is critical, cloning can improve the speed of developing an early prototype, as analyzed by \cite{rajapakse2007using} for web-applications.
+
+Alongside these human and economic factors are standing "[t]echnology limitations" \cite{kasper2006cloning} like the utilization of a specific programming language.
+
+
+\subsection{Similar Analyses}
+
