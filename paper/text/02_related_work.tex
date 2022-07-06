@@ -5,12 +5,31 @@
 
 In general, we can subdivide this section in two categories. Papers describing implicitly the phenomena of code clones if one uses certain programming languages and papers examining explicitly the correlation between certain languages and the appearance of code clones. This section will start with an overview before closing with closely related analyses.
 
-\subsection{Programming Language as Code Clone Constraints}
+\subsection{Reasons for Code Clones}
 
-Before describing how the choice of programming language can affect clones, we start with a brief overview on other reasons for clones. Here, first to mention are human factors like inadvertently or impatiently copying because time or understanding are missing. Missing abstraction and contrary the need to fulfill certain coupling and cohesion properties are also potential sources of generating code clones. The intention to minimize the risks when adopting new ideas in software are also driver for cloning code since this technique allows to keep errors through the introduced redundancy in just a single module \cite{cordy2003comprehending}. Further as time-to-market is critical, cloning can improve the speed of developing an early prototype, as analyzed by \cite{rajapakse2007using} for web-applications.
+\subsubsection{Human \& Organizational Factors}
+
+Before describing how the choice of programming language can affect clones, we start with a brief overview on other reasons for clones. Here, first to mention are human factors like inadvertently or impatiently copying because time or understanding are missing. Missing abstraction and contrary the need to fulfill certain coupling and cohesion properties are also potential sources of generating code clones \cite{kasper2006cloning}.
+The intention to minimize the risks when adopting new ideas in software are also driver for cloning code since this technique allows to keep errors through the introduced redundancy in just a single module \cite{cordy2003comprehending}. Further as time-to-market is critical, cloning can improve the speed of developing an early prototype, as analyzed by \cite{rajapakse2007using} for web-applications.
+
+\subsubsection{Technological Factors}
 
 Alongside these human and economic factors are standing "[t]echnology limitations" \cite{kasper2006cloning} like the utilization of a specific programming language.
+Templating is major feature of modern programming languages like \texttt{C++}, in contrast languages like \texttt{C} do not offer any equivalent feature. Given a certain algorithm working with double precision in the \texttt{C} programming language, the developer is forced to copy the procedure and replace "\texttt{double}" with "\texttt{float}". Such "boiler-plating [is enforced only] due to language inexpressiveness" \cite{kasper2006cloning}.
+Another more idiomatic reason can...
+
+%TODO The paper is pretty good, so add more reasons if still "space"
 
 
 \subsection{Similar Analyses}
 
+This work will later present a comparison of clone coverage in different generation programming languages, but there are already some studies with a similar scope.
+
+\subsubsection{Code Clones in Build Systems}
+
+Once developer produced the different components of a large-scale software system, they typically need to be assembled together. This critical step usually accomplished with certain build systems like \texttt{Ant}, \texttt{Maven}, \texttt{Autotools} or \texttt{CMake} for respectively \texttt{Java} and \texttt{C/C++}. \cite{mcintosh2014collecting} compares these build systems with surprising results. As overall result, "build systems tend to have higher cloning rates than other software artifacts" \cite{mcintosh2014collecting}. 
+They conclude with the finding that, as opposed of what one might think, modern build systems like \texttt{CMake} and \texttt{Maven} have higher clone coverage then their older counterparts and the \texttt{C/C++} systems and vice-versa \texttt{Java} build systems have a higher clone coverage, in many cases more than $50\%$, than the respective \texttt{C/C++} counterparts.
+
+%TODO Maybe add some  more numbers? 
+
+\subsubsection{Comparison of Java \& Scale}
