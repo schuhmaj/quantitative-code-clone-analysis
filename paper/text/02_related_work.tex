@@ -3,7 +3,7 @@
 \section{Related Work}
 \label{sec:related_work}
 
-In general, we can subdivide this section in two categories. Papers describing implicitly the phenomena of code clones if one uses certain programming languages and papers examining explicitly the correlation between certain languages and the appearance of code clones. This section will start with an overview before closing with closely related analyses.
+In general, we can subdivide this section in two categories. First, existing works searching for the reasons for code clones in human, organizational and technological factors are examined and secondly, we focus on papers describing explicitly the correlation between certain languages and the appearance of code clones.
 
 \subsection{Reasons for Code Clones}
 
@@ -15,11 +15,10 @@ The intention to minimize the risks when adopting new ideas in software are also
 \subsubsection{Technological Factors}
 
 Alongside these human and economic factors are standing "[t]echnology limitations" \cite{kasper2006cloning} like the utilization of a specific programming language.
-Templating is major feature of modern programming languages like \texttt{C++}, in contrast languages like \texttt{C} do not offer any equivalent feature. Given a certain algorithm working with double precision in the \texttt{C} programming language, the developer is forced to copy the procedure and replace "\texttt{double}" with "\texttt{float}". Such "boiler-plating [is enforced only] due to language inexpressiveness" \cite{kasper2006cloning}.
-Another more idiomatic reason can...
-
-%TODO The paper is pretty good, so add more reasons if still "space"
-
+\textit{Templating} is major feature of modern programming languages like \texttt{C++}, in contrast languages like \texttt{C} do not offer any equivalent feature. Given a certain algorithm working with double precision in the \texttt{C} programming language, the developer is forced to copy the procedure and replace "\texttt{double}" with "\texttt{float}". Such "boiler-plating [is enforced only] due to language inexpressiveness" \cite{kasper2006cloning}. 
+Next to those more direct issues with Templating/ generalization in certain languages are keywords, standard library, and patterns how to fulfill certain tasks. For example, creating a \texttt{socket} and communicating with it varies and is different in each programming language - sometimes shorter, sometimes more lengthy, but usual there is one optimal way of doing it, so that possible exception (if the languages even has such a feature) or error codes are handled. These optimal sequences will then be often copy-and-pasted by developers \cite{kasper2006cloning}.
+Further next to \textit{templating}, Kasper et. al. \cite{kasper2006cloning} mentions \textit{customization} as reasons for duplication. Code ownership can make bug fixing difficult, only allowing the creation of a work-around by copying and improving the faulty lines. Further, they number the idiom of "replicate and specialize", in which developers clone code to specialize a solution rather than generalizing an existing an implementation.
+Lastly, Kasper et. al.  \cite{kasper2006cloning} describe \textit{exact matches}, in context of code clones, as a result of copying "semantic properties [of] otherwise unrelated functionality" \cite{kasper2006cloning} between methods like logging or debugging statements and reusing certain code structures like loops which are easier copied than implemented as reusable function.
 
 \subsection{Similar Analyses}
 
@@ -30,6 +29,6 @@ This work will later present a comparison of clone coverage in different generat
 Once developer produced the different components of a large-scale software system, they typically need to be assembled together. This critical step usually accomplished with certain build systems like \texttt{Ant}, \texttt{Maven}, \texttt{Autotools} or \texttt{CMake} for respectively \texttt{Java} and \texttt{C/C++}. \cite{mcintosh2014collecting} compares these build systems with surprising results. As overall result, "build systems tend to have higher cloning rates than other software artifacts" \cite{mcintosh2014collecting}. 
 They conclude with the finding that, as opposed of what one might think, modern build systems like \texttt{CMake} and \texttt{Maven} have higher clone coverage then their older counterparts and the \texttt{C/C++} systems and vice-versa \texttt{Java} build systems have a higher clone coverage, in many cases more than $50\%$, than the respective \texttt{C/C++} counterparts.
 
-%TODO Maybe add some  more numbers? 
+\subsubsection{Comparison of Java \& Scala}
 
-\subsubsection{Comparison of Java \& Scale}
+Jorge et. al. \cite{jorge2012impact} directly compares features of the two languages \texttt{Java} and \texttt{Scala} and studies how their language constructs correlate to code cloning. In their findings, they conclude that code duplication problems arise with higher probability if a language is more verbose, e.g. due to getters and setters, anonymous classes, constructors, and lacks (simple) abstraction capabilities. Properties which finally lead to more effort refactoring code than simply cloning a source code. \cite{jorge2012impact}
