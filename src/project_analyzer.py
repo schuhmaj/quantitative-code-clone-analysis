@@ -5,6 +5,7 @@ from scipy import stats
 
 COLOR_MAP = {
     "C/C++": "blue",
+    "C": "midnightblue",
     "Java": "red",
     "Python": "green",
     "Go": "cyan",
@@ -270,11 +271,16 @@ def plot_scatter_clone_coverage_issues(projects: [Project]):
     plt.close()
 
 
-def compare_statistically(projects_dict):
-    cpp_clone_coverage = np.array([p.get_clone_coverage() for p in projects_dict["cpp"]])
-    rust_clone_coverage = np.array([p.get_clone_coverage() for p in projects_dict["rust"]])
-    java_clone_coverage = np.array([p.get_clone_coverage() for p in projects_dict["java"]])
-    kotlin_clone_coverage = np.array([p.get_clone_coverage() for p in projects_dict["kotlin"]])
+def compare_statistically(projects_dict, min_sloc=0):
+    cpp_clone_coverage = np.array([p.get_clone_coverage() for p in projects_dict["cpp"] if p.get_sloc() > min_sloc])
+    c_clone_coverage = np.array([p.get_clone_coverage() for p in projects_dict["c"] if p.get_sloc() > min_sloc])
+    rust_clone_coverage = np.array([p.get_clone_coverage() for p in projects_dict["rust"] if p.get_sloc() > min_sloc])
+    java_clone_coverage = np.array([p.get_clone_coverage() for p in projects_dict["java"] if p.get_sloc() > min_sloc])
+    kotlin_clone_coverage = np.array(
+        [p.get_clone_coverage() for p in projects_dict["kotlin"] if p.get_sloc() > min_sloc])
+
+    res = stats.cramervonmises_2samp(c_clone_coverage, cpp_clone_coverage)
+    print(f"Result pure C vs. C/C++: D={res.statistic} p={res.pvalue}")
 
     res = stats.cramervonmises_2samp(cpp_clone_coverage, rust_clone_coverage)
     print(f"Result C/C++ vs. Rust: D={res.statistic} p={res.pvalue}")
@@ -286,6 +292,7 @@ def compare_statistically(projects_dict):
 if __name__ == "__main__":
     language_projects_dict = {
         "cpp": [],
+        "c": [],
         "java": [],
         "kotlin": [],
         "rust": [],
