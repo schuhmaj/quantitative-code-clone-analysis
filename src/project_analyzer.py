@@ -18,7 +18,7 @@ def filter_none(projects: [Project]) -> [Project]:
     return [p for p in projects if p.has_metrics()]
 
 
-def plot_histogram_clone_coverage(projects: [Project], minimum_sloc: int = 0):
+def plot_histogram_clone_coverage(projects: [Project], minimum_sloc: int = 0, suffix: str = ""):
     """
     Plots a histogram for the clone coverage
     Args:
@@ -35,7 +35,7 @@ def plot_histogram_clone_coverage(projects: [Project], minimum_sloc: int = 0):
     mean_clone_coverage = np.mean(clone_coverage)
     std_clone_coverage = np.std(clone_coverage)
 
-    fig, ax = plt.subplots(figsize=(6, 4))
+    fig, ax = plt.subplots(figsize=(5, 4))
 
     num_bins = 20
 
@@ -59,13 +59,12 @@ def plot_histogram_clone_coverage(projects: [Project], minimum_sloc: int = 0):
 
     ax.set_xlabel("Clone Coverage [%]")
     ax.set_ylabel("Number of Projects")
-    ax.set_title(
-        f"Clone Coverage Distribution for {language} ($N = {len(clone_coverage)}$ and $SLOC \geq {minimum_sloc}$)",
-        fontsize=10)
+    ax.set_title(f"Clone Coverage Distribution ($N = {len(clone_coverage)}$ and $SLOC \geq {minimum_sloc}$)",
+                 fontsize=11)
 
     # Tweak spacing to prevent clipping of ylabel
     fig.tight_layout()
-    plt.savefig("../plots/histogram", dpi=300)
+    plt.savefig(f"../plots/histogram{suffix}", dpi=300)
     plt.close()
 
 
