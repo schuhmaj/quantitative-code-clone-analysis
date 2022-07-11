@@ -3,4 +3,98 @@
 \section{Results}
 \label{sec:results}
 
-Present the plots and give some rough description of on them
+\autoref{fig:overview_results} plots the clone coverage in dependence to the project size, i.e. the \acl{sloc} and provides a good overview of the total results.
+
+In contrast, \autoref{fig:histo_all} shows the histograms of clone coverage for every examined programming language. Supplementary, \autoref{fig:histo_million} narrows this down to just presenting projects with more than one million \acl{sloc}.
+
+\begin{figure}[tbh!]
+	\centering
+	\includegraphics[width=\linewidth]{figures/results/scatter_clone_coverage_loc_m}
+	\caption{Clone Coverage depending on projects' \ac{sloc} with trend lines plotted}
+	\label{fig:overview_results}
+\end{figure}
+
+\begin{figure}[p]
+	\centering
+	\begin{subfigure}[t]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/results/c/histogram_all}
+		\caption{for pure \texttt{C}}
+		\label{fig:histo_all_c}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[t]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/results/cpp/histogram_all}
+		\caption{for \texttt{C/C++}}
+		\label{fig:histo_all_cpp}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/results/rust/histogram_all}
+		\caption{for \texttt{Rust}}
+		\label{fig:histo_all_rust}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/results/python/histogram_all}
+		\caption{for \texttt{Python}}
+		\label{fig:histo_all_python}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/results/java/histogram_all}
+		\caption{for \texttt{Java}}
+		\label{fig:histo_all_java}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/results/kotlin/histogram_all}
+		\caption{for \texttt{Kotlin}}
+		\label{fig:histo_all_kotlin}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/results/go/histogram_all}
+		\caption{for \texttt{Go}}
+		\label{fig:histo_all_go}
+	\end{subfigure}
+	\caption{Histograms of the clone coverage distribution for the seven examined programming languages containing all project. Each plot contains the mean value and the standard deviation.}
+	\label{fig:histo_all}
+\end{figure}
+
+
+\begin{figure}[p]
+	\centering
+	\begin{subfigure}[t]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/results/c/histogram_million}
+		\caption{for pure \texttt{C}}
+		\label{fig:histo_million_c}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[t]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/results/cpp/histogram_million_sloc}
+		\caption{for \texttt{C/C++}}
+		\label{fig:histo_million_cpp}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/results/rust/histogram_million}
+		\caption{for \texttt{Rust}}
+		\label{fig:histo_million_rust}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/results/python/histogram_million}
+		\caption{for \texttt{Python}}
+		\label{fig:histo_million_python}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/results/java/histogram_million}
+		\caption{for \texttt{Java}}
+		\label{fig:histo_million_java}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/results/kotlin/histogram_million}
+		\caption{for \texttt{Kotlin}}
+		\label{fig:histo_million_kotlin}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/results/go/histogram_million}
+		\caption{for \texttt{Go}}
+		\label{fig:histo_million_go}
+	\end{subfigure}
+	\caption{Histograms of the clone coverage distribution for the seven examined programming languages containing only projects with at least one million \ac{sloc}. Each plot contains the mean value and the standard deviation.}
+	\label{fig:histo_million}
+\end{figure}
