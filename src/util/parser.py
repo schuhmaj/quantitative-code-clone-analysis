@@ -37,5 +37,8 @@ def parse_git_repos(url: str):
 
     """
     resource = _get_resource(url)
+    # Depending on the file the regex needs to be adapted
+    # This solution works for all awesome lists examined in the paper, expect the 'C' file
+    # For 'C' use the following regex r"https://github.com/(\S*)" without braces
     git_repos = re.findall(r"\(https://github.com/(\S*)\)", resource)
     return [(repo_full_name.replace('/', '_'), repo_full_name) for repo_full_name in git_repos]

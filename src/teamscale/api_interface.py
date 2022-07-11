@@ -23,6 +23,9 @@ TEAMSCALE_LANGUAGE_SETTINGS = {
     "C/C++":
         ("**.cpp, **.cc, **.c, **.h, **.hh, **.hpp, **.cxx, **.hxx, **.inl, **.inc, **.architecture",
          ""),
+    "C":
+        ("**.cpp, **.cc, **.c, **.h, **.hh, **.hpp, **.cxx, **.hxx, **.inl, **.inc, **.architecture",
+         ""),
     "Rust":
         ("**.rs",
          ""),
@@ -90,6 +93,8 @@ def post_project_git(project: Project):
 
     """
     included_files, excluded_files = TEAMSCALE_LANGUAGE_SETTINGS[project.language]
+    # Fix for (pure) C not having its own default analysis mode (Workaround which gets the job done)
+    profile = project.language if project.language != "C" else "C/C++"
     response = requests.post(TEAMSCALE_REST_URL + f"projects",
                              auth=TEAMSCALE_AUTHENTICATION,
                              json={
@@ -97,7 +102,7 @@ def post_project_git(project: Project):
                                  "publicIds": [
                                      project.project_id
                                  ],
-                                 "profile": f"{project.language} (default)",
+                                 "profile": f"{profile} (default)",
                                  "connectors": [
                                      {
                                          "type": "Git",
