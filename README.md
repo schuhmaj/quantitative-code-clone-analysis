@@ -27,3 +27,11 @@ separately.
 **CAUTION!** Step 2 and 3 need to be executed with some spacing since _teamscale_
 needs time to analyze and process all the projects! So do not execute those scripts
 directly after each other. First make sure that _teamscale_ has finished!
+
+## Notes
+
+- If you want to run this locally, modify the `TEAMSCALE_*` and `GITHUB_ACCESS_TOKEN` variables
+  in the script to your needs. The variables are marked with an `TODO`
+- The pure `C` toolchain should use the `C/C++` toolchain, here one need to insert an if statement
+  temporarily changing the projects' language from `C` to `C/C++`
+  during the project creation with the `teamscale_administrator`

@@ -3,6 +3,7 @@ from requests.auth import HTTPBasicAuth
 import json
 from model.project import Project
 
+# TODO: Modify these according to your setup
 # The Base URL of the Teamscale client
 TEAMSCALE_BASE_URL = "http://192.168.2.104:8080/"
 # The API Suffix which is appended to the client BASE URL
