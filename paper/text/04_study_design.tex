@@ -16,14 +16,16 @@ In this section, the methodology and analysis process of the results of \autoref
 \end{figure}
 
 In this project, we generally analyzed $5224$ projects in seven different programming languages: pure \texttt{C}, \texttt{C/C++}, \texttt{Java}, \texttt{Kotlin}, \texttt{Rust}, \texttt{Python} and \texttt{Go}. These projects are all located on \textit{GitHub} and extracted from the corresponding \textit{awesome list}\awesomeFootnote{}. Those lists contain a curated list of recommendations for each programming language including frameworks and libraries for all kind of utility like testing, logging, etc.
-The lists are equal in content and structure, but not in size. Thereby, the $5224$ projects are not uniformly distributed, but rather some languages have a greater share. However, the analysis concentrates on the mean and standard deviation of the clone coverage (with respect to \ac{sloc}). Therewith, it is independent from the number of projects.
+The lists are equal in content and structure, but not in size. Thereby, the $5224$ projects are not uniformly distributed, but rather some languages have a greater share. However, the analysis concentrates on the mean and standard deviation of the clone coverage (with respect to \ac{sloc}). Therewith, it is independent from the number of projects, but rather requires comparability in terms of the actual projects' content.
 
 The analysis core relies on \teamscale{}\teamscaleFootnote{} for the examination of each project. \teamscale{} is a "Software Intelligence Platform" capable of analyzing and monitoring the properties of a software project including clone detection in a great variety of programming languages. The utilized version \texttt{8.0.5} provides a REST API through which these capabilities are accessible. The here presented toolchain uses this circumstance.
 
-The interaction of \teamscale{} with the two of the four components of the python script can be seen in \autoref{fig:overview_deployment}. \autoref{sec:implementation} presents those components in more detail.
+The interaction of \teamscale{} with the two of the four components of the Python script\gitFootnote{} can be seen in \autoref{fig:overview_deployment}. \autoref{sec:implementation} describes the Python script's components in more detail.
 
 \subsection{Implementation}
 \label{sec:implementation}
+
+The Python script consists of four components which need to be executed independently after one another. The whole procedure is demonstrated in \autoref{fig:overview_communication}.
 
 \begin{figure}[htb]
 	\centering
@@ -31,3 +33,19 @@ The interaction of \teamscale{} with the two of the four components of the pytho
 	\caption{Diagram showing every processing step in order and associated data flow}
 	\label{fig:overview_communication}
 \end{figure}
+
+\subsubsection{Project Extractor}
+
+The first components generally fetches the given \textit{awesome list} for programming language $X$ and extracts the \textit{GitHub} Repositories' Links. Further in validates, the existence of those repositories and finds out the latest revision and the name of the repositories default branch. The results \texttt{Project} objects are then serialized and stored in a \texttt{pickle} file which acts as persistent memory (compare \autoref{fig:overview_communication}).
+
+\subsubsection{Teamscale Administrator}
+
+The second component reads de-serializes the pickled file again to members of \texttt{Project} and creates these projects in \teamscale|{} with a \textit{GitConnector}\footnote{\url{https://docs.teamscale.com/reference/connector-options/}, last accessed: 11.07.2022}. Generally, this has been executed bit by bit with a batch size of $100$ \texttt{Projects} each to not overload the computer hosting \teamscale{}.
+
+\subsubsection{Teamscale Extractor}
+
+After \teamscale{} has finalized the analysis, the third component fetches the projects one by one with their respective ID and appends the analysis data to the \texttt{Project}. Again, the data is written to the persistent memory.
+
+\subsubsection{Project Analyzer}
+
+The last component reads the fully annotated projects and plots and statistically analyzes the results. Its results is presented in the \autoref{sec:results}.
