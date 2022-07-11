@@ -3,12 +3,18 @@
 \section{Research Question}
 \label{sec:research_question}
 
-After introducing the topic, the following research questions may arise which are covered in this work:
+\autoref{sec:reasons_for_code_clones} presented reasons how the choice of programming language can affect the number of code clones in a software project. \autoref{sec:similiar_analyses} showed recent findings in terms of a comparison between build systems and an actual fine-granular examination of \texttt{Java} and \texttt{Scala}.
+This paper builds on top of those results and examines the correlation of clone coverage in different programming languages in a quantitatively large-scale. Hereby, the following \ac{rq} are discussed on the remaining pages:
 
 \begin{enumerate}
 	\item Which programming languages suffer mostly from high clone coverage?
 	\item Do modern programming languages have lower clone coverage compared to older languages?
-	\item Can we infer that a simpler, less verbose programming language always leads to less code clones?
+	\begin{enumerate}
+		\item Does pure \texttt{C} generally have a higher clone coverage than \texttt{C/C++}?
+		\item Does \texttt{Rust} improve \texttt{C/C++} in terms of clone coverage?
+		\item Does \texttt{Kotlin} improve \texttt{Java} in terms of clone coverage?
+	\end{enumerate}
+	\item Can we infer that a simpler, less verbose, more modern programming language always leads to less code clones?
 \end{enumerate}
 
 Important to note is that a question analyzing the "Why?" is missing since the following case study relies on quantitatively measuring code clone coverage in thousands of projects by just examining the source code, but not concrete software engineering process, i.e. principles of those projects. Rather \autoref{sec:results} will show certain trends for specific programming languages which are then discussed based on the formulated research questions in \autoref{sec:discussion}.
