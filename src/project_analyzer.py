@@ -279,14 +279,17 @@ def compare_statistically(projects_dict, min_sloc=0):
     kotlin_clone_coverage = np.array(
         [p.get_clone_coverage() for p in projects_dict["kotlin"] if p.get_sloc() > min_sloc])
 
-    res = stats.cramervonmises_2samp(c_clone_coverage, cpp_clone_coverage)
-    print(f"Result pure C vs. C/C++: D={res.statistic} p={res.pvalue}")
+    statistic, pvalue = stats.ks_2samp(c_clone_coverage, cpp_clone_coverage)
+    print(f"Result pure C vs. C/C++: D={statistic} p={pvalue}")
 
-    res = stats.cramervonmises_2samp(cpp_clone_coverage, rust_clone_coverage)
-    print(f"Result C/C++ vs. Rust: D={res.statistic} p={res.pvalue}")
+    statistic, pvalue = stats.ks_2samp(cpp_clone_coverage, rust_clone_coverage)
+    print(f"Result C/C++ vs. Rust: D={statistic} p={pvalue}")
 
-    res = stats.cramervonmises_2samp(java_clone_coverage, kotlin_clone_coverage)
-    print(f"Result Java vs. Kotlin: D={res.statistic} p={res.pvalue}")
+    statistic, pvalue = stats.ks_2samp(java_clone_coverage, kotlin_clone_coverage)
+    print(f"Result Java vs. Kotlin: D={statistic} p={pvalue}")
+
+    statistic, pvalue = stats.ks_2samp(java_clone_coverage, cpp_clone_coverage)
+    print(f"Result Java vs. C/C++: D={statistic} p={pvalue}")
 
 
 if __name__ == "__main__":
@@ -319,4 +322,4 @@ if __name__ == "__main__":
     plot_scatter_clone_coverage_doc(total_projects)
     plot_scatter_clone_coverage_issues(total_projects)
     plot_scatter_clone_coverage_loc_m(language_projects_dict.values())
-    compare_statistically(language_projects_dict)
+    compare_statistically(language_projects_dict, 1000000)
