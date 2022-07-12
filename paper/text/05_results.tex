@@ -6,12 +6,9 @@
 This section now provides the results and a brief description of the previously presented study design. 
 
 
-A first overview is given in \autoref{fig:overview_results}, which scatter plots the clone coverage in dependence to the project size, i.e. the \acl{sloc}, for all analyzed projects. Further, the plot contains a trend line for each programming language in order to enable better comparability. These trend lines depict the mean value of clone coverage for every programming language until around $10^6$ of \ac{sloc} pretty close. Also, they clearly show that bigger projects tend to have a greater clone coverage.
+A first overview is given in \autoref{fig:overview_results}, which plots the clone coverage in dependence to the project size, i.e. the \acl{sloc}, for all analyzed projects. Further, the plot contains a trend line for each programming language in order to enable better comparability. These trend lines depict the mean value of clone coverage for every programming language until around $10^6$ of \ac{sloc} pretty close. Also, they clearly show that bigger projects tend to have a greater clone coverage.
 Nevertheless, the data far beyond $10^6$ \acl{sloc} should be taken with caution since for some programming languages since not enough data could be collected for this size regime. 
 \autoref{fig:overview_numbers} portrays this situation with the tick $10^6$ \ac{sloc} being marked since before $10^6$, we have at least 100 projects for every programming language, whereas languages like \texttt{Kotlin} and \texttt{Rust} only have small amounts of samples for e.g. more than $10^7$ \ac{sloc}.
-
-
-In contrast, \autoref{fig:histo_all} shows the histograms of clone coverage for every examined programming language. Supplementary, \autoref{fig:histo_million} narrows this down to just presenting projects with more than one million \acl{sloc}.
 
 \begin{figure}[tbh!]
 	\centering
@@ -26,6 +23,11 @@ In contrast, \autoref{fig:histo_all} shows the histograms of clone coverage for 
 	\caption{Complementary cumulative distribution function for the number of projects given a certain \ac{sloc} threshold}
 	\label{fig:overview_numbers}
 \end{figure}
+
+In contrast, \autoref{fig:histo_all} shows the histograms of code clone coverage for every examined programming language.
+
+
+Supplementary, \autoref{fig:histo_million} narrows this down to just presenting projects with more than one million \acl{sloc}. As previously mentioned, one million \ac{sloc} is the range where still enough data is present for some adequate evidence.
 
 \begin{figure}[p]
 	\centering
