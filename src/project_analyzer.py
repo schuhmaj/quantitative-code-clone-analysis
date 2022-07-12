@@ -2,6 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from model.project import Project, load
 from scipy import stats
+import itertools
+import collections
 
 COLOR_MAP = {
     "C/C++": "blue",
@@ -314,40 +316,65 @@ def plot_scatter_clone_coverage_issues(projects: [Project]):
     plt.close()
 
 
-def compare_statistically(projects_dict, alpha=0.05, alternative='two-sided', min_sloc=0):
-    cpp_clone_coverage = np.array([p.get_clone_coverage() for p in projects_dict["cpp"] if p.get_sloc() > min_sloc])
-    c_clone_coverage = np.array([p.get_clone_coverage() for p in projects_dict["c"] if p.get_sloc() > min_sloc])
-    rust_clone_coverage = np.array([p.get_clone_coverage() for p in projects_dict["rust"] if p.get_sloc() > min_sloc])
-    java_clone_coverage = np.array([p.get_clone_coverage() for p in projects_dict["java"] if p.get_sloc() > min_sloc])
-    kotlin_clone_coverage = np.array(
-        [p.get_clone_coverage() for p in projects_dict["kotlin"] if p.get_sloc() > min_sloc])
+def plot_mean_matrix(projects_dict, alpha=0.05, min_sloc=0):
+    pvalues = collections.defaultdict(dict)
+    for sample_1, sample_2 in itertools.permutations(projects_dict.keys(), 2):
+        statistic, pvalue_greater = compare_samples_statistically(sample_1, sample_2, projects_dict, alternative='greater', min_sloc=min_sloc)
+        statistic, pvalue_less = compare_samples_statistically(sample_1, sample_2, projects_dict, alternative='less', min_sloc=min_sloc)
+        if pvalue_greater < alpha:
+            print("Accept H_1: Greater")
+            pvalues[sample_1][sample_2] = 1
+        elif pvalue_less < alpha:
+            print("Accept H_1: Less")
+            pvalues[sample_1][sample_2] = -1
+        elif pvalue_greater > alpha and pvalue_less > alpha:
+            print("Accepting H_0: Equal")
+            pvalues[sample_1][sample_2] = 0
+        else:
+            print("Weird issue!!!!")
+            pvalues[sample_1][sample_2] = 42
 
-    statistic, pvalue = stats.ttest_ind(c_clone_coverage, cpp_clone_coverage, equal_var=False, alternative=alternative)
+    print("Done")
+
+
+
+def compare_samples_statistically(
+        sample_1, sample_2, projects_dict, alternative='two-sided', permutations=None, min_sloc=0):
+    sample_1_coverage = np.array([p.get_clone_coverage() for p in projects_dict[sample_1] if p.get_sloc() > min_sloc])
+    sample_2_coverage = np.array([p.get_clone_coverage() for p in projects_dict[sample_2] if p.get_sloc() > min_sloc])
+
+    statistic, pvalue = stats.ttest_ind(sample_1_coverage, sample_2_coverage, equal_var=False, alternative=alternative,
+                                        permutations=permutations)
+    return statistic, pvalue
+
+
+def compare_statistically(projects_dict, alpha=0.05, alternative='two-sided', permutations=None, min_sloc=0):
+    statistic, pvalue = \
+        compare_samples_statistically("c", "cpp", projects_dict, alternative, permutations, min_sloc)
     print(f"Result pure C vs. C/C++: D={statistic} p={pvalue}")
     if pvalue > alpha:
         print("Accept H_0: Equal distributions")
     else:
         print(f"Accept H_1: {alternative}")
 
-    statistic, pvalue = stats.ttest_ind(cpp_clone_coverage, rust_clone_coverage, equal_var=False,
-                                        alternative=alternative)
+    statistic, pvalue = \
+        compare_samples_statistically("cpp", "rust", projects_dict, alternative, permutations, min_sloc)
     print(f"Result C/C++ vs. Rust: D={statistic} p={pvalue}")
     if pvalue > alpha:
         print("Accept H_0: Equal distributions")
     else:
         print(f"Accept H_1: {alternative}")
 
-    statistic, pvalue = stats.ttest_ind(java_clone_coverage, kotlin_clone_coverage, equal_var=False,
-                                        alternative=alternative)
+    compare_samples_statistically("java", "kotlin", projects_dict, alternative, permutations, min_sloc)
     print(f"Result Java vs. Kotlin: D={statistic} p={pvalue}")
     if pvalue > alpha:
         print("Accept H_0: Equal distributions")
     else:
         print(f"Accept H_1: {alternative}")
 
-    statistic, pvalue = stats.ttest_ind(java_clone_coverage, cpp_clone_coverage, equal_var=False,
-                                        alternative=alternative)
-    print(f"Result Java vs. C/C++: D={statistic} p={pvalue}")
+    statistic, pvalue = \
+        compare_samples_statistically("cpp", "java", projects_dict, alternative, permutations, min_sloc)
+    print(f"Result C/C++ vs. Java: D={statistic} p={pvalue}")
     if pvalue > alpha:
         print("Accept H_0: Equal distributions")
     else:
@@ -385,4 +412,5 @@ if __name__ == "__main__":
     plot_scatter_clone_coverage_issues(total_projects)
     plot_scatter_clone_coverage_loc_m(language_projects_dict.values())
     plot_number_of_projects(language_projects_dict.values())
-    compare_statistically(language_projects_dict, min_sloc=1000000, alternative='greater')
+    compare_statistically(language_projects_dict, min_sloc=0, alternative='greater', permutations=None)
+    plot_mean_matrix(language_projects_dict, min_sloc=0)
