@@ -149,6 +149,50 @@ def plot_scatter_clone_coverage_loc_m(projects_lists: [[Project]]):
     plt.close()
 
 
+def plot_number_of_projects(projects_lists: [[Project]]):
+    """
+    Plots the number of projects depending on the size
+    Args:
+        projects_lists: list of projects
+
+    Returns:
+        void
+
+    """
+    fig, ax = plt.subplots(figsize=(6, 4))
+    for projects in projects_lists:
+        source_lines_of_code = np.array([p.get_sloc() for p in projects])
+        color = COLOR_MAP[projects[0].language]
+        language = projects[0].language
+
+        values, base = np.histogram(source_lines_of_code, bins=np.logspace(0, 9, 100))
+        cumulative = np.cumsum(values)
+
+        # the histogram of the data
+        ax.plot(base[:-1], len(source_lines_of_code)-cumulative, color=color, label=language)
+
+    ax.axvline(10e5, ymin=-1, color='k', linestyle='dashed', linewidth=1.5)
+
+    ax.hlines(y=100, xmin=0, xmax=10e8, color='k', linestyles='dashed', linewidth=1.5)
+
+    ax.set_xscale("log")
+    ax.set_yscale("log")
+    ax.set_xlim(10e8)
+    ax.set_xticks(np.logspace(0, 9, 10))
+
+    ax.legend(loc='lower left')
+
+    ax.set_xlabel("Source Lines of Code")
+    ax.set_ylabel("Number of projects")
+
+    ax.set_title(f"Complementary cumulative distribution function ($N_{{total}} = {sum([len(p) for p in projects_lists])})$")
+
+    # Tweak spacing to prevent clipping of ylabel
+    fig.tight_layout()
+    plt.savefig("../plots/number", dpi=300)
+    plt.close()
+
+
 def plot_scatter_clone_coverage_method_length(projects: [Project]):
     """
     Plots the clone coverage in relation to method length assessment
@@ -270,7 +314,7 @@ def plot_scatter_clone_coverage_issues(projects: [Project]):
     plt.close()
 
 
-def compare_statistically(projects_dict, min_sloc=0):
+def compare_statistically(projects_dict, alpha=0.05, alternative='two-sided', min_sloc=0):
     cpp_clone_coverage = np.array([p.get_clone_coverage() for p in projects_dict["cpp"] if p.get_sloc() > min_sloc])
     c_clone_coverage = np.array([p.get_clone_coverage() for p in projects_dict["c"] if p.get_sloc() > min_sloc])
     rust_clone_coverage = np.array([p.get_clone_coverage() for p in projects_dict["rust"] if p.get_sloc() > min_sloc])
@@ -278,17 +322,36 @@ def compare_statistically(projects_dict, min_sloc=0):
     kotlin_clone_coverage = np.array(
         [p.get_clone_coverage() for p in projects_dict["kotlin"] if p.get_sloc() > min_sloc])
 
-    statistic, pvalue = stats.ks_2samp(c_clone_coverage, cpp_clone_coverage)
+    statistic, pvalue = stats.ttest_ind(c_clone_coverage, cpp_clone_coverage, equal_var=True, alternative=alternative)
     print(f"Result pure C vs. C/C++: D={statistic} p={pvalue}")
+    if pvalue > alpha:
+        print("Accept H_0: Equal distributions")
+    else:
+        print(f"Accept H_1: {alternative}")
 
-    statistic, pvalue = stats.ks_2samp(cpp_clone_coverage, rust_clone_coverage)
+    statistic, pvalue = stats.ttest_ind(cpp_clone_coverage, rust_clone_coverage, equal_var=True,
+                                        alternative=alternative)
     print(f"Result C/C++ vs. Rust: D={statistic} p={pvalue}")
+    if pvalue > alpha:
+        print("Accept H_0: Equal distributions")
+    else:
+        print(f"Accept H_1: {alternative}")
 
-    statistic, pvalue = stats.ks_2samp(java_clone_coverage, kotlin_clone_coverage)
+    statistic, pvalue = stats.ttest_ind(java_clone_coverage, kotlin_clone_coverage, equal_var=True,
+                                        alternative=alternative)
     print(f"Result Java vs. Kotlin: D={statistic} p={pvalue}")
+    if pvalue > alpha:
+        print("Accept H_0: Equal distributions")
+    else:
+        print(f"Accept H_1: {alternative}")
 
-    statistic, pvalue = stats.ks_2samp(java_clone_coverage, cpp_clone_coverage)
+    statistic, pvalue = stats.ttest_ind(java_clone_coverage, cpp_clone_coverage, equal_var=True,
+                                        alternative=alternative)
     print(f"Result Java vs. C/C++: D={statistic} p={pvalue}")
+    if pvalue > alpha:
+        print("Accept H_0: Equal distributions")
+    else:
+        print(f"Accept H_1: {alternative}")
 
 
 if __name__ == "__main__":
@@ -321,4 +384,5 @@ if __name__ == "__main__":
     plot_scatter_clone_coverage_doc(total_projects)
     plot_scatter_clone_coverage_issues(total_projects)
     plot_scatter_clone_coverage_loc_m(language_projects_dict.values())
-    compare_statistically(language_projects_dict, 1000000)
+    plot_number_of_projects(language_projects_dict.values())
+    compare_statistically(language_projects_dict, min_sloc=1000000, alternative='greater')
