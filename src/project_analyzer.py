@@ -322,14 +322,14 @@ def compare_statistically(projects_dict, alpha=0.05, alternative='two-sided', mi
     kotlin_clone_coverage = np.array(
         [p.get_clone_coverage() for p in projects_dict["kotlin"] if p.get_sloc() > min_sloc])
 
-    statistic, pvalue = stats.ttest_ind(c_clone_coverage, cpp_clone_coverage, equal_var=True, alternative=alternative)
+    statistic, pvalue = stats.ttest_ind(c_clone_coverage, cpp_clone_coverage, equal_var=False, alternative=alternative)
     print(f"Result pure C vs. C/C++: D={statistic} p={pvalue}")
     if pvalue > alpha:
         print("Accept H_0: Equal distributions")
     else:
         print(f"Accept H_1: {alternative}")
 
-    statistic, pvalue = stats.ttest_ind(cpp_clone_coverage, rust_clone_coverage, equal_var=True,
+    statistic, pvalue = stats.ttest_ind(cpp_clone_coverage, rust_clone_coverage, equal_var=False,
                                         alternative=alternative)
     print(f"Result C/C++ vs. Rust: D={statistic} p={pvalue}")
     if pvalue > alpha:
@@ -337,7 +337,7 @@ def compare_statistically(projects_dict, alpha=0.05, alternative='two-sided', mi
     else:
         print(f"Accept H_1: {alternative}")
 
-    statistic, pvalue = stats.ttest_ind(java_clone_coverage, kotlin_clone_coverage, equal_var=True,
+    statistic, pvalue = stats.ttest_ind(java_clone_coverage, kotlin_clone_coverage, equal_var=False,
                                         alternative=alternative)
     print(f"Result Java vs. Kotlin: D={statistic} p={pvalue}")
     if pvalue > alpha:
@@ -345,7 +345,7 @@ def compare_statistically(projects_dict, alpha=0.05, alternative='two-sided', mi
     else:
         print(f"Accept H_1: {alternative}")
 
-    statistic, pvalue = stats.ttest_ind(java_clone_coverage, cpp_clone_coverage, equal_var=True,
+    statistic, pvalue = stats.ttest_ind(java_clone_coverage, cpp_clone_coverage, equal_var=False,
                                         alternative=alternative)
     print(f"Result Java vs. C/C++: D={statistic} p={pvalue}")
     if pvalue > alpha:
