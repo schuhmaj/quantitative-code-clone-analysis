@@ -5,11 +5,6 @@
 
 This section now provides the results and a brief description of the previously presented study design. 
 
-
-A first overview is given in \autoref{fig:overview_results}, which plots the clone coverage in dependence to the project size, i.e. the \acl{sloc}, for all analyzed projects. Further, the plot contains a trend line for each programming language in order to enable better comparability. These trend lines depict the mean value of clone coverage for every programming language until around $10^6$ of \ac{sloc} pretty close. Also, they clearly show that bigger projects tend to have a greater clone coverage.
-Nevertheless, the data far beyond $10^6$ \acl{sloc} should be taken with caution since for some programming languages since not enough data could be collected for this size regime. 
-\autoref{fig:overview_numbers} portrays this situation with the tick $10^6$ \ac{sloc} being marked since before $10^6$, we have at least 100 projects for every programming language, whereas languages like \texttt{Kotlin} and \texttt{Rust} only have small amounts of samples for e.g. more than $10^7$ \ac{sloc}.
-
 \begin{figure}[tbh!]
 	\centering
 	\includegraphics[width=0.85\linewidth]{figures/results/scatter_clone_coverage_loc_m}
@@ -24,10 +19,35 @@ Nevertheless, the data far beyond $10^6$ \acl{sloc} should be taken with caution
 	\label{fig:overview_numbers}
 \end{figure}
 
-In contrast, \autoref{fig:histo_all} shows the histograms of code clone coverage for every examined programming language.
+A first overview is given in \autoref{fig:overview_results}, which plots the clone coverage in dependence to the project size, i.e. the \acl{sloc}, for all analyzed projects. Further, the plot contains a trend line for each programming language in order to enable better comparability. These trend lines depict the mean value of clone coverage for every programming language until around $10^6$ of \ac{sloc} pretty close. Also, they clearly show that bigger projects tend to have a greater clone coverage.
+Nevertheless, the data far beyond $10^6$ \acl{sloc} should be taken with caution since for some programming languages since not enough data could be collected for this size regime. 
+\autoref{fig:overview_numbers} portrays this situation with the tick $10^6$ \ac{sloc} being marked since before $10^6$, we have at least 100 projects for every programming language, whereas languages like \texttt{Kotlin} and \texttt{Rust} only have small amounts of samples for e.g. more than $10^7$ \ac{sloc}.
 
 
-Supplementary, \autoref{fig:histo_million} narrows this down to just presenting projects with more than one million \acl{sloc}. As previously mentioned, one million \ac{sloc} is the range where still enough data is present for some adequate evidence.
+\autoref{fig:histo_all} extends the information of \autoref{fig:overview_results} by giving the exact distributions, as well as, the mean and standard deviation values for every programming language. Supplementary, \autoref{fig:histo_million} narrows this down to just presenting projects with more than one million \acl{sloc}. As previously mentioned, one million \ac{sloc} is the range where still enough data is present for some adequate evidence.
+
+\begin{table}[tbh!]
+	\centering
+	\begin{tabular}{|cc||c|c||c|c|}
+		\hline
+		\multicolumn{2}{|c|}{Samples} & \multicolumn{2}{|c|}{$SLOC \geq 0$} & \multicolumn{2}{|c|}{$SLOC \geq 1000000$}  \\
+		\multicolumn{2}{|c|}{from} & \multicolumn{1}{c}{$t$ statistic} & \multicolumn{1}{c|}{$p$ value} & \multicolumn{1}{c}{$t$ statistic} & $p$ value \\
+		\hline
+		\hline
+		C & C/C++ & $-1.021$ & $0.846$ & $1.105$ & $0.135$ \\
+		\hline
+		\hline
+		C/C++ & Rust & $9.936$ & $1.517 \cdot 10^{-22}$ & $6.612$ & $3.957 \cdot 10^{-11}$ \\
+		\hline
+		Java & Kotlin & $5.946$ & $2.264 \cdot 10^{-9}$ & $2.500$ & $0.006$ \\
+		\hline
+		\hline
+		C/C++ & Java & $0.720$ & $0.236$ & $0.643$ & $0.260$ \\
+		\hline
+	\end{tabular}
+	\caption{Results of two sample T-tests with $H_0$ being that the means of the two underlying distributions are equal and $H_1$ that the mean of the first distribution is greater than the mean of the second sample.}
+	\label{tab:stat_test}
+\end{table}
 
 \begin{figure}[p]
 	\centering
