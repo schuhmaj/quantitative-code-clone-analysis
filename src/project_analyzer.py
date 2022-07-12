@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.colors
 import matplotlib.pyplot as plt
 from model.project import Project, load
 from scipy import stats
@@ -13,6 +14,16 @@ COLOR_MAP = {
     "Go": "cyan",
     "Rust": "orange",
     "Kotlin": "magenta"
+}
+
+LABEL_MAP = {
+    "cpp": "C/C++",
+    "c": "C",
+    "java": "Java",
+    "python": "Python",
+    "go": "Go",
+    "rust": "Rust",
+    "kotlin": "Kotlin"
 }
 
 
@@ -317,29 +328,81 @@ def plot_scatter_clone_coverage_issues(projects: [Project]):
 
 
 def plot_mean_matrix(projects_dict, alpha=0.05, min_sloc=0):
+    """
+    Plots a matrix comparing the mean values
+    Args:
+        projects_dict: dictionary of list of projects
+        alpha: for the t test
+        min_sloc: minimal SLOC
+
+    Returns:
+        void
+
+    """
     pvalues = collections.defaultdict(dict)
-    for sample_1, sample_2 in itertools.permutations(projects_dict.keys(), 2):
+    for sample_1, sample_2 in itertools.product(projects_dict.keys(), repeat=2):
+        if sample_1 == sample_2:
+            pvalues[sample_1][sample_2] = 42
+            continue
         statistic, pvalue_greater = compare_samples_statistically(sample_1, sample_2, projects_dict, alternative='greater', min_sloc=min_sloc)
         statistic, pvalue_less = compare_samples_statistically(sample_1, sample_2, projects_dict, alternative='less', min_sloc=min_sloc)
         if pvalue_greater < alpha:
-            print("Accept H_1: Greater")
+            # print("Accept H_1: Greater")
             pvalues[sample_1][sample_2] = 1
         elif pvalue_less < alpha:
-            print("Accept H_1: Less")
+            # print("Accept H_1: Less")
             pvalues[sample_1][sample_2] = -1
         elif pvalue_greater > alpha and pvalue_less > alpha:
-            print("Accepting H_0: Equal")
+            # print("Accepting H_0: Equal")
             pvalues[sample_1][sample_2] = 0
         else:
-            print("Weird issue!!!!")
-            pvalues[sample_1][sample_2] = 42
+            # print("Weird issue!!!!")
+            raise Exception("Weird value calculated! Investigate!")
 
-    print("Done")
+    matrix = np.array([[pvalues[s1][s2] for s2 in pvalues[s1]] for s1 in pvalues])
 
+    cvals = [-1, 0, 1, 42]
+    colors = ["green", "yellow", "red", "black"]
+
+    norm = plt.Normalize(min(cvals), max(cvals))
+    tuples = list(zip(map(norm, cvals), colors))
+    cmap = matplotlib.colors.LinearSegmentedColormap.from_list("", tuples)
+
+    fig, ax = plt.subplots(figsize=(5, 5))
+
+    plt.imshow(matrix, interpolation='none', cmap=cmap)
+    labels = [LABEL_MAP[key] for key in projects_dict.keys()]
+    plt.xticks(range(len(labels)), labels, fontsize=12)
+    plt.yticks(range(len(labels)), labels, fontsize=12)
+
+    # ax.legend()
+
+    ax.set_xlabel("Sample 2")
+    ax.set_ylabel("Sample 1")
+    ax.set_title(f"Code Clone Coverage Mean Values Compared")
+
+    # Tweak spacing to prevent clipping of ylabel
+    fig.tight_layout()
+    plt.savefig(f"../plots/comparison", dpi=300)
+    plt.close()
 
 
 def compare_samples_statistically(
         sample_1, sample_2, projects_dict, alternative='two-sided', permutations=None, min_sloc=0):
+    """
+    Computes the t-statistic and p value for two distributions
+    Args:
+        sample_1: first sample name
+        sample_2: second sample name
+        projects_dict: dictionary of list of projects
+        alternative: the alternative hypothesis H_1
+        permutations: use instead a permutation test if given and not None
+        min_sloc: minimal SLOC
+
+    Returns:
+        t-statistic, p-value
+
+    """
     sample_1_coverage = np.array([p.get_clone_coverage() for p in projects_dict[sample_1] if p.get_sloc() > min_sloc])
     sample_2_coverage = np.array([p.get_clone_coverage() for p in projects_dict[sample_2] if p.get_sloc() > min_sloc])
 
@@ -349,6 +412,19 @@ def compare_samples_statistically(
 
 
 def compare_statistically(projects_dict, alpha=0.05, alternative='two-sided', permutations=None, min_sloc=0):
+    """
+    Calculates the t statistic and p value for some distributions of interest
+    Args:
+        projects_dict: dict of lists of projects
+        alpha: significant niveau
+        alternative: H_1
+        permutations: use instead a permutation test
+        min_sloc: minimal SLOC
+
+    Returns:
+        void
+
+    """
     statistic, pvalue = \
         compare_samples_statistically("c", "cpp", projects_dict, alternative, permutations, min_sloc)
     print(f"Result pure C vs. C/C++: D={statistic} p={pvalue}")
