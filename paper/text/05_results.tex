@@ -56,12 +56,6 @@ Lastly, \texttt{C/C++} and \texttt{Java} are compared with the result of no sign
 	\label{tab:stat_test}
 \end{table}
 
-Overall, \autoref{fig:matrix_comp} lists all possible pairings of examined programming languages and depicts which one performs significantly better than its companion. \autoref{fig:matrix_comp} complements \refrq{question:comparing_age} by giving answer to the top-level \ac{rq} and gives a clear answer for \refrq{question:clone_coverage_lowest}.
-\autoref{fig:matrix_comp} clearly depicts that \texttt{Python} always performs better in terms of mean code clone coverage than any other programming language independent from the applied filter for \aclp{sloc}. So  \refrq{question:clone_coverage_lowest}'s answer is \texttt{Python}, which was first released in 1991\footnote{\url{https://en.wikipedia.org/wiki/Python_(programming_language)}, lasted accessed: 13.07.2022}.
-This fact also implies that newer generation programming languages do not necessarily have lower code clone coverage than older programming languages. The fact that \texttt{Go} behaves in terms of mean code clone coverage similarly to \texttt{C/C++} and \texttt{Java} supports this circumstance, even if it first appeared in 2009\footnote{\url{https://en.wikipedia.org/wiki/Go_(programming_language)}, last accessed: 13.07.2022}.
-
-However, fully answering \refrq{question:comparing_age} with no, would be short-sighted, as the direct competitors \texttt{Rust} and \texttt{Kotlin} perform better than \texttt{C/C++} and \texttt{Java}. These discoveries are broadly discussed in \autoref{sec:discussion}.
-
 \begin{figure}[tbh!]
 	\centering
 	\begin{subfigure}[t]{0.49\textwidth}
@@ -78,6 +72,12 @@ However, fully answering \refrq{question:comparing_age} with no, would be short-
 	\caption{Matrix comparison which programming languages has significantly lower mean clone coverage (green), equal mean clone coverage (yellow) and higher mean clone coverage (red) with an $\alpha=5\%$. The comparison is performed by using Welch's $t$-tests. The matrix is read in the following fashion: "Sample 1 performs better/neutral/worse than Sample 2".}
 	\label{fig:matrix_comp}
 \end{figure}
+
+Overall, \autoref{fig:matrix_comp} lists all possible pairings of examined programming languages and depicts which one performs significantly better than its companion. \autoref{fig:matrix_comp} complements \refrq{question:comparing_age} by giving answer to the top-level \ac{rq} and gives a clear answer for \refrq{question:clone_coverage_lowest}.
+\autoref{fig:matrix_comp} clearly depicts that \texttt{Python} always performs better in terms of mean code clone coverage than any other programming language independent from the applied filter for \aclp{sloc}. So  \refrq{question:clone_coverage_lowest}'s answer is \texttt{Python}, which was first released in 1991\footnote{\url{https://en.wikipedia.org/wiki/Python_(programming_language)}, lasted accessed: 13.07.2022}.
+This fact also implies that newer generation programming languages do not necessarily have lower code clone coverage than older programming languages. The fact that \texttt{Go} behaves in terms of mean code clone coverage similarly to \texttt{C/C++} and \texttt{Java} supports this circumstance, even if it first appeared in 2009\footnote{\url{https://en.wikipedia.org/wiki/Go_(programming_language)}, last accessed: 13.07.2022}.
+
+However, fully answering \refrq{question:comparing_age} with no, would be short-sighted, as the direct competitors \texttt{Rust} and \texttt{Kotlin} perform better than \texttt{C/C++} and \texttt{Java}. These discoveries are broadly discussed in \autoref{sec:discussion}.
 
 \begin{figure}[p]
 	\centering

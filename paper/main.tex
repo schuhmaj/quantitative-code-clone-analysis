@@ -16,7 +16,9 @@
 \usepackage{subcaption}
 \usepackage{multirow}
 \usepackage{array}
-
+\usepackage{float}
+% Keep the floats (figures) inside their respective sections
+\usepackage[section]{placeins}
 
 
 % Capitalize autoref{..}
@@ -73,7 +75,10 @@ Technical University of Munich\\
 \begin{abstract}
 The abstract should briefly summarize the contents of the paper in
 15--250 words.
-%TODO
+As code cloning is server problem for maintenance of large-scale software projects and negatively impacts quality, further investigations about its appearance are necessary. Generally, multiple factors are leading to code duplication among them organizational, economical and technological factors like the choice of programming language which strongly affects what code is fabricated or rather reusable.
+This work proposes a toolchain for evaluating the code clone coverage in thousands of software projects in different generation programming languages: C, C/C++, Java, Kotlin, Rust, Python and Go. The toolchain uses \teamscale{}, an industry software solution for continuous analyzation and monitoring of code quality metrics.
+As a result, we found strong empirical evidence that Python, Rust and Kotlin project’s mean clone coverage was significantly lower than those of C, C/C++, Java and Go for large projects with at least one million Source Lines of Code.
+
 \keywords{Code Clone  \and Frequency \and Programming Language.}
 \end{abstract}
 %
