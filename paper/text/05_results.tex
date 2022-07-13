@@ -27,7 +27,9 @@ Nevertheless, the data far beyond $10^6$ \acl{sloc} should be taken with caution
 
 Supplementary to the total distribution, \autoref{fig:histo_million} narrows this down to just presenting projects with more than one million \acl{sloc}. As previously mentioned, one million \ac{sloc} is the range where still enough data is present for some adequate evidence. These projects are also more expressive due to their sheer size. The general observations still holds, with one exception: \texttt{Go} performs far worse. Further as already perceived in \autoref{fig:overview_results}, all languages have greater mean values overall.
 
-Since the pure observation is not sufficient for answering the \aclp{rq} precisely, the two-sample Welch's $t$-test is used to determine if the differences in clone coverage mean values are significant. This test assumes that the sample mean values are distributed normally which holds due to the Central Limit Theorem \cite{shafer2022introductory}. In contrast to Student's $t$-test it allows unequal variances, which exist here. \autoref{tab:stat_test} shows the calculated $t$ statistics and $p$ values for four scenarios. With a level of significance of $\alpha = 5\%$, \texttt{C} and \texttt{C/C++} mean values are not significantly different since $p > \alpha$ leads to acceptance of $H_0$: equal means. This circumstance answers \refrq{question:compare_c_cpp} with no. The next two rows answer \refrq{question:compare_rust_c} and \refrq{question:compare_kotlin_java}. In both cases are the mean values significantly different, which leads to rejection of $H_0$ and acceptance of $H_1$: \texttt{C/C++} and \texttt{Java} have on average a significantly higher mean clone coverage than respectively \texttt{Rust} and \texttt{Kotlin}. So both questions can be answered with "yes".
+Since the pure observation is not sufficient for answering the \aclp{rq} precisely, the two-sample Welch's $t$-test is used to determine if the differences in clone coverage mean values are significant. This test assumes that the sample mean values are distributed normally which holds due to the Central Limit Theorem \cite{shafer2022introductory}. In contrast to Student's $t$-test it allows unequal variances, which exist here. \autoref{tab:stat_test} shows the calculated $t$ statistics and $p$ values for four scenarios. With a level of significance of $\alpha = 5\%$, \texttt{C} and \texttt{C/C++} mean values are not significantly different since $p > \alpha$ leads to acceptance of $H_0$: equal means. This circumstance answers \refrq{question:compare_c_cpp} with no.
+
+The next two rows answer \refrq{question:compare_rust_c} and \refrq{question:compare_kotlin_java}. In both cases are the mean values significantly different, which leads to rejection of $H_0$ and acceptance of $H_1$: \texttt{C/C++} and \texttt{Java} have on average a significantly higher mean clone coverage than respectively \texttt{Rust} and \texttt{Kotlin}. So both questions can be answered with "yes".
 Lastly, \texttt{C/C++} and \texttt{Java} are compared with the result of no significant difference in the mean values for $\alpha = 5\%$.
 
 \begin{table}[tbh!]
@@ -53,26 +55,11 @@ Lastly, \texttt{C/C++} and \texttt{Java} are compared with the result of no sign
 	\label{tab:stat_test}
 \end{table}
 
-Overall, \autoref{fig:matrix_comp} lists all possible pairings of examined programming languages and depicts which one performs significantly better than its companion. \autoref{fig:matrix_comp_million} answers \refrq{question:comparing_age}. It shows that the newer programming languages like
+Overall, \autoref{fig:matrix_comp} lists all possible pairings of examined programming languages and depicts which one performs significantly better than its companion. \autoref{fig:matrix_comp} complements \refrq{question:comparing_age} by giving answer to the top-level \ac{rq} and gives a clear answer for \refrq{question:clone_coverage_lowest}.
+\autoref{fig:matrix_comp} clearly depicts that \texttt{Python} always performs better in terms of mean code clone coverage than any other programming language independent from the applied filter for \aclp{sloc}. So  \refrq{question:clone_coverage_lowest}'s answer is \texttt{Python}, which was first released in 1991\footnote{\url{https://en.wikipedia.org/wiki/Python_(programming_language)}, lasted accessed: 13.07.2022}.
+This fact also implies that newer generation programming languages do not necessarily have lower code clone coverage than older programming languages. The fact that \texttt{Go} behaves in terms of mean code clone coverage similarly to \texttt{C/C++} and \texttt{Java} supports this circumstance, even if it first appeared in 2009\footnote{\url{https://en.wikipedia.org/wiki/Go_(programming_language)}, last accessed: 13.07.2022}.
 
-
-The number of a programming language's keywords can be utilized to measure the complexity to learn and fully understand a language. \autoref{tab:keyword_number} shows the number of keywords for every examined programming language.
-It has the fewest keywords and is a comparably new programming language first appearing in 2009.\footnote{\url{https://en.wikipedia.org/wiki/Go_(programming_language)}, last accessed: 13.07.2022} In contrast, \texttt{C/C++} and \texttt{Java} date back to 1985\footnote{\url{https://en.wikipedia.org/wiki/C\%2B\%2B}, last access: 13.07.2022} and 1995.\footnote{\url{https://en.wikipedia.org/wiki/Java_(programming_language)}, last accessed: 13.07.2022}
-
-however it it is tremendously outperformed in terms of code clone coverage for projects with at least one million source lines of code.
-
-\begin{table}[tbh!]
-	\centering
-	\begin{tabular}{|>{\centering\arraybackslash}m{2cm}|>{\centering\arraybackslash}m{1.5cm}|>{\centering\arraybackslash}m{1.5cm}|>{\centering\arraybackslash}m{1.5cm}|>{\centering\arraybackslash}m{1.5cm}|>{\centering\arraybackslash}m{2cm}|>{\centering\arraybackslash}m{1.5cm}|}
-		\hline
-		C/C++ 17 & Kotlin 1.4 & Rust 1.46 & Java 14 & C18 & Python 3.18 & Go 1.15 \\
-		\hline
-		84 & 79 & 53 & 51 & 44 & 35 & 25 \\
-		\hline
-	\end{tabular}
-	\caption{Number of keywords for each examined programming language \cite{meyer2022keywords}}
-	\label{tab:keyword_number}
-\end{table}
+However, fully answering \refrq{question:comparing_age} with no, would be short-sighted, as the direct competitors \texttt{Rust} and \texttt{Kotlin} perform better than \texttt{C/C++} and \texttt{Java}. These discoveries are broadly discussed in \autoref{sec:discussion}.
 
 \begin{figure}[tbh!]
 	\centering
