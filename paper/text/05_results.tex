@@ -21,17 +21,21 @@ This section now provides the results and a brief description of the previously 
 
 A first overview is given in \autoref{fig:overview_results}, which plots the clone coverage in dependence to the project size, i.e. the \acl{sloc}, for all analyzed projects. Further, the plot contains a trend line for each programming language in order to enable better comparability. These trend lines depict the mean value of clone coverage for every programming language until around $10^6$ of \ac{sloc} pretty close. Also, they clearly show that bigger projects tend to have a greater clone coverage.
 Nevertheless, the data far beyond $10^6$ \acl{sloc} should be taken with caution for some programming languages since not enough data could be collected for the bigger size regimes. 
-\autoref{fig:overview_numbers} portrays this situation with the tick $10^6$ \ac{sloc} being marked since before $10^6$, we have at least 100 projects for every programming language, whereas languages like \texttt{Kotlin} and \texttt{Rust} only have small amounts of samples for e.g. more than $10^7$ \ac{sloc}.
+\autoref{fig:overview_numbers} portrays this situation with the tick $10^6$ \ac{sloc} being marked since before $10^6$, we have at least 100 projects for every programming language, whereas languages like \texttt{Kotlin} and \texttt{Rust} only have small amounts of samples for e.g. more than $10^6$ \ac{sloc}.
 
+\autoref{fig:histo_all} extends the information of \autoref{fig:overview_results} by giving the exact distributions, as well as, the mean and standard deviation values for every programming language. If one compare the mean clone coverage values for every programming language with one another, modern programming languages like \texttt{Rust}, \texttt{Kotlin} and \texttt{Go} seem to perform better than their older counterparts \texttt{C/C++} and \texttt{Java}. Further, \texttt{C} and \texttt{C++} appear to have only little difference in terms of clone coverage distributions. \texttt{Python} performs overall best.
 
-\autoref{fig:histo_all} extends the information of \autoref{fig:overview_results} by giving the exact distributions, as well as, the mean and standard deviation values for every programming language. Supplementary, \autoref{fig:histo_million} narrows this down to just presenting projects with more than one million \acl{sloc}. As previously mentioned, one million \ac{sloc} is the range where still enough data is present for some adequate evidence. These projects are also more expressive due to their sheer size.
+Supplementary to the total distribution, \autoref{fig:histo_million} narrows this down to just presenting projects with more than one million \acl{sloc}. As previously mentioned, one million \ac{sloc} is the range where still enough data is present for some adequate evidence. These projects are also more expressive due to their sheer size. The general observations still holds, with one exception: \texttt{Go} performs far worse. Further as already perceived in \autoref{fig:overview_results}, all languages have greater mean values overall.
+
+Since the pure observation is not sufficient for answering the \aclp{rq} precisely, the two-sample Welch's $t$-test is used to determine if the differences in clone coverage mean values are significant. This test assumes that the sample mean values are distributed normally which holds due to the Central Limit Theorem \cite{shafer2022introductory}. In contrast to Student's $t$-test it allows unequal variances, which exist here. \autoref{tab:stat_test} shows the calculated $t$ statistics and $p$ values for four scenarios. With a level of significance of $\alpha = 5\%$, \texttt{C} and \texttt{C/C++} mean values are not significantly different since $p > \alpha$ leads to acceptance of $H_0$: equal means. This circumstance answers \refrq{question:compare_c_cpp} with no. The next two rows answer \refrq{question:compare_rust_c} and \refrq{question:compare_kotlin_java}. In both cases are the mean values significantly different, which leads to rejection of $H_0$ and acceptance of $H_1$: \texttt{C/C++} and \texttt{Java} have on average a significantly higher mean clone coverage than respectively \texttt{Rust} and \texttt{Kotlin}. So both questions can be answered with "yes".
+Lastly, \texttt{C/C++} and \texttt{Java} are compared with the result of no significant difference in the mean values for $\alpha = 5\%$.
 
 \begin{table}[tbh!]
 	\centering
 	\begin{tabular}{|cc||c|c||c|c|}
 		\hline
-		\multicolumn{2}{|c|}{Samples} & \multicolumn{2}{|c|}{$SLOC \geq 0$} & \multicolumn{2}{|c|}{$SLOC \geq 1000000$}  \\
-		\multicolumn{2}{|c|}{from} & \multicolumn{1}{c}{$t$ statistic} & \multicolumn{1}{c|}{$p$ value} & \multicolumn{1}{c}{$t$ statistic} & $p$ value \\
+		\multicolumn{2}{|c||}{Samples} & \multicolumn{2}{c||}{$SLOC \geq 0$} & \multicolumn{2}{c|}{$SLOC \geq 1000000$}  \\
+		\multicolumn{2}{|c||}{from} & \multicolumn{1}{c}{$t$ statistic} & \multicolumn{1}{c||}{$p$ value} & \multicolumn{1}{c}{$t$ statistic} & $p$ value \\
 		\hline
 		\hline
 		C & C/C++ & $-1.021$ & $0.846$ & $1.105$ & $0.135$ \\
@@ -45,9 +49,42 @@ Nevertheless, the data far beyond $10^6$ \acl{sloc} should be taken with caution
 		C/C++ & Java & $0.720$ & $0.236$ & $0.643$ & $0.260$ \\
 		\hline
 	\end{tabular}
-	\caption{Results of two sample T-tests with $H_0$ being that the means of the two underlying distributions are equal and $H_1$ that the mean of the first distribution is greater than the mean of the second sample.}
+	\caption{Results of Welch's $t$-test with $H_0$ being that the means of the two underlying distributions have equal means and $H_1$ that the mean of the first distribution is greater than the mean of the second sample.}
 	\label{tab:stat_test}
 \end{table}
+
+Overall, \autoref{fig:matrix_comp} lists all possible pairings of examined programming languages and depicts which one performs significantly better than its companion. \autoref{fig:matrix_comp_million} answers \refrq{question:always_less_clones} with no. 
+
+
+\begin{table}[tbh!]
+	\centering
+	\begin{tabular}{|>{\centering\arraybackslash}m{2cm}|>{\centering\arraybackslash}m{1.5cm}|>{\centering\arraybackslash}m{1.5cm}|>{\centering\arraybackslash}m{1.5cm}|>{\centering\arraybackslash}m{1.5cm}|>{\centering\arraybackslash}m{2cm}|>{\centering\arraybackslash}m{1.5cm}|}
+		\hline
+		C/C++ 17 & Kotlin 1.4 & Rust 1.46 & Java 14 & C18 & Python 3.18 & Go 1.15 \\
+		\hline
+		84 & 79 & 53 & 51 & 44 & 35 & 25 \\
+		\hline
+	\end{tabular}
+	\caption{Number of keywords for each examined programming language}
+	\label{tab:keyword_number}
+\end{table}
+
+\begin{figure}[tbh!]
+	\centering
+	\begin{subfigure}[t]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/comparison/comparison_all_5percent}
+		\caption{with minimal $SLOC > 0$}
+		\label{fig:matrix_comp_all}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[t]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/comparison/comparison_million_5percent}
+		\caption{with minimal $SLOC > 10^{6}$}
+		\label{fig:matrix_comp_million}
+	\end{subfigure}
+	\caption{Matrix comparison which programming languages has significantly lower mean clone coverage (green), equal mean clone coverage (yellow) and higher mean clone coverage (red) with an $\alpha=5\%$. The comparison is performed by using Welch's $t$-tests. The matrix is read in the following fashion: "Sample 1 performs better/neutral/worse than Sample 2".}
+	\label{fig:matrix_comp}
+\end{figure}
 
 \begin{figure}[p]
 	\centering
