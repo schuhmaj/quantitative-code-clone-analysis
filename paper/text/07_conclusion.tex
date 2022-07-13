@@ -3,4 +3,29 @@
 \section{Conclusion}
 \label{sec:conclusion}
 
-Summarize and give outlook
+\autoref{sec:intro} gave some first impression about the difficulty in defining quality and quality properties and showed that it usually depends on the context. Next, \autoref{sec:related_work} portrayed the reasons for the emergence of code clones and presented investigations for code clones in build systems, as well as, a comparison between \texttt{Java} and \texttt{Scala}.
+
+Since there has been no quantitative approach in comparing code clone coverage across different programming languages, \autoref{sec:research_question} and \autoref{sec:study_design} presented a toolchain, using \teamscale{} as code clone detector, capable of answering these questions in \autoref{sec:results}:
+\begin{enumerate}
+	\item Which programming languages has the lowest (mean) clone coverage?
+	
+	\mybox{\linewidth}{\texttt{Python} has a significant lower mean clone coverage than pure \texttt{C}, \texttt{C/C++}, \texttt{Java}, \texttt{Kotlin}, \texttt{Rust}, \texttt{Go}}
+	
+	\item Do modern programming languages have lower (mean) clone coverage compared to older languages?
+	
+	\mybox{\linewidth}{No, \texttt{Python} is a old programming language, but it performs in terms of clone coverage way better than the comparably new \texttt{Go}}
+	
+	\begin{enumerate}
+		\item Does pure \texttt{C} generally have a higher clone coverage than \texttt{C/C++}?
+		
+		\mybox{\linewidth}{No, since there is no significant difference in the mean values between \texttt{C} \texttt{C/C++}. Further, a KS test showed that both distributions are equal.}
+		
+		\item Does \texttt{Rust} improve \texttt{C/C++} in terms of clone coverage?
+		
+		\mybox{\linewidth}{Yes, the study gave significant evidence that the mean clone coverage value of the \texttt{C/C++} projects is greater than the mean if the \texttt{Rust} projects}
+		
+		\item Does \texttt{Kotlin} improve \texttt{Java} in terms of clone coverage?
+		
+		\mybox{\linewidth}{Yes, the study gave significant evidence that the mean clone coverage value of the \texttt{Java} projects is greater than the mean if the \texttt{Kotlin} projects}
+	\end{enumerate}
+\end{enumerate}
