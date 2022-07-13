@@ -30,10 +30,18 @@ Further, \autoref{sec:similiar_analyses} already introduced build systems as cru
 Lastly, one one does not forget that e.g. \texttt{Kotlin} and \texttt{Rust} improve \texttt{Java} and \texttt{C/C++}, respectively introducing null-safety and ownership. Thus these improvements avoid redundant often repeated runtime-checks like mentioned in \autoref{sec:reasons_for_code_clones} (reusing certain code structures).
 
 In spite of these reasons, the difference of mean clone coverage do not necessarily indicate that the programming language has flaws.
-Older projects often has a greater (legacy) code base, which already can contain clones, and makes it easy to just copy and paste from there. However, projects in \texttt{Rust}, \texttt{Kotlin} and \texttt{Go} are not yet as old as projects in \texttt{C/C++} or \texttt{Java}. Thereby, the newer programming languages do have some "time" advantage towards the older ones.
+Older projects often has a greater (legacy) code base, which already can contain clones, and makes it easy to just copy and paste from there. However, projects in \texttt{Rust}, \texttt{Kotlin} and \texttt{Go} are not yet as old as projects in \texttt{C/C++} or \texttt{Java}. Thereby, the newer programming languages do have some "time" advantage towards the older ones with projects having less developer-changes and less legacy code.
+
+In conclusion, we can finalize with the strong empirical suspect that \texttt{Python}, \texttt{Kotlin} and \texttt{Rust} are better designed in preventing code cloning than \texttt{C/C++}, \texttt{Java} and \texttt{Go}, especially for bigger projects with greater code bases.
 
  
 \subsection{Threads to validity}
 
-Clone Coverage has previously been introduced as the percentage of code lines covered by at least one clone. Based on this definition, one can also refer to clone coverage as the probability that a random change to a line of code across the project implies a propagation to another line being a clone.
+As the section above finalizes the conclusion of this work, it is required to also include potential distortions.
+
+First of, the \textit{awesome lists} are different in size and contain different content for every programming language. They are created by numerous contributor, however we little information why something is on the list. So it is likely, that each list contains a certain bias. Additionally, the lists can also contain repositories containing only code snippets and similar utility. The expressive analysis for more than $10^6$ \ac{sloc} should ensure that such projects are excluded, but a certain residual risk remains.
+
+Directly related to this, the programming projects originate all from \textit{GitHub} and are publicly available. This circumstance is definitely a bias, since our study is not able to cover proprietary code nor big projects hosted on a different source.
+
+Lastly, $5224$ projects of only seven different programming languages were analyzed, which is of course only a tiny fraction at all.
  
