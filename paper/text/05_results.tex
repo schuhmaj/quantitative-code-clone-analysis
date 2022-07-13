@@ -53,8 +53,13 @@ Lastly, \texttt{C/C++} and \texttt{Java} are compared with the result of no sign
 	\label{tab:stat_test}
 \end{table}
 
-Overall, \autoref{fig:matrix_comp} lists all possible pairings of examined programming languages and depicts which one performs significantly better than its companion. \autoref{fig:matrix_comp_million} answers \refrq{question:always_less_clones} with no. 
+Overall, \autoref{fig:matrix_comp} lists all possible pairings of examined programming languages and depicts which one performs significantly better than its companion. \autoref{fig:matrix_comp_million} answers \refrq{question:comparing_age}. It shows that the newer programming languages like
 
+
+The number of a programming language's keywords can be utilized to measure the complexity to learn and fully understand a language. \autoref{tab:keyword_number} shows the number of keywords for every examined programming language.
+It has the fewest keywords and is a comparably new programming language first appearing in 2009.\footnote{\url{https://en.wikipedia.org/wiki/Go_(programming_language)}, last accessed: 13.07.2022} In contrast, \texttt{C/C++} and \texttt{Java} date back to 1985\footnote{\url{https://en.wikipedia.org/wiki/C\%2B\%2B}, last access: 13.07.2022} and 1995.\footnote{\url{https://en.wikipedia.org/wiki/Java_(programming_language)}, last accessed: 13.07.2022}
+
+however it it is tremendously outperformed in terms of code clone coverage for projects with at least one million source lines of code.
 
 \begin{table}[tbh!]
 	\centering
@@ -65,7 +70,7 @@ Overall, \autoref{fig:matrix_comp} lists all possible pairings of examined progr
 		84 & 79 & 53 & 51 & 44 & 35 & 25 \\
 		\hline
 	\end{tabular}
-	\caption{Number of keywords for each examined programming language}
+	\caption{Number of keywords for each examined programming language \cite{meyer2022keywords}}
 	\label{tab:keyword_number}
 \end{table}
 
@@ -79,7 +84,7 @@ Overall, \autoref{fig:matrix_comp} lists all possible pairings of examined progr
 	\hfill
 	\begin{subfigure}[t]{0.49\textwidth}
 		\includegraphics[width=\textwidth]{figures/comparison/comparison_million_5percent}
-		\caption{with minimal $SLOC > 10^{6}$}
+		\caption{with minimal $SLOC \geq 10^{6}$}
 		\label{fig:matrix_comp_million}
 	\end{subfigure}
 	\caption{Matrix comparison which programming languages has significantly lower mean clone coverage (green), equal mean clone coverage (yellow) and higher mean clone coverage (red) with an $\alpha=5\%$. The comparison is performed by using Welch's $t$-tests. The matrix is read in the following fashion: "Sample 1 performs better/neutral/worse than Sample 2".}
