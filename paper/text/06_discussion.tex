@@ -3,6 +3,35 @@
 \section{Discussion}
 \label{sec:discussion}
 
-Confirm the thesis.
+\autoref{sec:results} has shown that the in \autoref{sec:study_design} presented approach for quantitatively measuring clone coverage in different programming languages is capable to answer some of the asked \aclp{rq}. This section is going to discuss and explain the observed results, but will also evaluate the used approach.
 
- Clone Coverage has previously been introduced as the percentage of code lines covered by at least one clone. Based on this definition, one can also refer to clone coverage the probability that a random change to a line of code across the project implies a propagation to another line being a clone.
+\subsection{Implications of the result}
+
+%Can we infer that a simpler, less verbose, more modern programming language always leads to less code clones?
+
+Generally, the extracted data does not imply that a certain programming language like e.g. \texttt{Python}, which performed best, should be used for every project. However, the results show that certain languages, \texttt{Python}, \texttt{Kotlin} and \texttt{Rust}, performed significantly better than \texttt{C/C++}, \texttt{Java}, and therefore, seem to have advantages towards the other ones.
+One reason for fewer clones could be a less-verbose, simpler programming language design as discussed in \autoref{sec:similiar_analyses}, yet this argument can be discarded, since \texttt{Go} performs for projects bigger than $10^6$ \ac{sloc} similar to \texttt{Java} and \texttt{C/C++}. Although \texttt{Go} has the smallest set of keywords - implying simplicity, as depicted in \autoref{tab:keyword_number}.
+
+\begin{table}[tbh!]
+	\centering
+	\begin{tabular}{|>{\centering\arraybackslash}m{2cm}|>{\centering\arraybackslash}m{1.5cm}|>{\centering\arraybackslash}m{1.5cm}|>{\centering\arraybackslash}m{1.5cm}|>{\centering\arraybackslash}m{1.5cm}|>{\centering\arraybackslash}m{2cm}|>{\centering\arraybackslash}m{1.5cm}|}
+		\hline
+		C/C++ 17 & Kotlin 1.4 & Rust 1.46 & Java 14 & C18 & Python 3.8 & Go 1.15 \\
+		\hline
+		84 & 79 & 53 & 51 & 44 & 35 & 25 \\
+		\hline
+	\end{tabular}
+	\caption{Number of keywords for each examined programming language \cite{meyer2022keywords}}
+	\label{tab:keyword_number}
+\end{table}
+
+Further, \autoref{sec:similiar_analyses} already introduced build systems as crucial for projects success. Here might be another reason located. A simple to use package manager makes importing existing solutions much easier, thereby prevents "Reinventing the wheel" a.k.a copying existing solutions. \texttt{Rust} and \texttt{Python} both come with package managers \texttt{cargo} and \texttt{pip} making the use of existing solutions much easier. In comparison, \texttt{C/C++} and \texttt{Java} rely on build systems like \texttt{CMake} and \texttt{Maven}, usually with a high learning curve.
+
+Lastly, one one does not forget that e.g. \texttt{Kotlin} and \texttt{Rust} improve \texttt{Java} and \texttt{C/C++}, respectively introducing null-safety and ownership. Thus these improvements avoid redundant often repeated runtime-checks like mentioned in \autoref{sec:reasons_for_code_clones} (reusing certain code structures ).
+
+
+Clone Coverage has previously been introduced as the percentage of code lines covered by at least one clone. Based on this definition, one can also refer to clone coverage as the probability that a random change to a line of code across the project implies a propagation to another line being a clone.
+
+ 
+\subsection{Threads to validity}
+ 
