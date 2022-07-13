@@ -27,11 +27,13 @@ One reason for fewer clones could be a less-verbose, simpler programming languag
 
 Further, \autoref{sec:similiar_analyses} already introduced build systems as crucial for projects success. Here might be another reason located. A simple to use package manager makes importing existing solutions much easier, thereby prevents "Reinventing the wheel" a.k.a copying existing solutions. \texttt{Rust} and \texttt{Python} both come with package managers \texttt{cargo} and \texttt{pip} making the use of existing solutions much easier. In comparison, \texttt{C/C++} and \texttt{Java} rely on build systems like \texttt{CMake} and \texttt{Maven}, usually with a high learning curve.
 
-Lastly, one one does not forget that e.g. \texttt{Kotlin} and \texttt{Rust} improve \texttt{Java} and \texttt{C/C++}, respectively introducing null-safety and ownership. Thus these improvements avoid redundant often repeated runtime-checks like mentioned in \autoref{sec:reasons_for_code_clones} (reusing certain code structures ).
+Lastly, one one does not forget that e.g. \texttt{Kotlin} and \texttt{Rust} improve \texttt{Java} and \texttt{C/C++}, respectively introducing null-safety and ownership. Thus these improvements avoid redundant often repeated runtime-checks like mentioned in \autoref{sec:reasons_for_code_clones} (reusing certain code structures).
 
-
-Clone Coverage has previously been introduced as the percentage of code lines covered by at least one clone. Based on this definition, one can also refer to clone coverage as the probability that a random change to a line of code across the project implies a propagation to another line being a clone.
+In spite of these reasons, the difference of mean clone coverage do not necessarily indicate that the programming language has flaws.
+Older projects often has a greater (legacy) code base, which already can contain clones, and makes it easy to just copy and paste from there. However, projects in \texttt{Rust}, \texttt{Kotlin} and \texttt{Go} are not yet as old as projects in \texttt{C/C++} or \texttt{Java}. Thereby, the newer programming languages do have some "time" advantage towards the older ones.
 
  
 \subsection{Threads to validity}
+
+Clone Coverage has previously been introduced as the percentage of code lines covered by at least one clone. Based on this definition, one can also refer to clone coverage as the probability that a random change to a line of code across the project implies a propagation to another line being a clone.
  
