@@ -2,14 +2,15 @@
 \section{Discussion}
 \label{sec:discussion}
 
-\autoref{sec:results} has shown that the in \autoref{sec:study_design} presented approach for quantitatively measuring clone coverage in different programming languages is capable to answer some of the asked \aclp{rq}. This section is going to discuss and explain the observed results, but will also evaluate the used approach.
+\autoref{sec:results} has shown that the in \autoref{sec:study_design} presented approach for quantitatively measuring clone coverage in different programming languages is capable of answering some of the asked \aclp{rq}. This section will discuss and explain the observed results and evaluate the used approach.
 
 \subsection{Implications of the result}
 
 %Can we infer that a simpler, less verbose, more modern programming language always leads to less code clones?
 
-Generally, the extracted data does not imply that a certain programming language like e.g. \texttt{Python}, which performed best, should be used for every project. However, the results show that certain languages, \texttt{Python}, \texttt{Kotlin} and \texttt{Rust}, performed significantly better than \texttt{C/C++}, \texttt{Java}, and therefore, seem to have advantages towards the other ones.
-One reason for fewer clones could be a less-verbose, simpler programming language design as discussed in \autoref{sec:similiar_analyses}, yet this argument can be discarded, since \texttt{Go} performs for projects bigger than $10^6$ \ac{sloc} similar to \texttt{Java} and \texttt{C/C++}. Although \texttt{Go} has the smallest set of keywords - implying simplicity, as depicted in \autoref{tab:keyword_number}.
+At the outset, the extracted data does not imply that a particular programming language, e.g., \texttt{Python}, which performed best, should be used for every project. 
+However, the results show that specific languages, \texttt{Python}, \texttt{Kotlin}, and \texttt{Rust}, performed significantly better than \texttt{C/C++} or \texttt{Java} and, therefore, seem to have advantages over the others.
+One reason for fewer clones could be a less verbose, more straightforward programming language design, as discussed in \autoref{sec:similiar_analyses}, yet this argument can be partially discarded since \texttt{Go} performs for projects bigger than $10^6$ \ac{sloc}, similarly to \texttt{Java} and \texttt{C/C++}, although \texttt{Go} has the smallest set of keywords - implying simplicity, as depicted in \autoref{tab:keyword_number}.
 
 \begin{table}[tbh!]
 	\centering
@@ -24,14 +25,15 @@ One reason for fewer clones could be a less-verbose, simpler programming languag
 	\label{tab:keyword_number}
 \end{table}
 
-Further, \autoref{sec:similiar_analyses} already introduced build systems as crucial for projects success. Here might be another reason located. A simple to use package manager makes importing existing solutions much easier, thereby prevents "Reinventing the wheel" a.k.a copying existing solutions. \texttt{Rust} and \texttt{Python} both come with package managers \texttt{cargo} and \texttt{pip} making the use of existing solutions much easier. In comparison, \texttt{C/C++} and \texttt{Java} rely on build systems like \texttt{CMake} and \texttt{Maven}, usually with a high learning curve. For example, to include a simple package/ library in \texttt{Python} one just needs to install and import it, whereas in \texttt{CMake} far more effort would be needed.
+Further, \autoref{sec:similiar_analyses} already introduced build systems as crucial for project success. Here might be another reason located. Simple to use package managers make importing existing solutions much more effortless, thereby preventing\textit{Reinventing the wheel}, a.k.a copying existing solutions. \texttt{Rust} and \texttt{Python} come with package managers \texttt{cargo} and \texttt{pip}, making the use of existing solutions much more manageable. In comparison, \texttt{C/C++} and \texttt{Java} rely on build systems like \texttt{CMake} and \texttt{Maven}, usually with a high learning curve. For example, to include a simple package/ library in \texttt{Python}, one must install and import it, whereas, in \texttt{CMake}, far more effort would be needed.
 
-Lastly, one one does not forget that e.g. \texttt{Kotlin} and \texttt{Rust} improve \texttt{Java} and \texttt{C/C++}, respectively introducing null-safety and ownership. Thus these improvements avoid redundant often repeated runtime-checks like mentioned in \autoref{sec:reasons_for_code_clones} (reusing certain code structures).
+Lastly, one does not forget that, e.g., \texttt{Kotlin} and \texttt{Rust} improve \texttt{Java} and \texttt{C/C++}, respectively introducing null-safety and ownership. Thus these improvements avoid redundant, often repeated runtime checks like mentioned in \autoref{sec:reasons_for_code_clones} (reusing certain code structures).
 
-In spite of these reasons, the difference of mean clone coverage do not necessarily indicate that the programming language has flaws.
-Older projects often has a greater (legacy) code base, which already can contain clones, and makes it easy to just copy and paste from there. However, projects in \texttt{Rust}, \texttt{Kotlin} and \texttt{Go} are not yet as old as projects in \texttt{C/C++} or \texttt{Java}. Thereby, the newer programming languages do have some "time" advantage towards the older ones with projects having less developer-changes and less legacy code.
+Despite these reasons, the difference in mean clone coverage does not necessarily indicate that the programming language has flaws.
+Older projects often have a greater (legacy) code base, which already can contain clones and makes it easy to copy and paste from there. 
+However, \texttt{Rust}, \texttt{Kotlin}, and \texttt{Go} projects cannot be yet as old as projects in \texttt{C/C++} or \texttt{Java}. Consequently, the newer programming languages have some "time" advantage over the older ones, with projects having fewer developer changes and less legacy code.
 
-In conclusion, we can finalize with the strong empirical suspect that \texttt{Python}, \texttt{Kotlin} and \texttt{Rust} are better designed in preventing code cloning than \texttt{C/C++}, \texttt{Java} and \texttt{Go}, especially for bigger projects with greater code bases.
+In conclusion, we can finalize with the strong empirical suspect that \texttt{Python}, \texttt{Kotlin}, and \texttt{Rust} are better designed to prevent code cloning than \texttt{C/C++}, \texttt{Java}, and \texttt{Go}, especially for larger projects with more extensive code bases.
 
  
 \subsection{Threads to validity}
