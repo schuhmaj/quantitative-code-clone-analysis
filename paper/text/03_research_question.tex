@@ -3,12 +3,11 @@
 \section{Research Questions}
 \label{sec:research_question}
 
-\autoref{sec:reasons_for_code_clones} presented reasons how the choice of programming language can affect the number of code clones in a software project. \autoref{sec:similiar_analyses} showed recent findings in terms of a comparison between build systems and an actual fine-granular examination of \texttt{Java} and \texttt{Scala}.
-This paper builds on top of those results and examines the correlation of clone coverage in different programming languages in a quantitatively large-scale. Hereby, the following \ac{rq} are discussed on the remaining pages:
+\autoref{sec:reasons_for_code_clones} presented reasons how the choice of programming language can affect the number of code clones in a software project. \autoref{sec:similiar_analyses} showed recent findings regarding a comparison between build systems and an actual fine-granular examination of \texttt{Java} and \texttt{Scala}. This paper builds on top of those results and examines the correlation of clone coverage in different programming languages on a quantitatively large scale. Hence, the following \ac{rq} are discussed on the remaining pages:
 
 \begin{enumerate}
-	\item Which programming languages has the lowest (mean) clone coverage? \label{question:clone_coverage_lowest}
-	\item Do modern programming languages have lower (mean) clone coverage compared to older languages? \label{question:comparing_age}
+	\item Which programming language has the lowest (mean) clone coverage? \label{question:clone_coverage_lowest}
+	\item Do modern programming languages have lower (mean) clone coverage than older ones? \label{question:comparing_age}
 	\begin{enumerate}
 		\item Does pure \texttt{C} generally have a higher clone coverage than \texttt{C/C++}? \label{question:compare_c_cpp}
 		\item Does \texttt{Rust} improve \texttt{C/C++} in terms of clone coverage? \label{question:compare_rust_c}
@@ -16,7 +15,7 @@ This paper builds on top of those results and examines the correlation of clone 
 	\end{enumerate}
 \end{enumerate}
 
-\refrq{question:clone_coverage_lowest} searches for the best programming language in terms of code clone coverage and flows into the generalization if modern programming languages are generally better than older languages.
-\refrq{question:compare_c_cpp} is generally of interest because \texttt{C++} is just a super-set of \texttt{C}. Therefor the result of this question directly relates to \refrq{question:always_less_clones}. \refrq{question:compare_rust_c} and \refrq{question:compare_kotlin_java} are two shapings of the same question if a new programming language which aims at improving the flaws of previous generation languages is also capable of improving code quality properties like clone coverage.
+\refrq{question:clone_coverage_lowest} searches for the most promising programming language in terms of code clone coverage and flows into the generalization that contemporary programming languages are generally better than ancient languages.
+\refrq{question:compare_c_cpp} is generally of interest because \texttt{C++} is a super-set of \texttt{C}. \refrq{question:compare_rust_c}  and \refrq{question:compare_kotlin_java} are two shapings of the same question if a new programming language that aims at improving the flaws of previous generation languages is also capable of improving code quality properties like clone coverage.
 
-Important to note is that a question analyzing the "Why?" is missing since the following case study relies on quantitatively measuring code clone coverage in thousands of projects by just examining the source code, but not their concrete software engineering process, i.e. principles. Rather \autoref{sec:results} will show certain trends for specific programming languages which are then discussed based on the formulated research questions in \autoref{sec:discussion}.
+It is essential to note that no question explores the "Why?" since the following case study relies on quantitatively measuring code clone coverage in thousands of projects by examining the source code, but not their concrete software engineering process, i.e., principles. Instead, \autoref{sec:results} will show particular tendencies for specific programming languages, which are then discussed based on the formulated research questions in \autoref{sec:discussion}.
