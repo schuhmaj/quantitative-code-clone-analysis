@@ -28,13 +28,15 @@ Lastly, Kasper et al. \cite{kasper2006cloning} describe \textit{exact matches}, 
 \subsection{Similar Analyses}
 \label{sec:similiar_analyses}
 
-This work will later present a comparison of clone coverage in different generation programming languages, but there are already some studies with a similar scope.
+This work will later compare clone coverage in different generation programming languages. Other studies with a similar scope and a somewhat different focus are concerned in this subsection.
 
 \subsubsection{Code Clones in Build Systems}
 
-Once developer produced the different components of a large-scale software system, they typically need to be assembled together. This critical step usually accomplished with certain build systems like \texttt{Ant}, \texttt{Maven}, \texttt{Autotools} or \texttt{CMake} for respectively \texttt{Java} and \texttt{C/C++}. \cite{mcintosh2014collecting} compares these build systems with surprising results. As overall result, "build systems tend to have higher cloning rates than other software artifacts" \cite{mcintosh2014collecting}. 
-They conclude with the finding that, as opposed of what one might think, modern build systems like \texttt{CMake} and \texttt{Maven} have higher clone coverage then their older counterparts and the \texttt{C/C++} systems and vice-versa \texttt{Java} build systems have a higher clone coverage, in many cases more than $50\%$, than the respective \texttt{C/C++} counterparts.
+Once a developer has produced the different components of a large-scale software system, they typically need to be assembled. This critical step is usually accomplished with build systems like \texttt{Ant},  \texttt{Maven}, \texttt{Autotools}, or \texttt{CMake} for respectively \texttt{Java} and \texttt{C/C++}. McIntosh et al. \cite{mcintosh2014collecting} compares these build systems with surprising results. Overall, "build systems tend to have higher cloning rates than other software artifacts" \cite{mcintosh2014collecting}. They conclude that, as opposed to what one might think, modern build systems like \texttt{CMake} and  \texttt{Maven} have higher clone coverage than their older counterparts. Moreover, the Java build systems have a higher clone coverage across-the-board than their \texttt{C/C++} companions - in many cases, \texttt{Java} build systems reach more than $50\%$ clone coverage.
+
+This paper relates to the procedure here as build systems are technological choices similar to programming language selection, and the right choice might reduce clones.
 
 \subsubsection{Comparison of Java \& Scala}
 
-Jorge et. al. \cite{jorge2012impact} directly compares features of the two languages \texttt{Java} and \texttt{Scala} and studies how their language constructs correlate to code cloning. In their findings, they conclude that code duplication problems arise with higher probability if a language is more verbose, e.g. due to getters and setters, anonymous classes, constructors, and lacks (simple) abstraction capabilities. Properties which finally lead to more effort refactoring code than simply cloning a source code. \cite{jorge2012impact}
+Jorge et al. \cite{jorge2012impact} directly compare features of the two languages, Java and Scala, and study how their language constructs correlate to code cloning. Their findings conclude that code duplication problems arise with a higher probability if a language is verbose, e.g., due to getters and setters, anonymous classes, constructors, and lack (simple) abstraction capabilities. Properties which finally lead to more effort refactoring code than simply cloning a source code. \cite{jorge2012impact}
+Their approach is more qualitative than the presented quantitative method but can be seen as a great inspiration for this work.
