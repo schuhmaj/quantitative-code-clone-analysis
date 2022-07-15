@@ -372,13 +372,13 @@ def plot_mean_matrix(projects_dict, alpha=0.05, min_sloc=0):
 
     plt.imshow(matrix, interpolation='none', cmap=cmap)
     labels = [LABEL_MAP[key] for key in projects_dict.keys()]
-    plt.xticks(range(len(labels)), labels, fontsize=12)
-    plt.yticks(range(len(labels)), labels, fontsize=12)
+    plt.xticks(range(len(labels)), labels)
+    plt.yticks(range(len(labels)), labels)
 
     # ax.legend()
 
-    ax.set_xlabel("Sample 2")
-    ax.set_ylabel("Sample 1")
+    ax.set_xlabel("Language 2")
+    ax.set_ylabel("Language 1")
     ax.set_title(f"Code Clone Coverage Mean Values Compared")
 
     # Tweak spacing to prevent clipping of ylabel

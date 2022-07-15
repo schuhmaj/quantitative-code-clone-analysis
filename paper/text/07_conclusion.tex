@@ -9,25 +9,25 @@ Since there has been no quantitative approach to comparing code clone coverage a
 \begin{enumerate}
 	\item Which programming language has the lowest (mean) clone coverage?
 	
-	\mybox{\linewidth}{\texttt{Python} has a significant lower mean clone coverage than pure \texttt{C}, \texttt{C/C++}, \texttt{Java}, \texttt{Kotlin}, \texttt{Rust}, \texttt{Go}.}
+	\mybox{\linewidth}{\texttt{Python} has a significant lower mean clone coverage than any of the other examined languages: pure \texttt{C}, \texttt{C/C++}, \texttt{Java}, \texttt{Kotlin}, \texttt{Rust}, \texttt{Go}.}
 	
 	\item Do modern programming languages have lower (mean) clone coverage than older ones?
 	
-	\mybox{\linewidth}{No, \texttt{Python} is a old programming language, but it performs in terms of clone coverage way better than the comparably new \texttt{Go}.}
+	\mybox{\linewidth}{It depends, \texttt{Python} is a old programming language, but it performs in terms of clone coverage way better than the comparably new \texttt{Go}. On the other hand, \texttt{Kotlin} and \texttt{Rust} perform better than their older counterparts.}
 	
 	\begin{enumerate}
 		\item Does pure \texttt{C} generally have a higher clone coverage than \texttt{C/C++}?
 		
-		\mybox{\linewidth}{No, since there is no significant difference in the mean values between \texttt{C} \texttt{C/C++}. Further, a KS test showed that both distributions are equal.}
+		\mybox{\linewidth}{No, since there is no significant difference in the mean values between \texttt{C} \texttt{C/C++}. Further, a KS test showed that both clone coverage distributions are equal.}
 		
 		\item Does \texttt{Rust} improve \texttt{C/C++} in terms of clone coverage?
 		
-		\mybox{\linewidth}{Yes, the study gave significant evidence that the mean clone coverage value of the \texttt{C/C++} projects is greater than the mean if the \texttt{Rust} projects.}
+		\mybox{\linewidth}{Yes, the study gave significant evidence that the mean clone coverage value of \texttt{C/C++} projects is greater than the mean of \texttt{Rust} projects.}
 		
 		\item Does \texttt{Kotlin} improve \texttt{Java} in terms of clone coverage?
 		
-		\mybox{\linewidth}{Yes, the study gave significant evidence that the mean clone coverage value of the \texttt{Java} projects is greater than the mean if the \texttt{Kotlin} projects.}
+		\mybox{\linewidth}{Yes, the study gave significant evidence that the mean clone coverage value of \texttt{Java} projects is greater than the mean of \texttt{Kotlin} projects.}
 	\end{enumerate}
 \end{enumerate}
 
-In the end, we concluded with the verdict that there is strong empirical evidence that \texttt{Python}, \texttt{Kotlin}, and \texttt{Rust} are better designed to prevent code cloning than \texttt{C/C++}, \texttt{Java}, and \texttt{Go}. This finding can be the motivation for further validation by future studies and the foundation for additional examinations exploring code clones in different programming languages. 
+In the end, we concluded with the verdict that there is strong empirical evidence that \texttt{Python}, \texttt{Kotlin}, and \texttt{Rust} are better designed to prevent code cloning than \texttt{C/C++}, \texttt{Java}, and \texttt{Go}. This finding can be the motivation for further validation by future studies and the foundation for additional examinations exploring code clones in different programming languages.

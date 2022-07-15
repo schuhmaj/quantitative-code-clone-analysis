@@ -19,7 +19,8 @@ Alongside these human and economic factors stand "[t]echnology limitations" \cit
 \textit{Templating} is a powerful feature of modern programming languages like \texttt{C++}. In contrast, languages like \texttt{C} do not offer any equivalent feature.
 Given a certain algorithm working with double precision in the \texttt{C} programming language, the developer is forced to copy the procedure and replace \texttt{double} with \texttt{float}. Such "boiler-plating [is enforced only] due to language inexpressiveness" \cite{kasper2006cloning}. 
 Besides those issues with \textit{Templating}, i.e., generalization, in specific languages exist deadlocked ways and patterns how to fulfill specific tasks.
-For example, creating a \textit{Socket} and communicating with it varies and is different in each programming language - sometimes shorter, sometimes more lengthy, but usual there is one optimal way of doing it so that possible exception (if the language even has such a feature) or error codes are handled. These optimal sequences will then be often copy-and-pasted by developers \cite{kasper2006cloning}.
+For example, creating a \textit{Socket} and communicating with it varies in each programming language - sometimes shorter, sometimes more lengthy. Nonetheless, there is usually one optimal way of creating it and handling possible exceptions (if the language even has such a feature) or error codes. 
+These optimal sequences will then be often copy-and-pasted by developers \cite{kasper2006cloning}.
 Further to \textit{Templating}, Kasper et al.  \cite{kasper2006cloning} mention \textit{customization} as a reason for duplication.
 For instance, code ownership can make bug fixing difficult, only allowing the creation of a work-around by copying and improving the faulty lines.
 Further, they enumerate the idiom of \textit{replicate and specialize}, in which developers clone code to specialize a solution rather than generalizing an existing implementation.
