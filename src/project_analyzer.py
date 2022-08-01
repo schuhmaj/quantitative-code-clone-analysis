@@ -327,7 +327,7 @@ def plot_scatter_clone_coverage_issues(projects: [Project]):
     plt.close()
 
 
-def plot_mean_matrix(projects_dict, alpha=0.05, min_sloc=0):
+def plot_mean_matrix(projects_dict, alpha=0.05, min_sloc=0, permutations=None):
     """
     Plots a matrix comparing the mean values
     Args:
@@ -344,8 +344,8 @@ def plot_mean_matrix(projects_dict, alpha=0.05, min_sloc=0):
         if sample_1 == sample_2:
             pvalues[sample_1][sample_2] = 42
             continue
-        statistic, pvalue_greater = compare_samples_statistically(sample_1, sample_2, projects_dict, alternative='greater', min_sloc=min_sloc)
-        statistic, pvalue_less = compare_samples_statistically(sample_1, sample_2, projects_dict, alternative='less', min_sloc=min_sloc)
+        statistic, pvalue_greater = compare_samples_statistically(sample_1, sample_2, projects_dict, alternative='greater', min_sloc=min_sloc, permutations=permutations)
+        statistic, pvalue_less = compare_samples_statistically(sample_1, sample_2, projects_dict, alternative='less', min_sloc=min_sloc, permutations=permutations)
         if pvalue_greater < alpha:
             # print("Accept H_1: Greater")
             pvalues[sample_1][sample_2] = 1
@@ -489,4 +489,4 @@ if __name__ == "__main__":
     plot_scatter_clone_coverage_loc_m(language_projects_dict.values())
     plot_number_of_projects(language_projects_dict.values())
     compare_statistically(language_projects_dict, min_sloc=0, alternative='greater', permutations=None)
-    plot_mean_matrix(language_projects_dict, min_sloc=0)
+    plot_mean_matrix(language_projects_dict, min_sloc=0, permutations=10000)
