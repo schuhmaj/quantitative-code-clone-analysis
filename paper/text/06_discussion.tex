@@ -25,28 +25,26 @@ One reason for fewer clones could be a less verbose, more straightforward progra
 	\label{tab:keyword_number}
 \end{table}
 
-Further, \autoref{sec:similiar_analyses} already introduced build systems as crucial for project success. Here might be another reason located. Simple to use package managers make importing existing solutions much more effortless, thereby preventing \textit{Reinventing the wheel}, a.k.a copying existing solutions. \texttt{Rust} and \texttt{Python} come with package managers \texttt{cargo} and \texttt{pip}, making the use of existing solutions much more manageable. In comparison, \texttt{C/C++} and \texttt{Java} rely on build systems like \texttt{CMake} and \texttt{Maven}, usually with a high learning curve. For example, to include a simple package/ library in \texttt{Python}, one must install and import it, whereas, in \texttt{CMake}, far more effort would be needed.
+Further, \autoref{sec:similiar_analyses} already introduced build systems as crucial for project success. Here, another reason might be located. Simple to use package managers make importing existing solutions much more effortless, thereby preventing \textit{Reinventing the wheel}, a.k.a copying existing solutions. \texttt{Rust} and \texttt{Python} come with package managers \texttt{cargo} and \texttt{pip}, making the use of existing solutions much more manageable. In comparison, \texttt{C/C++} and \texttt{Java} rely on build systems like \texttt{CMake} and \texttt{Maven}, usually with a high learning curve. For example, to include a simple package or library in \texttt{Python}, one must install and import it, whereas, in \texttt{CMake}, far more effort would be needed.
 
 Lastly, one does not forget that, e.g., \texttt{Kotlin} and \texttt{Rust} improve \texttt{Java} and \texttt{C/C++}, respectively introducing null-safety and ownership. Thus these improvements avoid redundant, often repeated runtime checks like mentioned in \autoref{sec:reasons_for_code_clones} (reusing certain code structures).
 
 Despite these reasons, the difference in mean clone coverage does not necessarily indicate that the programming language has flaws.
-Older projects often have a greater (legacy) code base, which already can contain clones and makes it easy to copy and paste from there. 
-However, \texttt{Rust}, \texttt{Kotlin}, and \texttt{Go} projects cannot be yet as old as projects in \texttt{C/C++} or \texttt{Java}. Consequently, the newer programming languages have some "time" advantage over the older ones, with projects having fewer developer changes and less legacy code.
+Older projects often have a larger (legacy) code base, which already can contain clones and that makes it easy to copy and paste from there. 
+However, \texttt{Rust}, \texttt{Kotlin}, and \texttt{Go} projects cannot be as old as projects in \texttt{C/C++} or \texttt{Java}. Consequently, the newer programming languages have some "time" advantage over the older ones, with projects having fewer developer changes and less legacy code.
 
 In conclusion, we can finalize with the strong empirical suspect, but with no absolute certainty, that \texttt{Python}, \texttt{Kotlin}, and \texttt{Rust} are better designed to prevent code cloning than \texttt{C/C++}, \texttt{Java}, and \texttt{Go}, especially for larger projects with more extensive code bases.
 
  
 \subsection{Threats to validity}
 
-As the section above finalizes this work's conclusion, it is also required to include potential distortions.
-
-First, the \textit{awesome lists} are different in size and contain different content for every programming language. Numerous contributors created them. Nonetheless, we have little information about why exactly something is on the list. So it is likely, that each list contains a certain bias. Additionally, the lists can also incorporate repositories containing only code snippets and similar utilities. The expressive analysis for more than $10^6$ \ac{sloc} should ensure that such projects are excluded, but a residual risk remains.
+First, the \textit{awesome lists} are different in size and contain different content for every programming language. Numerous contributors created them. Nonetheless, we have little information about why exactly something is on the list. So it is likely, that each list is subject to a certain bias. Additionally, the lists can also incorporate repositories containing only code snippets and similar utilities. The expressive analysis for more than $10^6$ \ac{sloc} should ensure that such projects are excluded, but a residual risk remains.
 
 Directly related to this, the programming projects originate all from \textit{GitHub} and are publicly available. This circumstance is definitely a bias, since our study is not able to cover proprietary code nor big projects hosted on a different source.
 
 The most considerable bias could be the evolution of programming languages. Writing modern \texttt{C++20} follows different guidelines than writing \texttt{C++98}. This behaves analogously to \texttt{Java} and \texttt{Python}. However, the study does not include when the projects were initially written and if they were refactored.
 
-Lastly, $5224$ projects of only seven different programming languages were analyzed, which is, of course, only a tiny fraction at all.
+Lastly, $5224$ projects of only seven different programming languages were analyzed, which is, of course, only a tiny fraction at all. Moreover, the toolchain illustrated in \autoref{sec:study_design} could be inaccurate due to bugs in the Python script or \teamscale{}'s code clone detection, despite the strive for the best.
 
 \subsection{Future Work}
 
