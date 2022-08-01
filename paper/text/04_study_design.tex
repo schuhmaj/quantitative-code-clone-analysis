@@ -3,30 +3,30 @@
 \section{Study Design}
 \label{sec:study_design}
 
-In this section, the methodology behind the results of \autoref{sec:results} is presented. First, an overview is provided before looking at a more thorough description.
+In this section, the methodology behind the performed empirical study is presented. First, an overview is provided before looking at a more thorough description.
 
 \subsection{Overview}
 
 \begin{figure}[tbh]
 	\centering
 	\includegraphics[width=\linewidth]{figures/setup/Code-Clone-Analysis-Deployment}
-	\caption{UML Deployment Diagram of the presented examination}
+	\caption{UML Deployment Diagram of the presented analysis toolchain}
 	\label{fig:overview_deployment}
 \end{figure}
 
-In this project, we generally analyzed $5224$ projects in seven different programming languages: pure \texttt{C}, \texttt{C/C++}, \texttt{Java}, \texttt{Kotlin}, \texttt{Rust}, \texttt{Python}, and \texttt{Go}. Based on the asked \acp{rq}, the former programming languages are a logical consequence to include. The latter two are chosen for two reasons: \texttt{Go} is comparably new, exactly like \texttt{Kotlin} and \texttt{Rust}, and has similar use cases. Secondly, as of now, \texttt{Python} is one of the most popular programming languages and is widely used \cite{stackoverflow2021languages}.
+In this project, we analyzed $5224$ projects in seven different programming languages with a custom Python script\gitFootnote{}: pure \texttt{C}, \texttt{C/C++}, \texttt{Java}, \texttt{Kotlin}, \texttt{Rust}, \texttt{Python}, and \texttt{Go}. Including the first five programming languages emerges from \refrq{question:comparing_age} and its sub-questions. The latter two are chosen for two reasons: \texttt{Go} is comparably new, exactly like \texttt{Kotlin} and \texttt{Rust}, and has similar use cases. Secondly, as of now, \texttt{Python} is one of the most popular programming languages and is widely used \cite{stackoverflow2021languages}.
 
-All of these projects are located on \textit{GitHub} and extracted from the corresponding \textit{awesome list}\awesomeFootnote{}. Those lists contain a curated list of recommendations for each programming language, including frameworks and libraries for all kinds of utilities like testing, logging, and more.
-The lists are equal in content and structure but not in size. Thereby, the $5224$ projects are not uniformly distributed; rather, some languages have a greater share. However, the analysis concentrates on the mean and standard deviation of the clone coverage (with respect to \ac{sloc}). Therefore, it is independent of the number of projects but requires a significant quantity of projects for expressive numbers.
+All of the analyzed projects are located on \textit{GitHub} and extracted from the corresponding \textit{awesome list}\awesomeFootnote{}. Those lists contain a curated list of community-based recommendations for each programming language, including frameworks and libraries for all kinds of utilities like testing, logging, and more.
+The lists are equal in content and structure but not in size. Thereby, the $5224$ projects are not uniformly distributed; rather, some languages have a greater share. However, the analysis concentrates on the mean and standard deviation of the clone coverage. Therefore, it is independent of the number of projects but requires a significant quantity of projects for expressive numbers.
 
-The analysis core relies on \teamscale{}\teamscaleFootnote{} for the examination of each project. \teamscale{} is a "Software Intelligence Platform" capable of analyzing and monitoring the properties of a software project, including clone detection in various programming languages. The utilized version \texttt{8.0.5} provides a REST API through which these capabilities are accessible. The here presented toolchain uses this possibility.
+The analysis core relies on \teamscale{}\teamscaleFootnote{} for the examination of each project. \teamscale{} is a ``Software Intelligence Platform'' capable of analyzing and monitoring the quality metrics of a software project, including clone detection in various programming languages. The utilized version \texttt{8.0.5} provides a REST API through which these capabilities are accessible. The toolchain presented in the following uses this possibility.
 
-The interaction of \teamscale{} with two of the four components of the Python script\gitFootnote{} can be seen in \autoref{fig:overview_deployment}. \autoref{sec:implementation} describes the Python script's components in more detail.
+The interaction of \teamscale{} with two of the four components of the Python script used for evaluation can be seen in \autoref{fig:overview_deployment}. \autoref{sec:implementation} describes the Python script's components in more detail.
 
 \subsection{Implementation}
 \label{sec:implementation}
 
-The Python script consists of four components that need to be executed independently after one another. The entire procedure is documented in \autoref{fig:overview_communication}.
+The Python script\gitFootnote{} consists of four components that need to be executed independently after one another. The entire procedure is documented in \autoref{fig:overview_communication}.
 
 \begin{figure}[tbh]
 	\centering
@@ -49,4 +49,4 @@ After \teamscale{} has finalized the analysis, the third component fetches the p
 
 \subsubsection{Project Analyzer}
 
-The last component reads the fully annotated projects and plots and statistically analyzes the results. Its results are presented in the \autoref{sec:results}.
+The last component reads the fully annotated projects and plots and statistically analyzes the results by using Welch's $t$-test and Permutation Testing. (Its results are presented in the \autoref{sec:results}.)

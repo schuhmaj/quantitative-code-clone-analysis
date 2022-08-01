@@ -3,7 +3,7 @@
 \section{Results}
 \label{sec:results}
 
-This section now provides the results and a brief description of the aforementioned study design.
+This section provides the results and a brief description of the aforementioned study design.
 
 \begin{figure}[tbh!]
 	\centering
@@ -19,12 +19,13 @@ This section now provides the results and a brief description of the aforementio
 	\label{fig:overview_numbers}
 \end{figure}
 
-A first overview is given in \autoref{fig:overview_results}, which plots the clone coverage in dependence on the project size, i.e., the \acl{sloc}, for all analyzed projects. Further, the plot contains a trend line for each programming language in order to enable better comparability. These trend lines depict the mean value of clone coverage for every programming language until around $10^6$ of \ac{sloc} pretty close. Also, they clearly show that bigger projects tend to have a greater clone coverage.
-Nevertheless, the data far beyond $10^6$ \acl{sloc} should be taken with caution for some programming languages since not enough data could be collected for the bigger size regimes.
+A first overview is given in \autoref{fig:overview_results}, which plots the clone coverage in dependence on the project size, i.e., the \acl{sloc}, for all analyzed projects. Further, the plot contains a trend line computed with \texttt{numpy.polyfit(x, y, 1)}\footnote{\url{https://numpy.org/doc/stable/reference/generated/numpy.polyfit.html}, last accessed: 01.08.2022} for each programming language in order to enable better comparability. These trend lines depict the mean value of clone coverage for every programming language until around $10^6$ of \ac{sloc} pretty close. Also, they clearly show that bigger projects tend to have a greater clone coverage.
+Nevertheless, the data far beyond $10^6$ \acl{sloc} is rather sparse for some programming languages since not enough data could be collected for the bigger size regimes.
+Nevertheless, the data far beyond $10^6$ \acl{sloc} is relatively sparse for some programming languages since not enough data could be collected for larger amounts of \ac{sloc}.
 \autoref{fig:overview_numbers} portrays this situation with the tick $10^6$ \ac{sloc} marked since with the criterion of more than $10^6$ \ac{sloc}: there are still at least 100 projects for every programming language. 
-Languages like \texttt{Kotlin} and \texttt{Rust} only have small amounts of samples for the criterion of using only projects far bigger than $10^6$ \ac{sloc}.
+Languages like \texttt{Kotlin} and \texttt{Rust} only have small amounts of samples for the criterion of using only projects heavily exceeding $10^6$ \ac{sloc}.
 
-\autoref{fig:histo_all} extends the information of \autoref{fig:overview_results} by giving the exact distributions, as well as the mean and standard deviation values for every programming language. If one compares the mean clone coverage values for every programming language with one another, modern programming languages like \texttt{Rust}, \texttt{Kotlin}, and \texttt{Go} seem to perform better than their older counterparts, \texttt{C/C++} and \texttt{Java}. Further, \texttt{C} and \texttt{C++} appear to have only little difference in terms of clone coverage distributions. \texttt{Python} performs overall best.
+\autoref{fig:histo_all} extends the information of \autoref{fig:overview_results} by giving the exact distributions, as well as the mean and standard deviation values for every programming language. If one compares the mean clone coverage values for every programming language with one another, modern programming languages like \texttt{Rust}, \texttt{Kotlin}, and \texttt{Go} perform better than their older counterparts, \texttt{C/C++} and \texttt{Java}. Further, \texttt{C} and \texttt{C++} have only little difference in terms of clone coverage distributions. \texttt{Python} performs overall best.
 
 Supplementary to the total distribution, \autoref{fig:histo_million} narrows this down to just presenting projects with more than one million \acl{sloc}. As previously mentioned, one million \ac{sloc} is the range where still enough data is present for some adequate evidence. These projects are also more expressive due to their sheer size. The general observations still hold, with one exception: \texttt{Go} performs far worse. Further, as already perceived in \autoref{fig:overview_results}, all languages have greater mean values altogether.
 
@@ -46,9 +47,9 @@ Lastly, \texttt{C/C++} and \texttt{Java} are compared with the result of no sign
 		C & C/C++ & $-1.021$ & $0.846$ & $1.105$ & $0.135$ \\
 		\hline
 		\hline
-		C/C++ & Rust & $9.936$ & $1.517 \cdot 10^{-22}$ & $6.612$ & $3.957 \cdot 10^{-11}$ \\
+		C/C++ & Rust & $9.936$ & $<.001$ & $6.612$ & $<.001$ \\
 		\hline
-		Java & Kotlin & $5.946$ & $2.264 \cdot 10^{-9}$ & $2.500$ & $0.006$ \\
+		Java & Kotlin & $5.946$ & $<.001$ & $2.500$ & $0.006$ \\
 		\hline
 		\hline
 		C/C++ & Java & $0.720$ & $0.236$ & $0.643$ & $0.260$ \\

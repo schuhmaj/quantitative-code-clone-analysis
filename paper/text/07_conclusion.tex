@@ -6,8 +6,12 @@
 \autoref{sec:intro} gave some first impressions about the difficulties in defining quality and quality properties and showed that it usually depends on the context. Next, \autoref{sec:related_work} portrayed the reasons for the emergence of code clones and presented investigations for code clones in build systems, as well as a comparison between \texttt{Java} and \texttt{Scala}.
 
 Since there has been no quantitative approach to comparing code clone coverage across different programming languages, \autoref{sec:research_question} and \autoref{sec:study_design} presented a toolchain, using \teamscale{} as code clone detector, capable of answering these questions in \autoref{sec:results}:
-\begin{enumerate}
-	\item Which programming language has the lowest (mean) clone coverage?
+
+
+\bigskip
+\begin{minipage}{0.95\linewidth}
+\begin{enumerate}[label=RQ \arabic*]
+	\item Which of the seven examined programming language has the lowest (mean) clone coverage?
 	
 	\mybox{\linewidth}{\texttt{Python} has a significant lower mean clone coverage than any of the other examined languages: pure \texttt{C}, \texttt{C/C++}, \texttt{Java}, \texttt{Kotlin}, \texttt{Rust}, \texttt{Go}.}
 	
@@ -20,14 +24,16 @@ Since there has been no quantitative approach to comparing code clone coverage a
 		
 		\mybox{\linewidth}{No, since there is no significant difference in the mean values between \texttt{C} \texttt{C/C++}. Further, a KS test showed that both clone coverage distributions are equal.}
 		
-		\item Does \texttt{Rust} improve \texttt{C/C++} in terms of clone coverage?
+		\item Does \texttt{Rust} outperform \texttt{C/C++} in terms of clone coverage?
 		
 		\mybox{\linewidth}{Yes, the study gave significant evidence that the mean clone coverage value of \texttt{C/C++} projects is greater than the mean of \texttt{Rust} projects.}
 		
-		\item Does \texttt{Kotlin} improve \texttt{Java} in terms of clone coverage?
+		\item Does \texttt{Kotlin} outperform \texttt{Java} in terms of clone coverage?
 		
 		\mybox{\linewidth}{Yes, the study gave significant evidence that the mean clone coverage value of \texttt{Java} projects is greater than the mean of \texttt{Kotlin} projects.}
 	\end{enumerate}
 \end{enumerate}
+\end{minipage}
+\bigskip
 
 In the end, we concluded with the verdict that there is strong empirical evidence that \texttt{Python}, \texttt{Kotlin}, and \texttt{Rust} are better designed to prevent code cloning than \texttt{C/C++}, \texttt{Java}, and \texttt{Go}. This finding can be the motivation for further validation by future studies and the foundation for additional examinations exploring code clones in different programming languages.
