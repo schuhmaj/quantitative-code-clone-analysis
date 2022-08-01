@@ -2,7 +2,62 @@
 \section{Discussion}
 \label{sec:discussion}
 
-\autoref{sec:results} has shown that the in \autoref{sec:study_design} presented approach for quantitatively measuring clone coverage in different programming languages is capable of answering some of the asked \aclp{rq}. This section will discuss and explain the observed results and evaluate the used approach.
+\autoref{sec:results} has shown that the in \autoref{sec:study_design} presented approach for quantitatively measuring clone coverage in different programming languages is capable of delivering the foundation for further discussion. This section will interpret and explain the observed results and finally evaluate the used approach.
+
+\subsection{Interpretation}
+
+Since pure observation, as already utilized in \autoref{sec:results}, is not sufficient for answering the \aclp{rq} precisely, the two-sample Welch's $t$-test is used to determine if the differences in clone coverage mean values are significant. This test assumes that the sample mean values are distributed normally, which holds due to the Central Limit Theorem \cite{shafer2022introductory}. In contrast to Student's $t$-test, it allows unequal variances, which exist here.
+\autoref{tab:stat_test} shows the calculated $t$ statistics and $p$ values for four scenarios. With a significance level of $\alpha = 5\%$, \texttt{C} and \texttt{C/C++} mean values are not significantly different since $p > \alpha$ leads to acceptance of $H_0$: equal means. This circumstance answers \refrq{question:compare_c_cpp} with no.
+A Kolmogorov–Smirnov test with an $\alpha=5\%$ comparing the \texttt{C} and \texttt{C/C++} clone coverage distributions leads to the acceptance of the null hypothesis that both distributions are equal. This certitude means that if one would not know which distribution belongs to which language, one could not even determine it.
+
+The subsequent two rows answer \refrq{question:compare_rust_c} and \refrq{question:compare_kotlin_java}. The mean values are significantly different in both cases, leading to rejection of $H_0$ and acceptance of $H_1$: \texttt{C/C++} and \texttt{Java} have, on average, a significantly higher mean clone coverage than respectively \texttt{Rust} and \texttt{Kotlin}. So both questions can be answered with ``yes''.
+Lastly, \texttt{C/C++} and \texttt{Java} are compared with the result of no significant difference in the mean values for $\alpha = 5\%$.
+
+\begin{table}[tbh!]
+	\centering
+	\begin{tabular}{|cc||c|c||c|c|}
+		\hline
+		\multicolumn{2}{|c||}{Samples} & \multicolumn{2}{c||}{$SLOC > 0$} & \multicolumn{2}{c|}{$SLOC \geq 1000000$}  \\
+		\multicolumn{2}{|c||}{from} & \multicolumn{1}{c}{$t$ statistic} & \multicolumn{1}{c||}{$p$ value} & \multicolumn{1}{c}{$t$ statistic} & $p$ value \\
+		\hline
+		\hline
+		C & C/C++ & $-1.021$ & $0.846$ & $1.105$ & $0.135$ \\
+		\hline
+		\hline
+		C/C++ & Rust & $9.936$ & $<.001$ & $6.612$ & $<.001$ \\
+		\hline
+		Java & Kotlin & $5.946$ & $<.001$ & $2.500$ & $0.006$ \\
+		\hline
+		\hline
+		C/C++ & Java & $0.720$ & $0.236$ & $0.643$ & $0.260$ \\
+		\hline
+	\end{tabular}
+	\caption{Results of Welch's $t$-test with $H_0$ being that the means of the two underlying distributions have equal means and $H_1$ that the mean of the first distribution is greater than the mean of the second sample.}
+	\label{tab:stat_test}
+\end{table}
+
+\begin{figure}[tbh!]
+	\centering
+	\begin{subfigure}[t]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/comparison/comparison_all_5percent}
+		\caption{with minimal $SLOC > 0$}
+		\label{fig:matrix_comp_all}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[t]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/comparison/comparison_million_5percent}
+		\caption{with minimal $SLOC \geq 10^{6}$}
+		\label{fig:matrix_comp_million}
+	\end{subfigure}
+	\caption{Matrix comparison which programming languages have significantly lower mean clone coverage (green), equal mean clone coverage (yellow), and higher mean clone coverage (red) with an $\alpha=5\%$. The comparison is performed by using Welch's $t$-tests and Permutation Testing, both yielding the same results. The matrix is read as follows: ``\textit{Language 1} performs better/neutral/worse than \textit{Language 2}''.}
+	\label{fig:matrix_comp}
+\end{figure}
+
+\autoref{fig:matrix_comp} lists all possible pairings of examined programming languages and depicts which one performs significantly better than its companion. It complements \refrq{question:comparing_age} by answering the top-level \ac{rq} and gives an unambiguous response for \refrq{question:clone_coverage_lowest}.
+\autoref{fig:matrix_comp} clearly shows that \texttt{Python} always performs better in terms of mean code clone coverage than any other programming language independent of the applied filter for \aclp{sloc}. So \refrq{question:clone_coverage_lowest}'s answer is \texttt{Python}, which was first released in 1991\footnote{\url{https://en.wikipedia.org/wiki/Python_(programming_language)}, lasted accessed: 13.07.2022}.
+This fact also implies that newer generation programming languages do not necessarily have lower code clone coverage than older programming languages. The fact that \texttt{Go} behaves in terms of mean code clone coverage similarly to \texttt{C/C++} and \texttt{Java} supports this circumstance, even if it first appeared in 2009\footnote{\url{https://en.wikipedia.org/wiki/Go_(programming_language)}, last accessed: 13.07.2022}.
+
+In consequence, the answer to top-level \refrq{question:comparing_age} is: ``it depends'' on the concrete context, as the direct competitors, \texttt{Rust} and \texttt{Kotlin}, perform better than \texttt{C/C++} and \texttt{Java}. In contrast, the study yields a very different result when examining \texttt{Go} and \texttt{Python}. To conclude, it is impossible to generalize \refrq{question:comparing_age} for every scenario to a straightforward solution.
 
 \subsection{Implications of the result}
 
@@ -10,7 +65,7 @@
 
 At the outset, the extracted data does not imply that a particular programming language, e.g., \texttt{Python}, which performed best, should be used for every project. 
 However, the results show that specific languages, \texttt{Python}, \texttt{Kotlin}, and \texttt{Rust}, performed significantly better than \texttt{C/C++} or \texttt{Java} and, therefore, seem to have advantages over the others.
-One reason for fewer clones could be a less verbose, more straightforward programming language design, as discussed in \autoref{sec:similiar_analyses}.
+A posteriori, one reason for fewer clones could be a less verbose, more straightforward programming language design, as discussed in \autoref{sec:similiar_analyses}.
 Yet this argument can be partially discarded since \texttt{Go} performs for projects bigger than $10^6$ \ac{sloc}, similarly to \texttt{Java} and \texttt{C/C++}, although \texttt{Go} has the smallest set of keywords - implying simplicity, as depicted in \autoref{tab:keyword_number}.
 
 \begin{table}[tbh!]
@@ -32,7 +87,7 @@ Lastly, one does not forget that, e.g., \texttt{Kotlin} and \texttt{Rust} improv
 
 Despite these reasons, the difference in mean clone coverage does not necessarily indicate that the programming language has flaws.
 Older projects often have a larger (legacy) code base, which already can contain clones and that makes it easy to copy and paste from there. 
-However, \texttt{Rust}, \texttt{Kotlin}, and \texttt{Go} projects cannot be as old as projects in \texttt{C/C++} or \texttt{Java}. Consequently, the newer programming languages have some "time" advantage over the older ones, with projects having fewer developer changes and less legacy code.
+However, \texttt{Rust}, \texttt{Kotlin}, and \texttt{Go} projects cannot be as old as projects in \texttt{C/C++} or \texttt{Java}. Consequently, the newer programming languages have some ``time'' advantage over the older ones, with projects having fewer developer changes and less legacy code.
 
 In conclusion, we can finalize with the strong empirical suspect, but with no absolute certainty, that \texttt{Python}, \texttt{Kotlin}, and \texttt{Rust} are better designed to prevent code cloning than \texttt{C/C++}, \texttt{Java}, and \texttt{Go}, especially for larger projects with more extensive code bases.
 
