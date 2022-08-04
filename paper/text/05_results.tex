@@ -21,7 +21,7 @@ This section provides the results and a brief description of the aforementioned 
 
 A first overview is given in \autoref{fig:overview_results}, which plots the clone coverage in dependence on the project size, i.e., the \acl{sloc}, for all analyzed projects. Further, the plot contains a trend line computed with \texttt{numpy.polyfit(x, y, 1)}\footnote{\url{https://numpy.org/doc/stable/reference/generated/numpy.polyfit.html}, last accessed: 01.08.2022} for each programming language in order to enable better comparability. These trend lines depict the mean value of clone coverage for every programming language until around $10^6$ of \ac{sloc} pretty close. Also, they clearly show that bigger projects tend to have a greater clone coverage.
 Nevertheless, the data far beyond $10^6$ \acl{sloc} is rather sparse for some programming languages since not enough data could be collected for the bigger size regimes.
-Nevertheless, the data far beyond $10^6$ \acl{sloc} is relatively sparse for some programming languages since not enough data could be collected for larger amounts of \ac{sloc}.
+Regardless, the data far beyond $10^6$ \acl{sloc} is relatively sparse for some programming languages since not enough data could be collected for larger amounts of \ac{sloc}.
 \autoref{fig:overview_numbers} portrays this situation with the tick $10^6$ \ac{sloc} marked since with the criterion of more than $10^6$ \ac{sloc}: there are still at least 100 projects for every programming language. 
 Languages like \texttt{Kotlin} and \texttt{Rust} only have small amounts of samples for the criterion of using only projects heavily exceeding $10^6$ \ac{sloc}.
 
@@ -67,7 +67,7 @@ Supplementary to the total distribution, \autoref{fig:histo_million} narrows thi
 		\caption{for \texttt{Go}}
 		\label{fig:histo_all_go}
 	\end{subfigure}
-	\caption{Histograms of the clone coverage distribution for the seven examined programming languages containing all project. Each plot contains the mean value and the standard deviation.}
+	\caption{Histograms of the clone coverage distribution for the seven examined programming languages containing all projects. Each plot contains the mean value and the standard deviation.}
 	\label{fig:histo_all}
 \end{figure}
 

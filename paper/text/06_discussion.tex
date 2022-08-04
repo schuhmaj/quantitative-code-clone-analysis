@@ -7,6 +7,7 @@
 \subsection{Interpretation}
 
 Since pure observation, as already utilized in \autoref{sec:results}, is not sufficient for answering the \aclp{rq} precisely, the two-sample Welch's $t$-test is used to determine if the differences in clone coverage mean values are significant. This test assumes that the sample mean values are distributed normally, which holds due to the Central Limit Theorem \cite{shafer2022introductory}. In contrast to Student's $t$-test, it allows unequal variances, which exist here.
+Auxiliary Permutation Testing that does not assume normality yielded the same results.
 \autoref{tab:stat_test} shows the calculated $t$ statistics and $p$ values for four scenarios. With a significance level of $\alpha = 5\%$, \texttt{C} and \texttt{C/C++} mean values are not significantly different since $p > \alpha$ leads to acceptance of $H_0$: equal means. This circumstance answers \refrq{question:compare_c_cpp} with no.
 A Kolmogorov–Smirnov test with an $\alpha=5\%$ comparing the \texttt{C} and \texttt{C/C++} clone coverage distributions leads to the acceptance of the null hypothesis that both distributions are equal. This certitude means that if one would not know which distribution belongs to which language, one could not even determine it.
 
@@ -66,13 +67,13 @@ In consequence, the answer to top-level \refrq{question:comparing_age} is: ``it 
 At the outset, the extracted data does not imply that a particular programming language, e.g., \texttt{Python}, which performed best, should be used for every project. 
 However, the results show that specific languages, \texttt{Python}, \texttt{Kotlin}, and \texttt{Rust}, performed significantly better than \texttt{C/C++} or \texttt{Java} and, therefore, seem to have advantages over the others.
 A posteriori, one reason for fewer clones could be a less verbose, more straightforward programming language design, as discussed in \autoref{sec:similiar_analyses}.
-Yet this argument can be partially discarded since \texttt{Go} performs for projects bigger than $10^6$ \ac{sloc}, similarly to \texttt{Java} and \texttt{C/C++}, although \texttt{Go} has the smallest set of keywords - implying simplicity, as depicted in \autoref{tab:keyword_number}.
+Nonetheless, this argument can be partially discarded since \texttt{Go} performs for projects bigger than $10^6$ \ac{sloc}, similarly to \texttt{Java} and \texttt{C/C++}, although \texttt{Go} has the smallest set of keywords - implying simplicity, as depicted in \autoref{tab:keyword_number}.
 
 \begin{table}[tbh!]
 	\centering
 	\begin{tabular}{|>{\centering\arraybackslash}m{2cm}|>{\centering\arraybackslash}m{1.5cm}|>{\centering\arraybackslash}m{1.5cm}|>{\centering\arraybackslash}m{1.5cm}|>{\centering\arraybackslash}m{1.5cm}|>{\centering\arraybackslash}m{2cm}|>{\centering\arraybackslash}m{1.5cm}|}
 		\hline
-		C/C++ 17 & Kotlin 1.4 & Rust 1.46 & Java 14 & C18 & Python 3.8 & Go 1.15 \\
+		C/C++ 17 & Kotlin 1.4 & Rust 1.46 & Java 14 & C17 & Python 3.8 & Go 1.15 \\
 		\hline
 		84 & 79 & 53 & 51 & 44 & 35 & 25 \\
 		\hline
